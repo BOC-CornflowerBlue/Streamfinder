@@ -4,11 +4,16 @@ import ReactDOM from "react-dom";
 class ClickTracker extends React.Component {
   constructor(props) {
     super(props);
+
+    this.isTracking = process.env.CLICK_TRACKER_ON === undefined ? true : process.env.CLICK_TRACKER_ON;
   }
 
   static sessionData = [];
 
   handleEvent = e => {
+    if (!this.isTracking) {
+      return;
+    }
     const element = e.currentTarget;
 
     const clickData = {
@@ -18,16 +23,21 @@ class ClickTracker extends React.Component {
       elementClass: element.className,
       timeStamp: Date.now()
     };
-    console.log('%cCLickTracker fired!', 'color: yellow');
-    console.log('clickData:', clickData);
 
     ClickTracker.sessionData.push(clickData);
-    console.log('Session Data:', ClickTracker.sessionData);
+    if (process.env.NODE_ENV !== 'production' ) {
+      console.log('%cCLickTracker fired!', 'color: yellow');
+      console.log('clickData:', clickData);
+      console.log('Session Data:', ClickTracker.sessionData);
+    }
   };
 
   handleChildMounted = (element, child) => {
     const DOMNode = ReactDOM.findDOMNode(element);
     if (DOMNode) {
+      if (!this.isTracking) {
+        return;
+      }
       // NOTE: This is where a tracker can be customized to respond to different events
       // TODO: Generalize this out to do onChange events, such as when a user actually chooses an option from a combo box?
       DOMNode.addEventListener("click", this.handleEvent);
