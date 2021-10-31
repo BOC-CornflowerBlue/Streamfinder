@@ -1,0 +1,38 @@
+{
+  "videoId": 0,
+  "title": "",
+  "bannerUrl": "",
+  "summary": "",
+  "rating": 0,
+  "likes": 0,
+  "dislikes": 0,
+  "commercials": false,
+  "subscriptions": [
+    {
+      "platformId": 0,
+      "name": "",
+      "siteUrl": "",
+      "thumbnaillUrl": ""
+    },
+    {
+      "platformId": 0,
+      "name": "",
+      "siteUrl": "",
+      "thumbnaillUrl": ""
+    }
+  ],
+  "platforms": [
+    {
+      "platformId": 0,
+      "name": "",
+      "siteUrl": "",
+      "thumbnaillUrl": ""
+    },
+    {
+      "platformId": 0,
+      "name": "",
+      "siteUrl": "",
+      "thumbnaillUrl": ""
+    }
+  ]
+}

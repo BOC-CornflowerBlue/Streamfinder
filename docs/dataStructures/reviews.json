@@ -1,0 +1,23 @@
+{
+  "movieId": 0,
+  "reviews": [
+    {
+      "reviewId": 0,
+      "user": {
+        "userId": 0,
+        "userName": ""
+      },
+      "reviewBody": "",
+      "starRating": 0
+    },
+    {
+      "reviewId": 1,
+      "user": {
+        "userId": 0,
+        "userName": ""
+      },
+      "reviewBody": "",
+      "starRating": 0
+    }
+  ]
+}

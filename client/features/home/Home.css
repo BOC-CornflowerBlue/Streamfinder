@@ -4,8 +4,16 @@
   color: cornflowerblue;
   margin: 1em;
 }
+.s-header-home, .t-header-home, .h-header-home {
 
-.home-header {
+ 
+}
+.test{
+  display: flex;
+  justify-content: flex-start;
+  width: 25%;
+}
+/* .home-header {
   display: inline-grid;
   border-bottom: 3px cornflowerblue;
 }
@@ -53,9 +61,9 @@
 
 .home-history {
   color:cornflowerblue;
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   /* Modifications for dark mode go here */
 
-}
+} 

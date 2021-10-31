@@ -3,8 +3,60 @@
 #Search {
   color: cornflowerblue;
   margin: 1em;
-}
+  display: flex;
+  border-bottom: .15em solid cornflowerblue;
 
+ 
+}
+.search-button {
+  margin-left: 1rem;
+  font-size: x-large;
+  height: 1.25em;
+  
+}
+.search-box {
+  width: 40%;
+  height: 1em;
+  margin-left: 1rem;
+  font-size: x-large;
+}
+.provider {
+  display: flex;
+  flex-direction: row;
+
+
+}
+.search-header {
+  align-items: start;
+  
+}
+.provider-thumbnail {
+  width: 2em;
+  height: 2em;
+  margin: .25em;
+}
+.search-header {
+  margin: 0;
+}
+.temp-sl {
+  padding: 1em;
+
+}
+.temp-container {
+  display: flex;
+  padding: .25rem;
+  border-bottom: .1em solid cornflowerblue;
+
+  justify-content: space-between;
+  /* width: 50vw; */
+
+}
+.temp {
+  display: flex;
+  justify-content: space-evenly;
+  height: 50%;
+  width: 50%;
+}
 @media (prefers-color-scheme: dark) {
   /* Modifications for dark mode go here */
 

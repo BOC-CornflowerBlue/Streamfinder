@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import data from '../features/home/tempHomeData';
 
 import Auth from '../features/auth/Auth';
 import SignIn from '../features/auth/SignIn';
@@ -22,7 +23,10 @@ class Streamfinder extends React.Component {
     this.state = {
       isClient: false,
       message: 'hello user',
-      buttonLabel: 'Hello'
+      buttonLabel: 'Hello',
+      suggested: data.suggested,
+      history: data.history,
+      trending: data.trending
     }
   }
 
@@ -76,7 +80,7 @@ class Streamfinder extends React.Component {
           */}
           <Switch>
             <Route exact path="/">
-              <Home />
+              <Home suggested={this.state.suggested} trending={this.state.trending} history={this.state.history}/>
             </Route>
             <Route path="/auth">
               <Auth />
@@ -97,7 +101,7 @@ class Streamfinder extends React.Component {
         </div>
       </Router>
     ) : (
-      <Home />
+      <Home suggested={this.state.suggested} trending={this.state.trending} history={this.state.history} />
     )
   }
 };

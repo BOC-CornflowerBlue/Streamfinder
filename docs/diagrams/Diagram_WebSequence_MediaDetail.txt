@@ -1,0 +1,32 @@
+title Streamfinder\nWeb Sequence Diagram for Media Detail Component
+note left of User: Proactive approach
+User->+Client: Clicks on media tile
+note over Client: Movie ID in cache?
+alt Cached data available
+  Client-->User: Fully render component
+else No cached data available
+  Client->User: Render component placeholder(s)
+  Client->+Server: Request meta data\n(e.g., GET /media/movies?id=xxx)
+  Server->+DB: Query DB for meta data
+  DB->-Server: Query response
+  note over Server: Data available?
+  alt Data available from DB
+    Server-->Client: Meta data from DB
+    Client-->User: Update component state
+  else No data available from DB
+    Server->+API: Query API for meta data
+    API->-Server: Query response
+    Server-->-Client: Meta data from API
+    Client-->-User: Update component state
+  end
+end
+note left of User: Passive approach
+User->+Client: Clicks on media tile
+note over Client: Movie ID in cache?
+alt Cached data available
+  Client-->User: Fully render component
+else No cached data available
+  Client->User: Render component placeholder(s)
+  note over Client: Check cache at regular intervals until meta data is available
+  Client-->-User: Update component state
+end

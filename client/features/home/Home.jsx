@@ -1,39 +1,34 @@
 import React from 'react';
 import './Home.css';
+// import TempDisplay1 from '../Search/TempDisplay1';
+import Temp from './Temp';
 
-const Home = props => (
-  <div id="Home">
-    <div className="home-header">
-        <h1 className="home-title">Streamfinder</h1>
-        <input className="home-searchBar" type="text" placeholder="Search For Movies"/>
-        {/* <img className="home-homeIcon" src="homeIcon.png"/>
-        <img className="home-userIcon" src="userIcon.png"/> */}
+const Home = (props) => (
+
+  <div>
+    <div id="Search">
+      <div className='test'>
+        <h1 className='search-header'>Stream Finder</h1>
       </div>
-      <hr/>
-      <h1 className="home-suggested">Suggested</h1>
-      <div className="movieModule">
-        <div className="moviename">Movie name</div>
-        <div className="movieImage">IMG</div>
-        <div className="services">Services</div>
-        <div className="starRating">*****</div>
-      </div>
-      <hr/>
-      <h1 className="home-trending">Trending Movies</h1>
-      <div className="movieModule">
-        <div className="moviename">Movie name</div>
-        <div className="movieImage">IMG</div>
-        <div className="services">Services</div>
-        <div className="starRating">*****</div>
-      </div>
-      <hr/>
-      <h1 className="home-history">History</h1>
-      <div className="movieModule">
-        <div className="moviename">Movie name</div>
-        <div className="movieImage">IMG</div>
-        <div className="services">Services</div>
-        <div className="starRating">*****</div>
-      </div>
+      <input 
+        className='search-box' 
+        type="text"
+        placeholder='search a movie to display streaming providers 🎣' 
+      />
+      <button 
+        // onClick={this.handleClick} - figure out something here
+        className='search-button'>Search
+      </button>
     </div>
+    <h2 className='s-header-home'>suggested</h2>
+    <Temp data={props.suggested}/>
+
+    <h2 className='t-header-home'>Trending</h2>
+    <Temp data={props.trending}/>
+
+    <h2 className='h-header-home'>History</h2>
+    <Temp data={props.history}/>
+  </div>
 );
 
 export default Home;

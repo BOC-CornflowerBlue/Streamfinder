@@ -1,0 +1,20 @@
+{
+  "videoId": 0,
+  "title": "",
+  "thumbnailUrl": "",
+  "rating": 0,
+  "platforms":[
+    {
+      "id": 0,
+      "siteUrl": "",
+      "movieUrl": "",
+      "iconSVG": ""
+    },
+    {
+      "id": 1,
+      "siteUrl": "",
+      "movieUrl": "",
+      "iconSVG": ""
+    }
+  ]
+}

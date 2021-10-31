@@ -1,0 +1,32 @@
+{
+  "memberInfo": {
+    "username": "",
+    "email": "",
+    "passwordCharCount": 0
+  },
+  "subscriptionInfo": {
+    "subscriptions": [
+      {
+        "id": 0,
+        "name": "",
+        "siteUrl": "",
+        "thumbnailUrl": "",
+        "monthlyCost": 0
+      },
+      {
+        "id": 0,
+        "name": "",
+        "siteUrl": "",
+        "thumbnailUrl": "",
+        "monthlyCost": 0
+      }
+    ],
+    "totalCost": "",
+    "mostUsed": {
+      "id": 0,
+      "name": "",
+      "siteUrl": "",
+      "thumbnailUrl": ""
+    }
+  }
+}

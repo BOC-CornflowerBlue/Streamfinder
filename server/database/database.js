@@ -21,13 +21,17 @@ const User = mongoose.model('User', UserSchema);
 
 const MovieSchema = mongoose.Schema({
   title: String,
-
+  img_url: String,
+  hulu: Boolean,
+  disney: Boolean,
+  netflix: Boolean,
 })
+const Movie = mongoose.model('Movie', MovieSchema) 
 
 const ReviewSchema = mongoose.Schema({
 
 })
 
 module.exports = {
-  db, User
+  db, User, Movie
 }

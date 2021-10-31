@@ -1,0 +1,55 @@
+title Streamfinder\nWeb Sequence Diagram for Reviews Component
+note left of User: Reading reviews\n(Accuracy focus)
+User->+Client: Pulls up Media Detail
+note over Client: Check cache for reviews
+alt Cached data available
+  Client->User: Render immediately
+  Client->+Server: Request all reviews\n(GET /media/reviews?media_id=xxx)
+  Server->+DB: Fetch all reviews
+  DB->-Server: Query response
+    Server-->-Client: Review data
+    note over Client: Overwrite cache with retrieved data
+    Client-->User: Update component state
+else No cached data available
+  Client->User: Render review placeholder(s)
+  Client->+Server: Request reviews
+  Server->+DB: Check DB for reviews
+  DB->-Server: Query response
+  Server->-Client: Review data from DB
+  note over Client: Add review data to cache
+  Client->-User: Finish rendering\n(Update component state)
+end
+note left of User: Reading reviews\n(Performance focus)
+User->+Client: Pulls up Media Detail
+note over Client: Check cache for reviews
+alt Cached data available
+  Client->User: Render immediately
+  Client->+Server: Request uncached/fresh reviews\n(possibly send a list of the review\nIDs already rendered from cache)
+  note over Server: Construct query based on media ID ignoring\nreviews already rendered from cache
+  Server->+DB: Execute query
+  DB->-Server: Query response
+  alt Additional reviews available from DB
+    Server-->Client: Additional review data
+    note over Client: Add additional review data to cache
+    Client-->User: Update component state
+  else No additional reviews from DB
+    Server-->-Client: Empty response
+    Client-->User: No change
+  end
+else No cached data available
+  Client->User: Render review placeholder(s)
+  Client->+Server: Request reviews
+  Server->+DB: Check DB for reviews
+  DB->-Server: Query response
+  Server->-Client: Review data from DB
+  note over Client: Add review data to cache
+  Client->-User: Finish rendering\n(Update component state)
+end
+note left of User: Adding a review
+User->+Client: Clicks add review
+Client->+Server: Submit review\n(POST /media/reviews?media_id=xxx)
+Server->+DB: Review data
+DB->-Server: Review ID
+Server->-Client: Forward review ID
+Note over Client: Use review ID to add\nreview data to cache
+Client->-User: Re-render to show posted review\n(Update component state)

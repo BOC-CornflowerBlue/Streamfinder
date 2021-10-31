@@ -1,5 +1,5 @@
 # Streamfinder
-
+[![CircleCI](https://circleci.com/gh/BOC-CornflowerBlue/Streamfinder/tree/main.svg?style=svg)](https://circleci.com/gh/BOC-CornflowerBlue/Streamfinder/tree/main) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=BOC-CornflowerBlue_Streamfinder&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=BOC-CornflowerBlue_Streamfinder) <!-- Coverage: [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=BOC-CornflowerBlue_Streamfinder&metric=coverage)](https://sonarcloud.io/summary/new_code?id=BOC-CornflowerBlue_Streamfinder) -->
 ## This Ain't No Fishing App
 Watch your favorite movies and T.V. shows cheaply, easily, and on demand. No fishing around to catch that perfect show. Once you use our app, you'll be hooked!
 
@@ -80,6 +80,29 @@ The app is built using the following tools and tech stack:
 > * OR What are all the places the data travels?  What happens to that data?
 > * Optionally include a diagram
 > * How does the tech stack come together?
+
+## Roles
+In the beginning of the project as a team we elected 3 developers to managerial roles to help oversee and coordinate specific parts of the product development:
+* Product Manager - [Mark Thomas](https://github.com/MarkPThomas)
+* Architecture Owner - [Steven Harder](https://github.com/stevenharderjr)
+* UI Owner - [Taniel Pogharian](https://github.com/Taniel-P)
+
+In addition to the roles described below, the product manager decided to make these roles more managerial roles, with Architect Owner overseeing back end development, and UI Owner overseeing front end development. This was helpful in delegating and coordinating tasks among 6 people, as well as better strategizing implementation within each realm and the communication between them.
+
+### Product Manager
+The product manager helps facilitate work efforts, manages tickets, and tracks progress towards completing all tasks scheduled for the current sprint. More specifically, major responsibilities include:
+* Run standups
+* Oversee the ticketing system
+* Meet with clients
+* Guide User Story & Product Acceptance Criteria creation
+
+### Architecture Owner
+The architecture owner helps the team agree upon the overall tech stack and makes sure the team is informed of any system changes. They also ensure that team members are consistent with build tools, linters, workflow, and commits.
+
+The architecture owner is responsible for ensuring the project is set up for continuous integration, continuous deploymnet, and ensuring the engineering team meets 60% test coverage.
+
+### UI
+The UI owner is responsible for the deliverable of the initial wireframes that will help generate and ultimately accompany the user stories. They also facilitate and delegate among team members to have wireframes ready to present during the client proposal meeting.
 
 ## Workflow
 The following is a brief example of our spec, testing, and coding development process. Mark created this graphic and shared it with the team as a reference to help implement & maintain some of the workflow described below.
@@ -195,6 +218,22 @@ We have a standardized process and criteria for merging code branches with the `
 - Documentation such as diagrams for the app and UX styling guidelines are stored in the **`./docs`** directory.
 - See the [web style guide](./docs/web-style-guide.md) for the standards we are following for coding and project organization.
 
+### Front End Diagrams
+The following diagram shows the general arrangement of React app components with the page flow (blue arrows), state, props, and sub-component derivations (red arrows).
+
+[Client Diagram](https://www.figma.com/file/ZLu2MtqT5Cd7Cew9ykgoRI/Front-End?node-id=0%3A1)
+<img width="7344" alt="Diagram_Client" src="https://user-images.githubusercontent.com/6684303/139557558-0efa64c2-29b4-4db7-9344-a639c2a2dac5.png">
+
+### Back End Diagrams
+The back end skeleton was carefully created to simplify workflow, maintain SRP & DRY principles in the overall system, and abstract implementations well enough to make it easy to add/remove/change parts of the system, such as the caching and data stores. The downside to this refined development was that it made the system rather complex, but it is easy enough to understand with a diagram.
+
+[Server Diagram](https://www.figma.com/file/x5VLB1r0nFazNrZKATSKE6/Server?node-id=0%3A1)
+<img width="4165" alt="Diagram_Server" src="https://user-images.githubusercontent.com/6684303/139557016-c590e654-ebe3-4254-8b17-9d01c35b1cd4.png">
+
+### Web Sequence Diagrams
+The following diagram shows the methodology of how user interactions are handled for different scenarios within our overall app.
+[Web Sequence Diagram]()
+> TBA
 
 ## Testing
 - [Jest](https://jestjs.io/) is the framework chosen to test React and probably all JavaScript code in the app.
@@ -223,7 +262,7 @@ Reliability: [![Reliability Rating](https://sonarcloud.io/api/project_badges/mea
 Security: [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=BOC-CornflowerBlue_Streamfinder&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=BOC-CornflowerBlue_Streamfinder)
 
 Lines of Code: [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=BOC-CornflowerBlue_Streamfinder&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=BOC-CornflowerBlue_Streamfinder)
-<!-- commetted out coverage till it can be fixed -->
+<!-- commented out coverage till it can be fixed -->
 <!-- Coverage: [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=BOC-CornflowerBlue_Streamfinder&metric=coverage)](https://sonarcloud.io/summary/new_code?id=BOC-CornflowerBlue_Streamfinder) -->
 
 Bugs: [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=BOC-CornflowerBlue_Streamfinder&metric=bugs)](https://sonarcloud.io/summary/new_code?id=BOC-CornflowerBlue_Streamfinder)

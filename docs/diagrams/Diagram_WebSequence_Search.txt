@@ -1,0 +1,18 @@
+title Streamfinder Search Component
+note left of User: Basic search
+User->+Client: Submits search term
+Client->+Server: Forward search
+note over Server: Translate search term into API call(s)\nAdd API key to HTTP request
+Server->+API: Query API
+API->-Server: Array of movie IDs
+Server->Client: Return movie IDs
+note over Client: Each ID: check cache for meta data\nRender media tiles for cached IDs\nRequest more detail for uncached IDs
+Client-->Server: List of uncached IDs
+Server-->+DB: Each uncached ID:\nCheck DB for meta data
+DB-->-Server: Query response(s)
+Server-->Client: Stored meta data
+note over Client: Use latest meta data to render\nadditional media tiles
+Server-->+API: Remaining IDs:\nRequest meta data
+API-->-Server: Results\n(Meta data = image URLs)
+Server-->-Client: Remaining meta data
+note over Client: Use latest meta data to render\nremaining media tiles

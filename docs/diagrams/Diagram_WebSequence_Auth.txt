@@ -1,0 +1,30 @@
+title Streamfinder
+note left of User: New user initial interaction
+User->+Client: Opens Streamfinder app
+Client->+Server: HTTP Request (GET /)
+note over Server: Check header for cookie\n[cookie not found]
+Server->-Client: Render sign in page
+Client->-User: Sign in /\nCreate account /\nAccount recovery
+note left of User: User sign in
+User->+Client: Submits credentials\n(username / email & password)
+Client->+Server: HTTP Request (POST /auth/login)
+Server->+DB: Lookup user info
+DB->-Server: Query response
+alt User not found
+  note over Server: User not found
+  Server-->Client: No such user
+  Client-->User: Sign in /\nCreate account /\nAccount recovery
+else User found
+  note over Server: Get salt+hash from DB\nHash salt+password from user\nCompare to hash from DB
+  alt Authentication success
+    note over Server: Hashes match:\nCreate session hash
+    Server->DB: Update user record with session hash
+    Server->Client: Render target content / home page\nReturn session hash
+    note over Client: store session hash as cookie
+    Client->User: User is free to navigate the app
+  else Authentication failure
+    note over Server: Hatches do not match:\nInvalid password
+    Server->-Client: render 'sign in' page
+    Client->-User: Sign in /\nCreate account /\nAccount recovery
+  end
+end
