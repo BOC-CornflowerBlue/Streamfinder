@@ -5,7 +5,6 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import data from '../features/home/tempHomeData';
 
 import Auth from '../features/auth/Auth';
 import SignIn from '../features/auth/SignIn';
@@ -20,14 +19,21 @@ class Streamfinder extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
 
-    this.state = {
-      isClient: false,
-      message: 'hello user',
-      buttonLabel: 'Hello',
-      suggested: data.suggested,
-      history: data.history,
-      trending: data.trending
+    this.cache = {
+      media: new Map()
     };
+
+    this.state = {
+      showNavBar: true
+    };
+  }
+
+  checkCache(cacheName, itemId) {
+    return this.cache[cacheName].get(itemId);
+  }
+
+  updateCache(cacheName, itemId, data) {
+    this.cache[cacheName].set(itemId, data);
   }
 
   handleClick(e) {
@@ -44,65 +50,60 @@ class Streamfinder extends React.Component {
   }
 
   render() {
-    const { buttonLabel, message, isClient } = this.state;
-    return isClient ? (
-      this.props.nav === '/auth' ? <Auth /> : (
-        <Router>
-          <div>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/auth">Auth</Link>
-              </li>
-              <li>
-                <Link to="/signIn">SignIn</Link>
-              </li>
-              <li>
-                <Link to="/search">Search</Link>
-              </li>
-              <li>
-                <Link to="/media">Media</Link>
-              </li>
-              <li>
-                <Link to="/account">User</Link>
-              </li>
-            </ul>
+    return (
+      <Router>
+        { this.state.showNavBar ? (
+          <ul className="streamfinder-nav">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/auth">Auth</Link>
+            </li>
+            <li>
+              <Link to="/signIn">SignIn</Link>
+            </li>
+            <li>
+              <Link to="/search">Search</Link>
+            </li>
+            <li>
+              <Link to="/media">Media</Link>
+            </li>
+            <li>
+              <Link to="/account">User</Link>
+            </li>
+          </ul>
+        ) : null }
 
-            <hr />
-
-            {/*
-              A <Switch> looks through all its children <Route>
-              elements and renders the first one whose path
-              matches the current URL. Use a <Switch> any time
-              you have multiple routes, but you want only one
-              of them to render at a time
-            */}
-            <Switch>
-              <Route exact path="/">
-                <Home suggested={this.state.suggested} trending={this.state.trending} history={this.state.history}/>
-              </Route>
-              <Route path="/auth">
-                <Auth />
-              </Route>
-              <Route exact path="/signIn">
-                <SignIn />
-              </Route>
-              <Route path="/search">
-                <Search />
-              </Route>
-              <Route path="/media">
-                <MediaDetail />
-              </Route>
-              <Route path="/account">
-                <Account />
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      )
-    ) : null;
+        {/*
+          A <Switch> looks through all its children <Route>
+          elements and renders the first one whose path
+          matches the current URL. Use a <Switch> any time
+          you have multiple routes, but you want only one
+          of them to render at a time
+        */}
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/auth">
+            <Auth />
+          </Route>
+          <Route exact path="/signIn">
+            <SignIn />
+          </Route>
+          <Route path="/search">
+            <Search />
+          </Route>
+          <Route path="/media">
+            <MediaDetail />
+          </Route>
+          <Route path="/account">
+            <Account />
+          </Route>
+        </Switch>
+      </Router>
+    );
   }
 }
 

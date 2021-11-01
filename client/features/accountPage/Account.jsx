@@ -6,8 +6,8 @@ const Account = props => (
     <div class="users-header">
       <h1 class="users-title">Streamfinder</h1>
       <input class="users-searchBar" type="text" placeholder="Search For Movies" />
-      <img class="users-homeIcon" src="../home/homeIcon.png" />
-      <img class="users-userIcon" src="../home/userIcon.png" />
+      {/* <img class="users-homeIcon" src="../home/homeIcon.png" />
+      <img class="users-userIcon" src="../home/userIcon.png" /> */}
     </div>
     <hr />
     <h1 class="users-account">Account</h1>

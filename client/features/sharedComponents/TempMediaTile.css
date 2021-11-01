@@ -1,0 +1,16 @@
+.tmt-temp-tile {
+  height: 80px;
+  width: 120px;
+  background-color: cornflowerblue;
+  display: flex;
+  flex-direction: column;
+
+};
+
+.tmt-temp-label {
+  text-transform: uppercase;
+}
+
+.mtc-tile {
+  margin-right: 1em;
+}
