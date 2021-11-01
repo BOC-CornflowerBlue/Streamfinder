@@ -1,13 +1,16 @@
 const crypto = require('crypto');
 
-let checks = 0;
+let called = {
+  create: 0,
+  get: 0
+};
 
 module.exports.create = () => {
-  console.log('Calls to create session', ++checks);
+  console.log('Calls to create session', ++called.create);
   return Promise.resolve({ streamfinder: 'cookie!' });
-}
+};
 
 module.exports.get = () => {
-  console.log('Get session');
+  console.log('Calls to get session', ++called.get);
   return { streamfinder: 'cookie!' };
-}
+};
