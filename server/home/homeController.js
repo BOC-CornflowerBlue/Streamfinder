@@ -14,10 +14,14 @@ const {
 
 exports.getHomeInfo = (req, res, next) => {
   let movie = getMovie()
-  movie.then((movieData) => {
+
+
+    movie.then((movieData) => {
    
-    if (movieData.length) {
-      res.send(movieData[0])
-    }
-   })
+      if (movieData.length) {
+        res.send(movieData[0])
+      }
+     })
+  
+
 }

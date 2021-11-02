@@ -5,7 +5,7 @@ const { getMovie } = require('./searchDB');
 
 exports.getSearchInfo = (req, res, next) => {
   //receives request for search
-  // console.log(req)
+  console.log(req.body)
   // //checks db for the specific movie name
   // console.log(getMovie(test))
 
