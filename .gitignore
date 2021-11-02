@@ -134,4 +134,4 @@ __notes__
 # Misc
 *.DS_Store
 .vscode
-config.js
+.config.js

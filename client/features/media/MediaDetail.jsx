@@ -4,7 +4,7 @@ import './MediaDetail.css';
 
 const MediaDetail = props => (
   <div id="MovieDetail">
-        <div className="overview-header">
+    <div className="overview-header">
       <h1 className="overview-title">Streamfinder</h1>
       <input className="overview-searchBar" type="text" placeholder="Search For Movies"/>
       {/* <img className="overview-homeIcon" src="../home/homeIcon.png"/>
@@ -12,7 +12,7 @@ const MediaDetail = props => (
     </div>
     <hr/>
     <div className="bannerImage">
-      <img className="overview-banner" src="bannerImage.jpeg"/>
+      {/* <img className="overview-banner" src="bannerImage.jpeg"/> */}
     </div>
     <div className="aboutMovie">
       <h1 className="overview-aboutHeader">About "Movie Name"</h1>

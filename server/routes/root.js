@@ -3,13 +3,13 @@
 const router = require('express').Router();
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-const {default: Streamfinder} = require('../../client/app/Streamfinder.jsx');
-require('dotenv').config()
-const {db} = require('../database/database')
-const clientBundleScript = `<script src="http://localhost:8080/scripts/bundle.js"></script>`;
-const clientBundleStyle = `<link rel="stylesheet" href="http://localhost:8080/styles/bundle.css">`;
+// const {default: Streamfinder} = require('../../client/app/Streamfinder.jsx');
+require('dotenv').config();
+const {db} = require('../database/database');
+const clientBundleScript = '<script src="http://localhost:8080/scripts/bundle.js"></script>';
+const clientBundleStyle = '<link rel="stylesheet" href="http://localhost:8080/styles/bundle.css">';
 router.get('*', (req, res) => {
-  const jsx = ReactDOMServer.renderToString(<Streamfinder/>);
+  // const jsx = ReactDOMServer.renderToString(<Streamfinder/>);
 
   res.send(`
     <!DOCTYPE html>
@@ -22,7 +22,7 @@ router.get('*', (req, res) => {
         <link rel="icon" type="image/png" href="cornflower.png">
       </head>
       <body>
-        <div id="ssr-app">${jsx}</div>
+        <div id="Streamfinder"></div>
         ${clientBundleScript}
       </body>
     </html>

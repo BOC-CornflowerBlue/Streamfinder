@@ -16,6 +16,10 @@ type="text"
 name="sectionheader" //lowercase
 class="section-header" //train-case
 id="section-header" //train-case
+       
+// Exception for the top-level DOM element of a React component:
+id="App" //PascalCase
+       
 >```
 ### Reference: https://www.w3schools.com/html/html5_syntax.asp
 

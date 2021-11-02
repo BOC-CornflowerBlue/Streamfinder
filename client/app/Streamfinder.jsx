@@ -4,8 +4,7 @@ import {
   Switch,
   Route,
   Link
-} from "react-router-dom";
-import data from '../features/home/tempHomeData';
+} from 'react-router-dom';
 
 import Auth from '../features/auth/Auth';
 import SignIn from '../features/auth/SignIn';
@@ -23,19 +22,10 @@ class Streamfinder extends React.Component {
 
     this.state = {
       isClient: false,
-      message: 'hello user',
-      buttonLabel: 'Hello',
-      suggested: data.suggested,
-      history: data.history,
-      trending: data.trending
-    }
+    };
   }
 
   handleClick(e) {
-    if (this.state.message.length) {
-      this.setState({ message: '', buttonLabel: '' });
-      alert('Introduction completed');
-    }
   }
 
   componentDidMount() {
@@ -104,9 +94,9 @@ class Streamfinder extends React.Component {
         </div>
       </Router>
     ) : (
-      <Home suggested={this.state.suggested} trending={this.state.trending} history={this.state.history} />
-    )
+      <h1>Streamfinder</h1>
+    );
   }
-};
+}
 
 export default Streamfinder;

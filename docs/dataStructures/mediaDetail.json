@@ -1,5 +1,5 @@
 {
-  "videoId": 0,
+  "mediaId": 0,
   "title": "",
   "bannerUrl": "",
   "summary": "",
@@ -7,7 +7,8 @@
   "likes": 0,
   "dislikes": 0,
   "commercials": false,
-  "subscriptions": [
+  "mediaType": "from enum of movie, show, which can be expanded later to other media",
+  "subscriptions":[
     {
       "platformId": 0,
       "name": "",
@@ -21,7 +22,7 @@
       "thumbnaillUrl": ""
     }
   ],
-  "platforms": [
+  "platforms":[
     {
       "platformId": 0,
       "name": "",
