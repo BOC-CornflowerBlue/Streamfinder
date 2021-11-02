@@ -28,20 +28,25 @@ const ReviewSchema = mongoose.Schema({
 });
 const Review = mongoose.model('Review', ReviewSchema);
 
+
 const MovieSchema = mongoose.Schema({
   id: Number,
+  //need to modify later like reviews
+  suggested: Array,
+  trending: Array,
+  history: Array,
   mediaType: String,
   title: String,
   rating: Number,
   summary: String,
   reviews: [ReviewSchema],
   imgUrl: String,
-  hulu: Boolean,
-  disneyPlus: Boolean,
-  netflix: Boolean,
-  hboMax: Boolean,
-  appleTvPlus: Boolean,
-  amazonPrimeVideo: Boolean
+  hulu: String,
+  disneyPlus: String,
+  netflix: String,
+  hboMax: String,
+  appleTvPlus: String,
+  amazonPrimeVideo: String
 });
 const Movie = mongoose.model('Movie', MovieSchema);
 
