@@ -37,7 +37,6 @@ const MovieSchema = mongoose.Schema({
   history: Array,
   mediaType: String,
   title: String,
-  rating: Number,
   summary: String,
   reviews: [ReviewSchema],
   imgUrl: String,

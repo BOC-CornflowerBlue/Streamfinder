@@ -21,3 +21,27 @@ const Temp = (props) => {
 };
 
 export default Temp;
+
+
+
+// id: Number,
+// suggested: Array,
+// trending: Array,
+// history: Array,
+// mediaType: String,
+// title: String,
+// summary: String,
+// reviews: [ReviewSchema],
+// imgUrl: String,
+// hulu: String,
+// disneyPlus: String,
+// netflix: String,
+// hboMax: String,
+// appleTvPlus: String,
+// amazonPrimeVideo: String
+
+
+// username: String,
+// rating: Number,
+// date: {type: Date, default: Date.now},
+// content: String

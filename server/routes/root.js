@@ -8,7 +8,9 @@ require('dotenv').config()
 const {db} = require('../database/database')
 const clientBundleScript = `<script src="http://localhost:8080/scripts/bundle.js"></script>`;
 const clientBundleStyle = `<link rel="stylesheet" href="http://localhost:8080/styles/bundle.css">`;
-router.get('*', (req, res) => {
+//needs to be to sign in route
+
+router.get('/', (req, res) => {
   const jsx = ReactDOMServer.renderToString(<Streamfinder/>);
 
   res.send(`
@@ -25,8 +27,9 @@ router.get('*', (req, res) => {
         <div id="ssr-app">${jsx}</div>
         ${clientBundleScript}
       </body>
-    </html>
-  `);
+    </html>`
+  );
 });
 
 module.exports = router;
+
