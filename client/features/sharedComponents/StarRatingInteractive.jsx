@@ -23,7 +23,7 @@ class StarRatingInteractive extends React.Component {
 
   handleHover(e) {
     const { preview } = this.state;
-    const hover = event.currentTarget.name;
+    const hover = e.currentTarget.name;
     if (preview === hover) return;
 
     this.setState({
