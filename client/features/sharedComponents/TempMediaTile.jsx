@@ -1,11 +1,11 @@
 import React from 'react';
-import TMDB_image from '../TMDB/TMDB_image';
+// import TMDB_image from '../TMDB/TMDB_image';
 import './TempMediaTile.css';
 
-const TempMediaTile = ({ title, img_url }) => (
+const TempMediaTile = ({ title, imgUrl }) => (
   <div className="tmt-temp-tile mtc-tile">
     <span className="tmt-temp-label">{title}</span>
-    <img src={ img_url } />
+    <img src={ imgUrl } />
   </div>
 );
 

@@ -2,8 +2,8 @@ import React from 'react';
 import SearchBar from '../sharedComponents/SearchBar';
 import activeMessage from '../sharedComponents/helpers/activeMessage';
 import './Search.css';
-import axios from 'axios'
-import { iron_man } from './tempData';
+import axios from 'axios';
+import { ironMan } from './tempData';
 import TempDisplay1 from './TempDisplay1';
 import TempDisplay2 from './TempDisplay2';
 //remove once carosel can be installed/replace in Search class
@@ -13,18 +13,18 @@ class Search extends React.Component {
     super(props);
 
     this.state = {
-      search_val:'',
-      search_display: []
-    }
+      searchVal: '',
+      searchDisplay: []
+    };
     this.handleClick = this.handleClick.bind(this);
-    this.handle_search = this.handle_search.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
-  handle_search(e) {
-    //sets up search_val state to be sent to server for processing
-    let search_value = e.target.value
+  handleSearch(e) {
+    //sets up searchVal state to be sent to server for processing
+    let searchValue = e.target.value;
     this.setState({
-      search_val: search_value
-    })
+      searchVal: searchValue
+    });
   }
 
   handleClick(e) {
@@ -32,8 +32,8 @@ class Search extends React.Component {
     //do stuff with server
     //set state with results
     this.setState({
-      search_display: iron_man
-    })
+      searchDisplay: ironMan
+    });
   }
   render() {
     const { searchTerm, placeholder } = this.state;
@@ -47,16 +47,16 @@ class Search extends React.Component {
             className='search-box'
             type="text"
             placeholder='search a movie to display streaming providers 🎣'
-            value={this.state.search_val}
-            onChange={this.handle_search}
+            value={this.state.searchVal}
+            onChange={this.handleSearch}
           />
           <button
             onClick={this.handleClick}
             className='search-button'>Search
           </button>
         </div>
-        <TempDisplay1 data={this.state.search_display}/>
-        <TempDisplay2 data={this.state.search_display}/>
+        <TempDisplay1 data={this.state.searchDisplay}/>
+        <TempDisplay2 data={this.state.searchDisplay}/>
 
       </div>
     );

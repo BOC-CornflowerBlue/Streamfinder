@@ -12,7 +12,7 @@ class StarRatingInteractive extends React.Component {
     this.state = {
       rating: 0,
       preview: 0
-    }
+    };
   }
 
   handleRatingChange(e) {
@@ -42,7 +42,7 @@ class StarRatingInteractive extends React.Component {
       <div id="StarRatingInteractive" className="container" onMouseLeave={ this.handleBlur }>
         <StarRating avgRating={ preview || rating } interaction={{ preview: this.handleHover, select: this.handleRatingChange }} />
       </div>
-    )
+    );
   }
 }
 

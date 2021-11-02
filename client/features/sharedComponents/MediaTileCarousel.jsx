@@ -22,21 +22,21 @@ class MediaTileCarousel extends React.Component {
 
     this.state = {
       showLeftNav: false,
-      showRighttNav: false
+      showRightNav: false
     };
   }
 
   resetState() {
     this.setState({
       showLeftNav: false,
-      showRightNav: false
+      showRightNav: this.maxScroll > 0
     });
   }
 
   refreshState(scrollPosition) {
     this.setState({
       showLeftNav: scrollPosition !== 0,
-      showRightNav: scrollPosition !== this.maxScroll
+      showRightNav: scrollPosition < this.maxScroll
     });
   }
 
@@ -80,17 +80,20 @@ class MediaTileCarousel extends React.Component {
   }
 
   componentDidMount() {
-    console.log('MT scroll container', this.containerElement);
+    // console.log('MT scroll container', this.containerElement);
     const tileContainer = this.containerElement.current;
     if (tileContainer) {
       this.tileWidth = tileContainer.firstChild.offsetWidth;
-      console.log('242?', this.tileWidth);
+      // console.log('242?', this.tileWidth);
       this.containerWidth = tileContainer.scrollWidth;
+      // console.log(this.containerWidth);
       if (this.containerWidth > window.innerWidth) {
-        this.maxScroll = tileContainer.scrollWidth - this.containerWidth;
+        this.maxScroll = this.containerWidth - window.innerWidth;
         this.setState({
           showRightNav: true
         });
+      } else {
+        this.maxScroll = 0;
       }
     }
   }
@@ -98,17 +101,16 @@ class MediaTileCarousel extends React.Component {
   componentDidUpdate() {
     const tileContainer = this.containerElement.current;
     if (tileContainer && tileContainer.scrollWidth !== this.containerWidth) {
-      // New set of products
-      console.log(tileContainer.scrollWidth, this.containerWidth);
+      // console.log(tileContainer.scrollWidth, this.containerWidth);
       this.containerWidth = tileContainer.scrollWidth;
       if (this.containerWidth > window.innerWidth) {
         const nextMaxOffset = this.containerWidth - tileContainer.clientWidth;
         if (this.maxScroll !== nextMaxOffset) {
           this.maxScroll = nextMaxOffset;
-          console.log('tile width:', this.tileWidth);
-          console.log('View width:', tileContainer.clientWidth);
-          console.log('Container width:', this.containerWidth);
-          console.log('Max left offset:', this.maxScroll);
+          // console.log('tile width:', this.tileWidth);
+          // console.log('View width:', tileContainer.clientWidth);
+          // console.log('Container width:', this.containerWidth);
+          // console.log('Max left offset:', this.maxScroll);
           // this.tileWidth = tileContainer.firstChild.offsetWidth;
           this.setState({
             containerLeftOffset: 0,
@@ -150,7 +152,7 @@ class MediaTileCarousel extends React.Component {
             // )}
             Array.isArray(tempData) && tempData.length ? (
               tempData.map((tile, i) => (
-                <TempMediaTile key={`mt${i++}`} title={tile.title} img_url={tile.img_url} />
+                <TempMediaTile key={`mt${i++}`} title={tile.title} imgUrl={tile.imgUrl} />
               ))
             ) : (
               <div className='mtc-tile mtc-tile-placeholder'>Searching...</div>

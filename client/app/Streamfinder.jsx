@@ -18,25 +18,10 @@ import './Streamfinder.css';
 class Streamfinder extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-
-    this.state = {
-      isClient: false,
-    };
-  }
-
-  handleClick(e) {
-  }
-
-  componentDidMount() {
-    if (!this.state.isClient) {
-      this.setState({ isClient: true });
-    }
   }
 
   render() {
-    const { buttonLabel, message, isClient } = this.state;
-    return isClient ? (
+    return (
       <Router>
         <div>
           <ul>
@@ -71,7 +56,7 @@ class Streamfinder extends React.Component {
           */}
           <Switch>
             <Route exact path="/">
-              <Home suggested={this.state.suggested} trending={this.state.trending} history={this.state.history}/>
+              <Home />
             </Route>
             <Route path="/auth">
               <Auth />
@@ -93,8 +78,6 @@ class Streamfinder extends React.Component {
           </Switch>
         </div>
       </Router>
-    ) : (
-      <h1>Streamfinder</h1>
     );
   }
 }

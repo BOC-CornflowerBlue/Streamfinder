@@ -11,7 +11,7 @@ let config = {
   output: {
     path: path.join(__dirname, './build/server'),
     filename: 'bundle.js',
-    hashFunction: "xxhash64",
+    hashFunction: 'xxhash64',
   },
 
   externals: [webpackNodeExternals()],

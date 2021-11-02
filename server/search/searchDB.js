@@ -5,4 +5,4 @@ module.exports = {
   getMovie: (name) => {
     // console.log(Movie)
   }
-}
+};

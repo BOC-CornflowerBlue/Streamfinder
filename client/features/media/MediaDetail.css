@@ -62,3 +62,7 @@ hr {
   /* Modifications for dark mode go here */
 
 }
+
+.streamingLogo:hover {
+  cursor: pointer;
+}
