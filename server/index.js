@@ -13,7 +13,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.post('/login', (req, res) => {
   console.log(req.body);
-  res.end('test');
+  res.end('success');
 });
 
 app.get('*', (req, res) => {

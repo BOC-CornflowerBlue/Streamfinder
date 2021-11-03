@@ -1,5 +1,6 @@
 import React from 'react';
 import MediaTileCarousel from '../sharedComponents/MediaTileCarousel';
+import SearchBar from '../sharedComponents/SearchBar';
 import './Home.css';
 // import TempDisplay1 from '../Search/TempDisplay1';
 import Temp from './Temp';
@@ -19,9 +20,10 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <div id="Search">
+        <h1 className='search-header'>Streamfinder</h1>
+        <SearchBar placeholder="Search streaming content by title" />
+        {/* <div id="Search">
           <div className='test'>
-            <h1 className='search-header'>Streamfinder</h1>
           </div>
           <input
             className='search-box'
@@ -32,7 +34,7 @@ class Home extends React.Component {
             // onClick={this.handleClick} - figure out something here
             className='search-button'>Search
           </button>
-        </div>
+        </div> */}
         <h2 className='s-header-home'>suggested</h2>
         <Temp data={this.state.suggested}/>
 
