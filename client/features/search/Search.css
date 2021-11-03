@@ -1,0 +1,11 @@
+/* Please prefix class names with ss (e.g., ss-menu-item) to avoid conflicts with other features when CSS is bundled */
+
+#Search {
+  color: cornflowerblue;
+  margin: 1em;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Modifications for dark mode go here */
+
+}
