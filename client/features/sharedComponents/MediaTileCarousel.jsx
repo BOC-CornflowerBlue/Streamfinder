@@ -29,7 +29,7 @@ class MediaTileCarousel extends React.Component {
   resetState() {
     this.setState({
       showLeftNav: false,
-      showRightNav: this.maxScroll > 0
+      showRightNav: false
     });
   }
 

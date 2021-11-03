@@ -35,7 +35,7 @@ class SearchBar extends React.Component {
     return (
       <div id="SearchBar">
         <form id="ss-search-form" onSubmit={ handleSubmit }>
-          <input className="ss-search-bar" type="text"
+          <input autoFocus className="ss-search-bar" type="text"
             placeholder={ this.props.placeholder }
             value={ this.state.searchTerm }
             onChange={ handleChange }

@@ -6,6 +6,7 @@ import {
   Link
 } from 'react-router-dom';
 
+import LoginTest from '../features/auth/LoginTest';
 import Auth from '../features/auth/Auth';
 import SignIn from '../features/auth/SignIn';
 import Home from '../features/home/Home';

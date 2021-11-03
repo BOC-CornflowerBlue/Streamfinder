@@ -16,8 +16,10 @@ class SignIn extends React.Component {
       username: null,
       password: null
     }
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   handleChange(e) {
@@ -28,23 +30,27 @@ class SignIn extends React.Component {
 
   handleSubmit() {
     axios.post('/login', this.state)
-    .then((res) => {
-      console.log('/login Res', res);
+    .then(({ data }) => {
+      console.log('Response from /login:', data);
     })
     .catch((err) => {
       console.log('/login Err', err);
     })
   }
 
+  handleKeyPress(e) {
+    e.key === 'Enter' && this.handleSubmit();
+  }
+
   render() {
     return (
-      <div className="signInPage" >
+      <div className="signInPage" onKeyPress={this.handleKeyPress} >
       <h1 className="signInHeader">Sign In</h1>
       <div className="signIn-username">
-        <input type="text" id="username" placeholder="Username" onChange={this.handleChange}></input>
+        <input autoFocus type="text" id="username" placeholder="Username" onChange={this.handleChange}></input>
       </div>
       <div className="signIn-password">
-        <input type="text" id="password" placeholder="Password" onChange={this.handleChange}></input>
+        <input type="password" id="password" placeholder="Password" onChange={this.handleChange}></input>
       </div>
       <button onClick={this.handleSubmit}>Sign in</button>
       <div className="signIn-signInLink">

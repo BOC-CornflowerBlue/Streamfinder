@@ -8,6 +8,8 @@
 };
 
 .tmt-temp-label {
+  color: cornflowerblue;
+  background-color: #222;
   text-transform: uppercase;
 }
 

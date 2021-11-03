@@ -16,7 +16,7 @@ class MediaDetail extends React.Component {
       id: '',
       mediaType: '',
       name: '',
-      rating: '',
+      rating: 0,
       summary: '',
       subscriptions: [],
       reviews: [],
@@ -130,11 +130,11 @@ class MediaDetail extends React.Component {
           <img className="overview-banner" src={this.state.imgUrl} alt="media poster"/>
         </div>
         <h1 className="mediaTitle">{this.state.name}</h1>
-        <div className="mediaRating">
+        <div className="mediaRating">Your rating:
           {/* Originally we were gonna have an interactive star rating here and also a thumbs up or thumbs down...
           Is this where we want the user to rate the media?
           Are we keeping track of media likes or dislikes somewhere? */}
-          <StarRating avgRating={this.state.rating} />
+          <StarRatingInteractive rating={this.state.rating} />
         </div>
         <div className="aboutMovie">
           <h2 className="overview-aboutHeader">About {this.state.name}</h2>
