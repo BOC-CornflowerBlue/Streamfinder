@@ -32,7 +32,7 @@ class Search extends React.Component {
   }
 
   handleSearch(searchTerm) {
-    this.cancelActiveMessage = activeMessage(`Searching for content entitled "${searchTerm}"`, this.updatePlaceholder);
+    this.cancelActiveMessage = activeMessage(`Searching for content titled "${searchTerm}"`, this.updatePlaceholder);
     // setTimeout(this.revertPlaceholder, 2000);
   }
 
