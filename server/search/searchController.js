@@ -4,10 +4,6 @@ const { sendErrorResponse, sendResponse } = require('../helpers');
 const { getMovie } = require('./searchDB');
 
 exports.getSearchInfo = (req, res, next) => {
-  const title = req.body.title
-  getMovie(title).then((searchDisplayData) => {
-    res.send(searchDisplayData)
-  })
   //receives request for search
   // console.log(req)
   // //checks db for the specific movie name

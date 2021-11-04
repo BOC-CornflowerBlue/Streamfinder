@@ -1,7 +1,6 @@
 import React from 'react';
 import MediaTileCarousel from '../sharedComponents/MediaTileCarousel';
 import './Home.css';
-import axios from 'axios';
 // import TempDisplay1 from '../Search/TempDisplay1';
 import Temp from './Temp';
 import data from './tempHomeData';
@@ -11,34 +10,10 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      suggested: [],
-      history: [],
-      trending: []
+      suggested: data.suggested,
+      history: data.history,
+      trending: data.trending
     };
-  }
-
-  componentDidMount() {
-    //if the prev props id is different from current and if id is not null
-    //when this page is hit - it should run a ajax request to server 
-    console.log(this.props.currentId)
-    //for the current id 
-
-
-    if (this.props.currentId !== null && this.props.currentId) {
-      axios.get(`/home/homePage?${this.props.currentId}`)
-        .then(({data}) => {
-          console.log('thyyyy data', data)
-
-          this.setState({
-            suggested: data.homeSuggestedDisplay,
-            history: data.homeHistoryDisplay,
-            trending: data.homeTrendingDisplay
-          })
-        })
-    }
-
-   
-    
   }
 
   render() {

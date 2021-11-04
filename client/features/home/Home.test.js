@@ -18,13 +18,10 @@ import {history, suggested, trending} from './tempHomeData';
 // });
 
 describe('home', () => {
-  it('is a placeholder test', () => {
-    expect(true).toEqual(true)
-  })
-  // test('when given props for history, trending, and suggested, it renders correctly', () => {
-  //   const wrapper = mount(<Home history={history} suggested={suggested} trending={trending}/>);
-  //   expect(toJson(wrapper).props.history.length > 0).toBe(true);
-  //   expect(toJson(wrapper).props.trending.length > 0).toBe(true);
-  //   expect(toJson(wrapper).props.suggested.length > 0).toBe(true);
-  // });
+  test('when given props for history, trending, and suggested, it renders correctly', () => {
+    const wrapper = mount(<Home history={history} suggested={suggested} trending={trending}/>);
+    expect(toJson(wrapper).props.history.length > 0).toBe(true);
+    expect(toJson(wrapper).props.trending.length > 0).toBe(true);
+    expect(toJson(wrapper).props.suggested.length > 0).toBe(true);
+  });
 });

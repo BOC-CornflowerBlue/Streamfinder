@@ -31,16 +31,9 @@ class Search extends React.Component {
     //sends search value state/updates state
     //do stuff with server
     //set state with results
-    axios.post('/search/searchPost', {title: this.state.searchVal})
-      .then(({data}) => {
-
-        this.setState({
-          searchDisplay: data
-        })
-      })
-    // this.setState({
-    //   searchDisplay: ironMan
-    // });
+    this.setState({
+      searchDisplay: ironMan
+    });
   }
   render() {
     const { searchTerm, placeholder } = this.state;
