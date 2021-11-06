@@ -123,7 +123,7 @@ class Streamfinder extends React.Component {
             <Route path="/account">
               <Account />
             </Route>
-            <Route exact path="/*">
+            <Route path="/*">
               <Redirect to="/home" />
             </Route>
           </Switch>
