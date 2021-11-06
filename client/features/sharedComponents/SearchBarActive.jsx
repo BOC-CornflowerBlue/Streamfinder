@@ -1,51 +1,65 @@
 import React from 'react';
-import './SearchBar.css';
+import SearchBar from '../sharedComponents/SearchBar';
+import activeMessage from '../sharedComponents/helpers/activeMessage';
+import TMDB_image from '../TMDB/TMDB_image';
+import './Search.css';
 
-class SearchBar extends React.Component {
+class SearchBarActive extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.activePlaceholder = this.activePlaceholder.bind(this);
+    this.updatePlaceholder = this.updatePlaceholder.bind(this);
+    this.revertPlaceholder = this.revertPlaceholder.bind(this);
+
+    this.placeholder = 'Search content by title';
+    this.cancelActiveMessage = undefined;
 
     this.state = {
-      searchTerm: '',
-    };
+      placeholder: this.placeholder,
+      activeMessage: undefined
+    }
   }
 
-  handleChange(e) {
-    this.setState({ searchTerm: e.currentTarget.value });
-  }
+  handleClick(e) {
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const { searchTerm } = this.state;
-    searchTerm && this.props.handleSearch(searchTerm);
-    this.setState({ searchTerm: '' });
   }
 
   handleKeyPress(e) {
     e.key === 'Enter' && this.handleSubmit(e);
   }
 
+  onSearch(searchTerm) {
+    // activeMessage uses setInterval, so it returns a function that will clear the interval when invoked
+    this.cancelActiveMessage = activeMessage(`Searching for content titled "${searchTerm}"`, this.updatePlaceholder);
+    // this.props.onSearch(searchTerm);
+  }
+
+  revertPlaceholder() {
+    this.cancelActiveMessage();
+    this.setState({ placeholder: this.placeholder });
+  }
+
+  updatePlaceholder(message) {
+    this.setState({ placeholder: message || this.placeholder });
+  }
+
+  activePlaceholder(message) {
+    setInterval(this.updatePlaceholder, 200);
+  }
+
   render() {
-    const { handleChange, handleSubmit, handleKeyPress } = this;
+    const { searchTerm, placeholder } = this.state;
+    const { handleSearch } = this;
 
     return (
-      <div id="SearchBar">
-        <form id="ss-search-form" onSubmit={ handleSubmit }>
-          <input className="ss-search-bar" type="text"
-            placeholder={ this.props.placeholder }
-            value={ this.state.searchTerm }
-            onChange={ handleChange }
-            onKeyPress={ handleKeyPress }
-          />
-          <input id="ss-submit" type="submit" value="Search" />
-        </form>
+      <div id="Search">
+        <h1 className="home-title">Streamfinder</h1>
+        <SearchBar placeholder={ placeholder } onSearch={ onSearch } />
       </div>
     );
   }
 }
 
-export default SearchBar;
+export default SearchBarActive;
