@@ -134,7 +134,7 @@ module.exports = {
                     //create finalHistoryArr - adds providers to the movies in historyArr, providers based on movies id
 
                     const finalHistory = User.find({username: user}, (err, data) => {
-                      console.log(finalMovieObj, "🚀")
+    
                       //create finalTrendingArr - adds providers to the movies in trendingArr, providers based on movies id
                       const finalTrendingArr = createFinalArrays(trending, finalProviders);
                       finalMovieObj.trending = finalTrendingArr;
