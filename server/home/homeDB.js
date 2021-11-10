@@ -8,7 +8,7 @@ module.exports = {
       // let cacheContains = redisClient.get(movieId)
       // if (cacheContains) {
       return new Promise((resolve, reject) => {
-        Movie.find({currentId: movieId})
+        Movie.find({id: movieId})
           .then((movieData) => {
             // const finalMovie = transformToHomeResponse(movieData[0])
             resolve(movieData[0]);
