@@ -24,20 +24,23 @@ class Home extends React.Component {
 
   componentDidMount() {
     const currentUser = this.props.currentUser();
-    if (currentUser && this.state.user !== currentUser) {
+
+    // if (currentUser && this.state.user !== currentUser) {
+      console.log('hiii')
       console.log('User on current session: ', currentUser);
       console.log('User from prior session:', this.state.user);
-      axios.get(`/home/watch?username=${currentUser}`)
+      axios.get(`/home/homePage?${currentUser}`)
         .then(({data}) => {
           console.log('User data received:', data);
 
           this.setState({
             suggested: data.suggested,
+            trending: data.trending,
             history: data.history,
-            trending: data.trending
+            
           });
         });
-    }
+    // }
     //if the prev props id is different from current and if id is not null
     //when this page is hit - it should run a ajax request to server
 
@@ -78,9 +81,9 @@ class Home extends React.Component {
 
         <h2 className='h-header-home'>History</h2>
         <Temp data={this.state.history}/> */}
-        {Object.keys(this.state).map((carouselLabel, i) => (
-          <MediaTileCarousel key={`mtc${i}`} tempData={this.state[carouselLabel]} label={ carouselLabel } onClick={this.handleMediaClick} />
-        ))}
+        <MediaTileCarousel tempData={this.state.suggested} label={ "suggested" } onClick={this.handleMediaClick} />
+        <MediaTileCarousel tempData={this.state.trending} label={ "trending" } onClick={this.handleMediaClick} />
+        <MediaTileCarousel tempData={this.state.history} label={ "history" } onClick={this.handleMediaClick} />
       </div>
     );
   }
