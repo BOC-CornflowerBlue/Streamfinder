@@ -78,8 +78,8 @@ class Home extends React.Component {
 
         <h2 className='h-header-home'>History</h2>
         <Temp data={this.state.history}/> */}
-        {Object.keys(data).map((carouselLabel, i) => (
-          <MediaTileCarousel key={`mtc${i}`} tempData={data[carouselLabel]} label={ carouselLabel } onClick={this.handleMediaClick} />
+        {Object.keys(this.state).map((carouselLabel, i) => (
+          <MediaTileCarousel key={`mtc${i}`} tempData={this.state[carouselLabel]} label={ carouselLabel } onClick={this.handleMediaClick} />
         ))}
       </div>
     );

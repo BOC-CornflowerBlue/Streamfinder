@@ -1,13 +1,8 @@
 import React from 'react';
-import SearchBar from '../sharedComponents/SearchBar'; // TODO: Use this
-import activeMessage from '../sharedComponents/helpers/activeMessage'; // TBD: Not used. Not needed? Seems to already be in SearchBar
 import './Search.css';
 import axios from 'axios';
+import MediaTileCarousel from '../sharedComponents/MediaTileCarousel';
 
-
-// TODO: Remove TempDisplay components once carousel can be installed/replace in Search class
-import TempDisplay1 from './TempDisplay1';
-import TempDisplay2 from './TempDisplay2';
 
 class Search extends React.Component {
   constructor(props) {
@@ -16,30 +11,35 @@ class Search extends React.Component {
     this.state = {
       searchVal: '',
       user: 'lil timmy',
-      searchDisplay: []
+      searchDisplay: [],
+      current: null,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
   handleSearch(e) {
+    //sets up searchVal state to be sent to server for processing
+    let searchValue = e.target.value;
     this.setState({
-      searchVal: e.target.value
+      searchVal: searchValue
     });
   }
 
   handleClick(e) {
-    axios.post('/search/searchPost', {
-      title: this.state.searchVal,
-      user:'lil timmy'
-    })
-    .then(({data}) => {
-      this.setState({
-        searchDisplay: data
+    //sends search value state/updates state
+    //do stuff with server
+    //set state with results
+    let obj = {title: this.state.searchVal, user:'lil timmy'}
+    axios.post('/search/searchPost', obj)
+      .then(({data}) => {
+        console.log(data)
+
+        this.setState({
+          searchDisplay: data,
+        })
       })
-    })
   }
   render() {
-    const { searchTerm, placeholder } = this.state;
 
     return (
       <div>
@@ -57,8 +57,12 @@ class Search extends React.Component {
             className='search-button'>Search
           </button>
         </div>
-        <TempDisplay1 data={this.state.searchDisplay}/>
-        <TempDisplay2 data={this.state.searchDisplay}/>
+        {this.state.searchDisplay.length ?
+          <MediaTileCarousel tempData={this.state.searchDisplay} label={ 'Search Results' } />
+          :
+          <div></div>
+        }      
+
       </div>
     );
   }

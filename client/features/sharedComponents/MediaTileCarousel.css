@@ -27,6 +27,8 @@
   margin: 8px 0;
   min-height: 22em;
   max-height: 22em;
+  overflow:hidden;
+
 }
 
 .mtc-nav {

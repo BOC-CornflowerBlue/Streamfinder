@@ -5,9 +5,12 @@ const { transformSuggestedResponse, transformHistoryResponse, transformTrendingR
 
 exports.getHomeInfo = (req, res, next) => {
   const user = req.url.split('?')[1];
-  let queryUser = user.replace('%20', ' ')
-  getHistory(queryUser).then((historyData) => {
-    getMovie(historyData.currentId).then((sAndTData) => {
+  let queryUser = user.replace('%20', ' ');
+
+  getHistory(queryUser).then((userObj) => {
+   
+    let userId = userObj.currentId;
+    getMovie(userId).then((sAndTData) => {
       const finalData = {
         history: transformHistoryResponse({history: userObj.history}),
         suggested: transformSuggestedResponse({suggested: sAndTData.suggested}),

@@ -1,48 +1,35 @@
 module.exports = {
-  // TODO: This is where we adjust the properties available for a movie displayed in the carousel.
-  //    These currently are NOT all the properties needed.
-  //    Needed:
-  //      * Movie rating
-  //      * List of platform providers: [
-  //          { iconUrl, iconLink }
-  //        ] ... or link to page of providers thumbnails with the data
-
-  // TODO: A generic method could be created that just uses the collection property name specified rather than having 3 redundant methods
   transformSuggestedResponse: (queryResponse) => {
-    return queryResponse.suggested
-      ? queryResponse.suggested.map((movie) => {
-        return {
-          title: movie.title,
-          imgUrl: movie.imgUrl
-          // TODO: providers: See searchHelpers.transformToSearchDisplay
-          // TODOL: rating: -> whereabouts unknown
-        }
-      })
-      : [];
+    const homeSuggestedDisplay = queryResponse.suggested.map((movieObj) => {
+      const finalObj = {}
+
+      finalObj.title = movieObj.title
+      finalObj.imgUrl = movieObj.imgUrl
+
+      return finalObj
+    })
+    return homeSuggestedDisplay
+
+
   },
   transformTrendingResponse: (queryResponse) => {
-    return queryResponse.trending
-      ? queryResponse.trending.map((movie) => {
-        return {
-          title: movie.title,
-          imgUrl: movie.imgUrl
-          // TODO: providers: See searchHelpers.transformToSearchDisplay
-          // TODOL: rating: -> whereabouts unknown
-        }
-      })
-      : [];
+    const homeTrendingDisplay = queryResponse.trending.map((movieObj) => {
+      const finalObj = {}
+
+      finalObj.title = movieObj.title
+      finalObj.imgUrl = movieObj.imgUrl
+      return finalObj
+    })
+    return homeTrendingDisplay
   },
+
   transformHistoryResponse: (queryResponse) => {
-    return queryResponse.trending
-      ? queryResponse.history.map((movie) => {
-        return {
-          title: movie[0].title,
-          imgUrl: movie[0].imgUrl
-          // TODO: providers: See searchHelpers.transformToSearchDisplay
-          // TODOL: rating: -> whereabouts unknown
-        }
-      })
-      : [];
+    const homeHistoryDisplay = queryResponse.history.map((movieObj) => {
+      const finalObj = {}
+      finalObj.title = movieObj[0].title
+      finalObj.imgUrl = movieObj[0].imgUrl
+      return finalObj
+    })
+    return homeHistoryDisplay
   }
 }
-

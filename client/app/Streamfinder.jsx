@@ -128,7 +128,6 @@ class Streamfinder extends React.Component {
             </Route> */}
           <Route path="/search">
             <ErrorBoundary>
-              {/* //search prolly only needs to update most recent id searched */}
               <Search checkCache={checkCache} updateCache={updateCache} switch={this.handleSearchIdSwitch} />
             </ErrorBoundary>
           </Route>
