@@ -4,7 +4,7 @@ const API_KEY = process.env.API_KEY;
 
 module.exports = {
   // Gets movie data by movie name at the 3rd party API source
-  getMovie: (movieName) => {
+  getHistory: (movieName) => {
     // TODO: This seems to just be getting movies by name rather than any history
     const name = movieName.replace(' ', '%20'); // TODO: URI encode rather than doing this
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${name}&page=1&include_adult=false`;
