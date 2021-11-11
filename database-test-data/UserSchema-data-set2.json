@@ -1,0 +1,5 @@
+{"name": "jaimie diemer", "username":"jaimied", "pass":"Test1234", "email":"jaimied@fake.com", "subscriptions":[
+  {"name":"Netflix","id":"netflix","isSelected":true,"cost":17.99},
+  {"name":"Amazon Prime Video","id":"amazon","isSelected":false,"cost":16.99},
+  {"hulu": "Hulu", "id": "hulu", "isSelected": true, "cost": 12.99}
+], "currentId": 10139 }
