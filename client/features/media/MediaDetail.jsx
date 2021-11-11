@@ -25,7 +25,8 @@ class MediaDetail extends React.Component {
       imgUrl: '',
       userSubs: [],
       watchWithSubscribed: [],
-      watchWithUnsubscribed: []
+      watchWithUnsubscribed: [],
+      username: 'lil timmy'
     };
     this.getMediaAndUserDetails = this.getMediaAndUserDetails.bind(this);
     this.handleLogoClick = this.handleLogoClick.bind(this);
@@ -225,9 +226,9 @@ class MediaDetail extends React.Component {
         <hr/>
         <div className="Reviews">
           <Reviews
-            userId={this.props.userId}
+            username={this.state.username}
             // I need mediaId passed to me from the component opening it
-            mediaId={10138}
+            mediaId={this.props.mediaId}
             reviews={this.state.reviews}
           />
         </div>
