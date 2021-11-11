@@ -26,7 +26,7 @@ class Reviews extends React.Component {
     if (this.state.mediaId !== mediaId) {
       this.setState({
         mediaId: mediaId,
-        username: username || 'user-test-1',
+        username: username || 'user-test-13',
         reviews: reviews
       }, () => this.isReviewedByUser());
     }
@@ -38,7 +38,7 @@ class Reviews extends React.Component {
       reviews.forEach(review => {
         if (username === review.username) {
           this.setState({
-            reviewedByUser: false,
+            reviewedByUser: true,
             userReview: review.content
           });
         }
@@ -57,18 +57,21 @@ class Reviews extends React.Component {
       mediaId: mediaId,
       username: username,
       userReview: userReview
-    }).then((response) => {
-      // display confirmation message
-      this.setState({ reviewedByUser: true });
+    }).then((updatedMovieReviews) => {
+      this.setState({
+        reviewedByUser: true,
+        reviews: updatedMovieReviews.data
+      });
     }).catch((err) => {
-
+      console.log('AXIOS ERROR: SUBMIT REVIEW: ', err);
     });
   }
 
   render() {
     const { reviewedByUser, userReview, reviews, userStarRating } = this.state;
-    let reviewCards = [];
+    let reviewCards = 'No reviews yet!';
     if (reviews.length > 0 ) {
+      console.log('REVIEWS.LENGTH GREATHER THAN 0');
       reviewCards = reviews.map((review, i) => {
         return <ReviewCard
           key={i}
@@ -78,11 +81,12 @@ class Reviews extends React.Component {
         />;
       });
     }
+
     return (
       <div id="reviews">
         <h1>Reviews!</h1>
         {reviewedByUser ?
-          reviewCards
+          <>{reviewCards}</>
           :
           <div>
             <form>
@@ -91,7 +95,7 @@ class Reviews extends React.Component {
                 SUBMIT REVIEW
               </button>
             </form>
-            reviewCards
+            <>{reviewCards}</>
           </div>
         }
       </div>

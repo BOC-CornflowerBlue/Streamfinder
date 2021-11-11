@@ -7,9 +7,11 @@ module.exports = {
         .then((review) => {
           const movie = { id: mediaId };
           const addReview = { $push: { reviews: review } };
-          console.log('REVIEW ====== ', review);
-          Movie.update(movie, addReview)
-            .then(result => console.log('RESULT ====== ', result ));
+          const returnUpdatedDoc = { new: true };
+          Movie.findOneAndUpdate(movie, addReview, returnUpdatedDoc)
+            .then(updatedMovie => {
+              console.log('DATABASE: UPDATED MOVIE REVIEWS ======= ', updatedMovie.reviews);
+              resolve(updatedMovie.reviews); });
         });
     });
   }
