@@ -25,7 +25,8 @@ class MediaDetail extends React.Component {
       imgUrl: '',
       userSubs: [],
       watchWithSubscribed: [],
-      watchWithUnsubscribed: []
+      watchWithUnsubscribed: [],
+      username: 'jaimied'
     };
     this.getMediaAndUserDetails = this.getMediaAndUserDetails.bind(this);
     this.handleLogoClick = this.handleLogoClick.bind(this);
@@ -40,13 +41,13 @@ class MediaDetail extends React.Component {
   getMediaAndUserDetails() {
     let userSubs;
     let subs = [];
-    let userId = this.props.userId || 10138;
+    // let userId = this.props.userId || 10138;
+    let userId = this.props.userId || 10139;
     //mediaId should come from props, but for now
     let mediaId = this.props.mediaId || 10138;
     //this will be a request to the db to get media info to apply to state
     axios.get(`/media/userSubs?${userId}`)
       .then(({data}) => {
-        console.log('USER SUBS DATA ====== =', data);
         userSubs = data;
       })
       .then(() => {
@@ -192,8 +193,6 @@ class MediaDetail extends React.Component {
       unsubLengthStatement = 'Available on these other providers:';
     }
 
-    console.log('THIS STATE ======== ', this.state);
-
     return (
       <div id="MediaDetail">
         <div className="overview-header">
@@ -225,9 +224,9 @@ class MediaDetail extends React.Component {
         <hr/>
         <div className="Reviews">
           <Reviews
-            userId={this.props.userId}
+            username={this.state.username}
             // I need mediaId passed to me from the component opening it
-            mediaId={10138}
+            mediaId={this.props.mediaId}
             reviews={this.state.reviews}
           />
         </div>

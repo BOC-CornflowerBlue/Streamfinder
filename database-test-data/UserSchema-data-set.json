@@ -1,6 +1,6 @@
 {"name": "tim the terminator", "username":"lil timmy", "pass":"testPass123$", "email":"tim_rules@fake.com", "subscriptions":[
   {"name":"Netflix","id":"netflix","isSelected":true,"cost":17.99},
-  {"name":"Amazon","id":"amazon","isSelected":false,"cost":16.99},
-  {"name":"HBO","id":"hbo","isSelected":true,"cost":15.99},
-  {"name":"Disney","id":"disney","isSelected":false,"cost":17.99}
+  {"name":"Amazon Prime Video","id":"amazon","isSelected":false,"cost":16.99},
+  {"name":"HBO Max","id":"hbo","isSelected":true,"cost":15.99},
+  {"name":"Disney Plus","id":"disney","isSelected":false,"cost":17.99}
 ], "currentId": 10138 }
