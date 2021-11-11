@@ -9,6 +9,7 @@ const homeRouter = require('./routes/home');
 const searchRouter = require('./routes/search');
 const authorizationRouter = require('./routes/auth');
 const mediaDetailRouter = require('./routes/mediaDetail');
+const reviewsRouter = require('./routes/reviews');
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
@@ -33,6 +34,7 @@ app.use('/home', homeRouter);
 app.use('/search', searchRouter);
 app.use('/auth', authorizationRouter);
 app.use('/media', mediaDetailRouter);
+app.use('/reviews', reviewsRouter);
 
 
 
