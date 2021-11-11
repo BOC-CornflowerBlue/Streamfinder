@@ -46,6 +46,7 @@ class MediaDetail extends React.Component {
     //this will be a request to the db to get media info to apply to state
     axios.get(`/media/userSubs?${userId}`)
       .then(({data}) => {
+        console.log('USER SUBS DATA ====== =', data);
         userSubs = data;
       })
       .then(() => {
@@ -190,6 +191,8 @@ class MediaDetail extends React.Component {
     } else {
       unsubLengthStatement = 'Available on these other providers:';
     }
+
+    console.log('THIS STATE ======== ', this.state);
 
     return (
       <div id="MediaDetail">

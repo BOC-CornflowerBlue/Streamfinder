@@ -8,6 +8,7 @@ const homeRouter = require('./routes/home');
 const searchRouter = require('./routes/search');
 const authorizationRouter = require('./routes/auth');
 const mediaDetailRouter = require('./routes/mediaDetail');
+const reviewsRouter = require('./routes/reviews');
 
 require('dotenv').config();
 const clientBundleScript = '<script src="http://localhost:8080/scripts/bundle.js"></script>';
@@ -26,6 +27,7 @@ app.use('/home', homeRouter);
 app.use('/search', searchRouter);
 app.use('/auth', authorizationRouter);
 app.use('/media', mediaDetailRouter);
+app.use('/reviews', reviewsRouter);
 
 app.get('*', (req, res) => {
   res.send(`
