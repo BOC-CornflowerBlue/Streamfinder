@@ -9,7 +9,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
       User.find({currentId: userId})
         .then((userData) => {
-          let subsArray = userData[0].subscriptions;
+          let subsArray = [];
+          let subsObjArray = userData[0].subscriptions;
+          for (let i = 0; i < subsObjArray.length; i++) {
+            subsArray.push(subsObjArray[i].name);
+          }
           resolve(subsArray);
         });
     });
