@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const { Logger } = require('../../logger.js');
+
 mongoose.connect(process.env.localDB);
 mongoose.connection.once('open', () => {
-  console.log('Connected to Database');
+  Logger.consoleLog('Connected to Database');
 });
 mongoose.connection.on('error', (err) => console.log('error :', err));
 const db = mongoose.connection;
-
 
 //create your schemas here
 
@@ -22,7 +23,6 @@ const UserSchema = mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
-
 const ReviewSchema = mongoose.Schema({
   username: String,
   rating: Number,
@@ -30,7 +30,6 @@ const ReviewSchema = mongoose.Schema({
   content: String
 });
 const Review = mongoose.model('Review', ReviewSchema);
-
 
 const MovieSchema = mongoose.Schema({
   id: Number,
@@ -55,7 +54,6 @@ const MovieSchema = mongoose.Schema({
 });
 const Movie = mongoose.model('Movie', MovieSchema);
 
-
 module.exports = {
   db, User, Review, Movie
-}
+};

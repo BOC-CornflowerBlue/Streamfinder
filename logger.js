@@ -6,4 +6,4 @@ class Logger {
   }
 }
 
-export default Logger;
+exports.Logger = Logger;

@@ -16,6 +16,7 @@
   display: flex;
   user-select: none;
   justify-self: left;
+  text-transform: capitalize;
 }
 
 .mtc-viewport {

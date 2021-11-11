@@ -70,6 +70,30 @@ h3 {
   padding-bottom: 1em;
 }
 
+#netflix {
+  padding-top: 1em;
+  padding-left: .5em;
+  padding-right: .5em;
+  height: 75px;
+  width: 75px;
+}
+
+#hbo {
+  padding-top: 1em;
+  padding-left: .5em;
+  padding-right: .5em;
+  height: 75px;
+  width: 75px;
+}
+
+#disney {
+  padding-top: 1em;
+  padding-left: .5em;
+  padding-right: .5em;
+  height: 75px;
+  width: 75px;
+}
+
 @media (prefers-color-scheme: dark) {
 /* Modifications for dark mode go here */
 

@@ -10,6 +10,6 @@ const mediaDetailController = require('../mediaDetail/mediaDetailController');
 
 router.get('/userSubs', mediaDetailController.getUserSubscriptions);
 router.get('/mediaDetails', mediaDetailController.getMediaDetails);
-router.put('/watchHistory', mediaDetailController.putMediaInHistory);
+router.put('/watchHistory', mediaDetailController.putHistoryAndRating);
 
 module.exports = router;

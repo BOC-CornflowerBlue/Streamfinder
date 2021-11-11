@@ -1,9 +1,8 @@
 const app = require('./app.js');
-
-// const config = require('./config/config');
+const { Logger } = require('../logger.js');
 
 app.listen(3000, () => {
-  console.log(`NSA is listening in on ${3000}`);
+  Logger.consoleLog(`Listening on port ${3000}`);
 })
 
 module.exports = app;

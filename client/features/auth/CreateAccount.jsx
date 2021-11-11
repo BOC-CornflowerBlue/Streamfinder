@@ -19,10 +19,9 @@ class CreateAccount extends React.Component {
       email: null,
       password: null,
       platforms: [
-        {name: 'Netflix', id: 'netflix', isSelected: false, cost: 17.99},
-        {name: 'Amazon', id: 'amazon', isSelected: false, cost: 16.99},
-        {name: 'HBO', id: 'hbo', isSelected: false, cost: 15.99},
-        {name: 'Disney', id: 'disney', isSelected: false, cost: 17.99}
+        { name: 'Netflix', id: 'netflix', isSelected: false, cost: 17.99, url: 	'https://www.themoviedb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg' },
+        { name: 'HBO', id: 'hbo', isSelected: false, cost: 15.99, url: 'https://www.themoviedb.org/t/p/original/aS2zvJWn9mwiCOeaaCkIh4wleZS.jpg' },
+        { name: 'Disney', id: 'disney', isSelected: false, cost: 17.99, url: 'https://www.themoviedb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg' }
       ],
       redirect: null
     };
@@ -66,7 +65,7 @@ class CreateAccount extends React.Component {
         }
         if (res.status === 200) {
           //Redirect to Signin page
-          this.setState({ redirect: '/login' })
+          this.setState({ redirect: '/home' });
         }
       })
       .catch((err) => {
@@ -84,33 +83,33 @@ class CreateAccount extends React.Component {
     }
 
     return (
-      <div id="CreateAccount" onKeyPress={ this.handleKeyPress }>
+      <div id="CreateAccount" onKeyPress={this.handleKeyPress}>
         <div className="ca-titleHeader">
           <h1>Streamfinder</h1>
         </div>
         <div className="mainCreateAccount" >
           <h1 className="createAccountHeader">Create Your Account</h1>
           <div className='ca-login-link'>
-            <Link to="/login">Already have an account? Sign in here!</Link>
+            <Link style={{color: 'cornflowerblue'}} to="/login">Already have an account? Sign in here!</Link>
           </div>
           <div className="ca-name">
             <input autoFocus type="text" name="fname" id="name" placeholder="Name" onChange={this.handleChange}></input>
           </div>
           <div className="ca-username">
-            <input type="text" name="username" autocomplete="username" id="username" placeholder="Username" onChange={this.handleChange}></input>
+            <input type="text" name="username" autoComplete="username" id="username" placeholder="Username" onChange={this.handleChange}></input>
           </div>
           <div className="ca-email">
-            <input type="text" name="email" autocomplete="email" id="email" placeholder="Email" onChange={this.handleChange}></input>
+            <input type="text" name="email" autoComplete="email" id="email" placeholder="Email" onChange={this.handleChange}></input>
           </div>
           <div className="ca-password">
-            <input type="password" name="password" autocomplete="new-password" id="password" placeholder="Password" onChange={this.handleChange}></input>
+            <input type="password" name="password" autoComplete="new-password" id="password" placeholder="Password" onChange={this.handleChange}></input>
           </div>
           <div className="ca-subscriptionOptions">
             <label>Select Your Subscriptions</label>
           </div>
           <div className="ca-subscriptionIcons">
             {this.state.platforms.map((platform, i) =>
-              <button id={platform.id} key={i} onClick={this.handleMovieSelect}>{platform.name}</button>
+              <img style={{opacity: platform.isSelected === true ? '0.2' : '1'}} id={platform.id} src={platform.url} key={i} onClick={this.handleMovieSelect}></img>
             )}
           </div>
           <button onClick={this.onSubmit}>Submit</button>

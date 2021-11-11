@@ -1,12 +1,13 @@
 import React from 'react';
-import SearchBar from '../sharedComponents/SearchBar';
-import activeMessage from '../sharedComponents/helpers/activeMessage';
+import SearchBar from '../sharedComponents/SearchBar'; // TODO: Use this
+import activeMessage from '../sharedComponents/helpers/activeMessage'; // TBD: Not used. Not needed? Seems to already be in SearchBar
 import './Search.css';
 import axios from 'axios';
-import { ironMan } from './tempData';
+
+
+// TODO: Remove TempDisplay components once carousel can be installed/replace in Search class
 import TempDisplay1 from './TempDisplay1';
 import TempDisplay2 from './TempDisplay2';
-//remove once carosel can be installed/replace in Search class
 
 class Search extends React.Component {
   constructor(props) {
@@ -21,32 +22,24 @@ class Search extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
   handleSearch(e) {
-    //sets up searchVal state to be sent to server for processing
-    let searchValue = e.target.value;
     this.setState({
-      searchVal: searchValue
+      searchVal: e.target.value
     });
   }
 
   handleClick(e) {
-    //sends search value state/updates state
-    //do stuff with server
-    //set state with results
-    let obj = {title: this.state.searchVal, user:'lil timmy'}
-    axios.post('/search/searchPost', obj)
-      .then(({data}) => {
-
-        this.setState({
-          searchDisplay: data
-        })
+    axios.post('/search/searchPost', {
+      title: this.state.searchVal,
+      user:'lil timmy'
+    })
+    .then(({data}) => {
+      this.setState({
+        searchDisplay: data
       })
-    // this.setState({
-    //   searchDisplay: ironMan
-    // });
+    })
   }
   render() {
     const { searchTerm, placeholder } = this.state;
-    const { handleSearch } = this;
 
     return (
       <div>
@@ -66,7 +59,6 @@ class Search extends React.Component {
         </div>
         <TempDisplay1 data={this.state.searchDisplay}/>
         <TempDisplay2 data={this.state.searchDisplay}/>
-
       </div>
     );
   }

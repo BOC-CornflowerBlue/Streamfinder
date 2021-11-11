@@ -3,13 +3,16 @@
 /* Please prefix class names with sh (e.g., sh-menu-item) to avoid conflicts with other features when CSS is bundled */
 
 .overview-header {
-  display: inline-grid;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
   border-bottom: 3px cornflowerblue;
 }
 
 .overview-title {
   color: cornflowerblue;
   font-size: 3em;
+  margin-bottom: 0;
 }
 
 .overview-searchBar {
@@ -18,7 +21,7 @@
   border: 3px solid cornflowerblue;
   border-radius: 5px;
   left: 575px;
-  width: 40em;
+  width: 30em;
 }
 
 .overview-homeIcon {
@@ -42,7 +45,7 @@ hr {
 
 .overview-banner {
   width: auto;
-  height:auto;
+  height: auto;
   max-height: 30em;
   display: block;
   margin-left: auto;
@@ -51,6 +54,7 @@ hr {
 
 .overview-aboutHeader {
   color:cornflowerblue;
+  margin-top: 0;
 }
 
 .overview-userReview {
@@ -58,11 +62,110 @@ hr {
   height: 20em;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* Modifications for dark mode go here */
-
-}
-
 .streamingLogo:hover {
   cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.modal-body {
+  border: white 0.5em solid;
+  background-color: #333;
+  padding: 0 0 1em 1em;
+  display: flex;
+  align-items: flex-start;
+}
+
+.radio {
+  cursor: pointer;
+}
+
+.button {
+  align-items: center;
+  padding: 0em 0.2em 0em 0.2em;
+  color: #333;
+  background-color: white;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.submit {
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+}
+
+.watchedForm {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 1em 0em 1em
+}
+
+.sc-star-rating {
+  cursor: pointer;
+}
+
+.sc-stars {
+  user-select: none;
+  display: block;
+  min-width: 100%;
+  max-width: 100%;
+  background-image: linear-gradient(to right, cornflowerblue 5em, #0003 5em);
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  overflow: hidden;
+}
+
+.sc-stars a {
+  text-decoration: none;
+}
+
+.sc-star {
+  color: transparent;
+  background-clip: text;
+}
+
+.sc-star:hover {
+  color: cornflowerblue;
+  text-shadow: 0 0 4px;
+  cursor: pointer;
+}
+
+#innerDetails {
+  display: grid;
+  grid-gap: 1em;
+  grid-template-columns: auto auto;
+  grid-template-rows: 1fr;
+}
+
+.banner-image {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+}
+
+.aboutMovie {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+}
+
+.watchOnIcons {
+  display: flex;
+  justify-content: space-evenly;
 }

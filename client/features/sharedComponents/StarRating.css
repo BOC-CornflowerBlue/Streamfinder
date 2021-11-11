@@ -9,7 +9,7 @@
   display: block;
   min-width: 100%;
   max-width: 100%;
-  background-image: linear-gradient(to right, cornflowerblue 5em, #0003 5em);
+  background-image: linear-gradient(to right, white 5em, #0003 5em);
   background-repeat: repeat;
   -webkit-background-clip: text;
   background-clip: text;

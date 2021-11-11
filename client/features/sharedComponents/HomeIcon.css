@@ -1,0 +1,10 @@
+.homeIcon {
+  padding-top: 2em;
+  position: absolute;
+  right: 5%;
+}
+
+.homeIcon:hover {
+  opacity: 0.2;
+  cursor: pointer;
+}

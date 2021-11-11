@@ -22,16 +22,6 @@
   left: 575px;
 }
 
-.users-homeIcon {
-  position: absolute;
-  right: 5%;
-}
-
-.users-userIcon {
-  position: absolute;
-  right: 10%;
-}
-
 hr {
   display: block;
   height: 5px;
@@ -41,8 +31,24 @@ hr {
   padding: 0;
 }
 
+.memberInfo {
+  padding-left: 20em;
+}
+
 .users-account {
   color: cornflowerblue;
+  padding-left: 6em;
+}
+
+.subscriptionInfo {
+  padding-left: 20em;
+}
+
+.ap-Icon {
+  padding-left: .5em;
+  padding-right: .5em;
+  height: 50px;
+  width: 50px;
 }
 
 @media (prefers-color-scheme: dark) {

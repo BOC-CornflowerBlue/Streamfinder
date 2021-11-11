@@ -10,6 +10,8 @@ import {
 } from "react-router-dom";
 import axios from 'axios';
 // import Logger from '../../../logger.js'
+import LogOut from '../auth/LogOut';
+import HomeIcon from '../sharedComponents/HomeIcon';
 import './Account.css';
 
 class Account extends React.Component {
@@ -20,46 +22,39 @@ class Account extends React.Component {
       username: 'placeholder',
       email: 'placeholder',
       password: null,
-      platforms: []
-    }
+      platforms: [],
+      links: {
+        Netflix: 'https://www.themoviedb.org/t/p/original/9A1JSVmSxsyaBK4SUFsYVqbAYfW.jpg',
+        HBO: 'https://www.themoviedb.org/t/p/original/aS2zvJWn9mwiCOeaaCkIh4wleZS.jpg',
+        Disney: 'https://www.themoviedb.org/t/p/original/dgPueyEdOwpQ10fjuhL2WYFQwQs.jpg'
+      }
+    };
   }
 
   componentDidMount() {
-    if (this.props.serverResponse) {
-      // Logger.consoleLog()
-      console.log('Server GET call for: ', this.props.location.state.user);
-      this.setState({
-        username: this.props.serverResponse.username,
-        email: this.props.serverResponse.email,
-        password: this.props.serverResponse.password,
-        platforms: this.props.serverResponse.platforms
-      });
-    } else {
-      axios.get('/auth/user', {params: this.props.location.state.user})
+    const user = window.localStorage.getItem('sessionToken');
+    axios.get('/auth/user', { params: user })
       .then((res) => {
-        console.log('ACCOUNT GET', res.data);
         this.setState({
           username: res.data.username,
           email: res.data.email,
           password: null,
           platforms: res.data.platforms
-        })
+        });
       })
       .catch((err) => {
         console.log('ACCOUNT GET ERR', err);
-      })
-    }
+      });
   }
 
   render() {
-    {console.log('MOUNT==', this.props.location.state)}
     return (
       <div className="accountPage">
+        <LogOut updateSession={this.props.updateSession} />
         <div className="users-header">
           <h1 className="users-title">Streamfinder</h1>
           <input className="users-searchBar" type="text" placeholder="Search For Movies" />
-          <img className="users-homeIcon" src="../home/homeIcon.png" />
-          <img className="users-userIcon" src="../home/userIcon.png" />
+          <HomeIcon />
         </div>
         <hr />
         <h1 className="users-account">Account</h1>
@@ -76,19 +71,20 @@ class Account extends React.Component {
         <hr />
         <div className="subscriptionInfo">
           <h2>Subscription Info</h2>
-          <ul>Subscriptions: {this.state.platforms.map((sub) => {
+          <ul>Subscriptions: {this.state.platforms.map((sub, i) => {
             if (sub.isSelected) {
-              return sub.name + ' '
+              return <img className="ap-Icon" src={this.state.links[sub.name]} key={i}/>;
+              // return sub.name + ' ';
             }
           }
           )}</ul>
-          <ul>Total Cost: {this.state.platforms.filter(({isSelected}) => isSelected === true).reduce((sum, subs) => {
-              return sum + subs.cost
-              }, 0)}</ul>
+          <ul>Total Cost: ${this.state.platforms.filter(({ isSelected }) => isSelected === true).reduce((sum, subs) => {
+            return sum + subs.cost;
+          }, 0)}</ul>
           <ul>Most used subscription: </ul>
         </div>
       </div>
-    )
+    );
   }
 }
 

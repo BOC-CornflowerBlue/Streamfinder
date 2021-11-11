@@ -28,7 +28,7 @@ class ErrorBoundary extends React.Component {
         <div className="component">
           <div className="component-header">
             <p>
-            Problem loading component{' '}
+              Problem loading component{' '}
               <span
                 style={{ cursor: 'pointer', color: '#0077FF' }}
                 onClick={() => {
@@ -40,13 +40,13 @@ class ErrorBoundary extends React.Component {
             </p>
           </div>
           {
-          process.env.NODE_ENV !== 'production' &&
-          <div className="component-body">
-            <details className="error-details">
-              <summary>Tell me more</summary>
-              {errorInfo && errorInfo.componentStack.toString()}
-            </details>
-          </div>
+            process.env.NODE_ENV !== 'production' &&
+            <div className="component-body">
+              <details className="error-details">
+                <summary>Tell me more</summary>
+                {errorInfo && errorInfo.componentStack.toString()}
+              </details>
+            </div>
           }
         </div>
       );
@@ -56,7 +56,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 ErrorBoundary.propTypes = {
-  children: PropTypes.oneOfType([ PropTypes.object, PropTypes.array ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
 
 export default ErrorBoundary;

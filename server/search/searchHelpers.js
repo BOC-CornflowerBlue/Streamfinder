@@ -1,101 +1,120 @@
-const { object } = require('../cacheManager');
+const { Logger } = require('../../logger.js');
 
 module.exports = {
-  transformToSearchDisplay: (movieObj) => {
-    const finalSearchResponse = movieObj.history.map((movie) => {
-      const finalObj = {};
-      // console.log(movie)
+  transformToSearchDisplay: (movieResults) => {
+    if (!movieResults.history) {
+      return [];
+    }
 
-      finalObj.title = movie.title;
-      finalObj.imgUrl = movie.imgUrl;
-      finalObj.providers = [movie.hulu ? movie.hulu : null, movie.disney ? movie.disney : null, movie.netflix ? movie.netflix : null, movie.hbo ? movie.hbo : null, movie.apple ? movie.apple : null, movie.amazon ? movie.amazon : null];
-      return finalObj;
+    const movieSearchResults = movieResults.history.map((movie) => {
+      // Logger.consoleLog(movie);
+      return {
+        title: movie.title,
+        imgUrl: movie.imgUrl,
+        providers: [
+          // TODO: Does null not appear in the array? Or does the array end up with null placeholders? Is this a problem?
+          movie.hulu ? movie.hulu : null,
+          movie.disney ? movie.disney : null,
+          movie.netflix ? movie.netflix : null,
+          movie.hbo ? movie.hbo : null,
+          movie.apple ? movie.apple : null,
+          movie.amazon ? movie.amazon : null
+        ]
+      };
+      // TODOL: rating: -> whereabouts unknown
     });
-    return finalSearchResponse;
+    Logger.consoleLog('movieSearchResults:', movieSearchResults);
+    return movieSearchResults;
   },
-  getUniqueIds: (historyObj, trendingArr, suggestedArr) => {
-    const uniqueHId = historyObj.id;
-    const uniqueTId = trendingArr.map((obj) => obj.id);
-    const uniqueSid = suggestedArr.map((obj) => obj.id);
+  getUniqueIds: (searchedMovie, trendingMovies, suggestedMovies) => {
+    const searchedMovieId = searchedMovie.id;
+    const trendingMovieIds = trendingMovies.map((tendingMovie) => tendingMovie.id);
+    const suggestedMovieIds = suggestedMovies.map((suggestedMovie) => suggestedMovie.id);
 
-    const combined = uniqueTId.concat(uniqueSid);
-    combined.push(uniqueHId);
-    return [...new Set(combined)];
+    const movieIds = trendingMovieIds.concat(suggestedMovieIds);
+    movieIds.push(searchedMovieId);
+    return [...new Set(movieIds)];
   },
-  finalProviderData: (data) => {
-    let finalProviderData = data.map((obj) => {
-      const newObj = {};
-      let finalProviders = [];
-      if (obj !== undefined) {
-        let split = obj.link.split('-');
-        split = split[0].split('movie/');
-        const id = Number(split[1]);
-        let logoPaths = [];
-        let providers = [];
-
-
-        newObj.id = id;
-        if (obj.flatrate !== undefined) {
-          obj.flatrate.forEach((flatObj) => {
-            providers.push(flatObj.provider_name);
-            logoPaths.push(`https://www.themoviedb.org/t/p/w1280${flatObj.logo_path}`);
+  getFlatRateProviders: (providersByMovieRaw) => {
+    let flatRateProviders = providersByMovieRaw.map((providersForMovieRaw) => {
+      const providersForMovie = {};
+      if (providersForMovieRaw !== undefined) {
+        // Logger.consoleLog('providersForMovieRaw: ', providersForMovieRaw);
+        // Logger.consoleLog('providersForMovieRaw.link: ', providersForMovieRaw.link);
+        let movieIdString = providersForMovieRaw.link.split('-')[0].split('movie/')[1];
+        providersForMovie.movieId = Number(movieIdString);
+        if (providersForMovieRaw.flatrate !== undefined) {
+          providersForMovie.logoPaths = [];
+          providersForMovie.providers = [];
+          // Logger.consoleLog('providersForMovieRaw.flatrate:', providersForMovieRaw.flatrate);
+          providersForMovieRaw.flatrate.forEach((flatrateProvider) => {
+            providersForMovie.providers.push(flatrateProvider.provider_name);
+            providersForMovie.logoPaths.push(`https://www.themoviedb.org/t/p/w1280${flatrateProvider.logo_path}`);
           });
-          newObj.logo_paths = logoPaths;
-          newObj.providers = providers;
         }
-        finalProviders.push(newObj);
       }
-      return newObj;
+      // Logger.consoleLog('providersForMovie:', providersForMovie);
+      return providersForMovie;
     });
-    finalProviderData = finalProviderData.filter((obj) => {
-      if (Object.keys(obj).length) {
-        return obj;
-      }
-    });
-    return finalProviderData;
-  },
-  createFinalMovieObj: (movieObj, providersArr) => {
-    // console.log(movieObj)
-    const finalObj = Object.assign({}, movieObj);
 
-    providersArr.forEach((providerObj) => {
-      if (providerObj.id === movieObj.id) {
-        providerObj.providers.forEach((provider, i) => {
-          if (provider.toLowerCase().includes('disney')) {
-            finalObj.disney = providerObj.logo_paths[i];
+    // Logger.consoleLog('flatRateProviders:', flatRateProviders);
+    return flatRateProviders.filter((providersForMovie) => {
+      if (Object.keys(providersForMovie).length) {
+        return providersForMovie;
+      }
+    });
+  },
+  getMovieWithProviders: (searchedMovie, providersByMovie) => {
+    // Logger.consoleLog('searchedMovie:', searchedMovie);
+    // Logger.consoleLog('providersByMovie:', providersByMovie);
+    const movieWithProviders = Object.assign({}, searchedMovie);
+
+    for (let i = 0; i < providersByMovie.length; i++) {
+      const movieProviders = providersByMovie[i];
+      if (movieProviders.movieId === searchedMovie.id) {
+        for (let j = 0; j < movieProviders.length; j++) {
+          const provider = movieProviders[j];
+          if (provider.toLowerCase().includes('disney')) { // TODO: Why are we only doing this for disney?
+            movieWithProviders.disney = movieProviders.logo_paths[i];
+            break;
           }
-
-        });
+        }
       }
-    });
-    return finalObj;
+    }
 
+    // Logger.consoleLog('movieWithProviders:', movieWithProviders);
+    return movieWithProviders;
   },
-  createFinalArrays: (trendingOrSuggestedArr, finalProviders) => {
-    trendingOrSuggestedArr.forEach((movie) => {
-      let movieId = movie.id;
+  addProvidersToMovies: (movies, finalProviders) => {
+    const getProviderPropertyName = (currentService) => {
+      if (currentService === 'Hulu') {
+        return 'hulu';
+      } else if (currentService === 'Disney Plus') {
+        return 'disney';
+      } else if (currentService === 'Netflix') {
+        return 'netflix';
+      } else if (currentService === 'HBO Max') {
+        return 'hbo';
+      } else if (currentService === 'Apple TV Plus') {
+        return 'apple';
+      } else if (currentService === 'Amazon Prime Video') {
+        return 'amazon';
+      }
+    };
+
+    // TODO: This is needlessly O(N^2). Can remove if movie providers stores by movie ID as key
+    movies.forEach((movie) => {
       finalProviders.forEach((movieProvider) => {
-        if (movieProvider.id === movieId && movieProvider.providers) {
+        if (movieProvider.id === movie.id && movieProvider.providers) {
           for (let i = 0; i < movieProvider.providers.length; i++) {
-            let currentService = movieProvider.providers[i];
-            let currentLogo = movieProvider.logo_paths[i];
-            if (currentService === 'Hulu') {
-              movie.hulu = currentLogo;
-            } else if (currentService === 'Disney Plus') {
-              movie.disney = currentLogo;
-            } else if (currentService === 'Netflix') {
-              movie.netflix = currentLogo;
-            } else if (currentService === 'HBO Max') {
-              movie.hbo = currentLogo;
-            } else if (currentService === 'Apple TV Plus') {
-              movie.apple = currentLogo;
-            } else if (currentService === 'Amazon Prime Video') {
-              movie.amazon = currentLogo;
-            }
+            const currentService = movieProvider.providers[i];
+            let providerPropertyName = getProviderPropertyName(currentService);
+
+            movie[providerPropertyName] = movieProvider.logoPaths[i];
           }
         }
       });
     });
-    return trendingOrSuggestedArr;
+    return movies;
   }
 };

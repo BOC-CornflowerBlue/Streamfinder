@@ -1,0 +1,10 @@
+.logOutButton {
+  padding-top: 2em;
+  position: absolute;
+  right: 10%;
+}
+
+.logOutButton:hover {
+  opacity: 0.2;
+  cursor: pointer;
+}

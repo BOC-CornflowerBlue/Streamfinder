@@ -37,56 +37,53 @@ class Login extends React.Component {
   }
 
   handleSubmit() {
-    // const { pathname } = this.props.location;
-    // if (pathname && pathname === '/auth' || pathname === '/login' || pathname === '/createAccount') {
-    //   this.setState({
-    //     redirect: '/'
-    //   });
-    // }
-    this.props.updateSession('fakehash');
-    axios.post('/auth/login', this.state)
-      .then((res) => {
-        console.log('/login Res', res);
-        if (!res.data) {
-          alert('Incorrect password');
-        } else {
-        }
+    this.props.updateSession(this.state.username);
 
-      })
-      .catch((err) => {
-        console.log('/login Err', err);
+    axios.post('/auth/login', this.state)
+    .then((res) => {
+      console.log('/login Res', res);
+      if (!res.data) {
+        alert('Incorrect password');
+      } else {
+        this.props.updateSession(this.state.username);
+      }
+    })
+    .catch((err) => {
+      console.log('/login', err);
       });
   }
 
   render() {
-    window.localStorage.removeItem('sessionToken');
-    // if (this.state.redirect) {
-    //   return <Redirect to={this.state.redirect} />
-    // }
+    // window.localStorage.removeItem('sessionToken');
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />
+    }
 
     return (
       // <Router>
       //   <Switch>
       //     <Route path="/signIn">
-      <div className="loginPage" onKeyPress={ this.handleKeyPress }>
-        <h1 className="loginHeader">Sign In</h1>
-        <div className="login-username">
-          <input autoFocus type="text" name="username" autocomplete="username" id="username" placeholder="Username" onChange={this.handleChange}></input>
+      <div className="loginContainer">
+        <div className="login-titleHeader">
+          <h1>Streamfinder</h1>
         </div>
-        <div className="login-password">
-          <input type="password" name="password" autocomplete="current-password" id="password" placeholder="Password" onChange={this.handleChange}></input>
-        </div>
-        <button onClick={this.handleSubmit}>Sign in</button>
-        <div>
-          <Link to="/createAccount">New to Streamfinder? Sign up now!</Link>
+        <div className="loginPage" onKeyPress={this.handleKeyPress}>
+
+          <div className="mainLoginPage">
+            <h1 className="loginHeader">Sign In</h1>
+            <div className="login-username">
+              <input autoFocus type="text" name="username" autoComplete="username" id="username" placeholder="Username" onChange={this.handleChange}></input>
+            </div>
+            <div className="login-password">
+              <input type="password" name="password" autoComplete="current-password" id="password" placeholder="Password" onChange={this.handleChange}></input>
+            </div>
+            <button onClick={this.handleSubmit}>Sign in</button>
+            <div>
+              <Link style={{ color: 'cornflowerblue' }} to="/createAccount">New to Streamfinder? Sign up now!</Link>
+            </div>
+          </div>
         </div>
       </div>
-      //     </Route>
-      //     <Route path='/auth'>
-      //       <Auth />
-      //     </Route>
-      //   </Switch>
-      // </Router>
     );
   }
 }

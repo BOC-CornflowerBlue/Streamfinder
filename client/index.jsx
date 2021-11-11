@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import Streamfinder from './app/Streamfinder';
 // import style from './style.css';
 
-window.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Streamfinder sessionToken={ window.localStorage.getItem('sessionToken') } />,
-    document.getElementById('Streamfinder')
-  );
-});
+const sessionToken = window.localStorage.getItem('sessionToken');
+
+ReactDOM.render(
+  <Streamfinder sessionToken={ sessionToken } />,
+  document.getElementById('Streamfinder')
+);

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import StarRatingInteractive from '../sharedComponents/StarRatingInteractive';
 import StarRating from '../sharedComponents/StarRating';
 import SearchBar from './../sharedComponents/SearchBar.jsx';
 import Reviews from './../reviews/Reviews.jsx';
+import Logo from './Logo.jsx';
 import test from './testData.js';
+import MediaModal from './MediaModal.jsx';
 import './MediaDetail.css';
 
 //figure out how to wrap with error boundary and logger
@@ -148,34 +149,29 @@ class MediaDetail extends React.Component {
     let subscribed = this.state.watchWithSubscribed.map((name, i) => {
       let logo = this.getLogoUrl(name);
       let website = this.getServiceUrl(name);
-      return <a
-        key={`subscribed-${i}`}
-        href={`//${website}`}
-        target='_blank'>
-        <img
-          className='streamingLogo'
-          src={`${logo}`}
-          key={`subscribed-${i}`}
-          alt={`${name} logo`}
-          onClick={this.handleLogoClick}
-        />
-      </a>;
+      return <Logo
+        // also need to pass media id!
+        title={this.state.name}
+        i={i}
+        name={name}
+        logo={logo}
+        website={website}
+        key={`logo-${i}`}
+      />;
     });
 
     let unsubscribed = this.state.watchWithUnsubscribed.map((name, i) => {
       let logo = this.getLogoUrl(name);
       let website = this.getServiceUrl(name);
-      return <a
-        key={`unsubscribed-${i}`}
-        href={`//${website}`}
-        target='_blank'>
-        <img
-          className='streamingLogo'
-          src={`${logo}`}
-          alt={`${name} logo`}
-          onClick={this.handleLogoClick}
-        />
-      </a>;
+      return <Logo
+        // also need to pass media id!
+        title={this.state.name}
+        i={i}
+        name={name}
+        logo={logo}
+        website={website}
+        key={`logo-${i}`}
+      />;
     });
 
     let subLengthStatement,
@@ -191,9 +187,9 @@ class MediaDetail extends React.Component {
     if (this.state.watchWithUnsubscribed.length === 0) {
       unsubLengthStatement = 'Not available to watch on any other providers';
     } else if (this.state.watchWithUnsubscribed.length === 1) {
-      unsubLengthStatement = 'Also available on this other provider:';
+      unsubLengthStatement = 'Available on this other provider:';
     } else {
-      unsubLengthStatement = 'Also available on these other providers:';
+      unsubLengthStatement = 'Available on these other providers:';
     }
 
     console.log('THIS STATE ======== ', this.state);
@@ -205,28 +201,25 @@ class MediaDetail extends React.Component {
           <SearchBar />
         </div>
         <hr/>
-        <div className="bannerImage">
-          <img className="overview-banner" src={this.state.imgUrl} alt="media poster"/>
-        </div>
-        <h1 className="mediaTitle">{this.state.name}</h1>
-        <div className="mediaRating">
-          {/* Originally we were gonna have an interactive star rating here and also a thumbs up or thumbs down...
-          Is this where we want the user to rate the media?
-          Are we keeping track of media likes or dislikes somewhere? */}
-          <StarRating avgRating={this.state.rating} />
-        </div>
-        <div className="aboutMovie">
-          <h2 className="overview-aboutHeader">About {this.state.name}</h2>
-          <p className="aboutDescription">{this.state.summary}</p>
-        </div>
-        <div className="watchOn">
-          <h2>{subLengthStatement}</h2>
-          <div className="watchOnIcons">
-            {subscribed}
+        <div id="innerDetails">
+          <div className="bannerImage">
+            <img className="overview-banner" src={this.state.imgUrl} alt="media poster"/>
           </div>
-          <h2>{unsubLengthStatement}</h2>
-          <div className="watchOnIcons">
-            {unsubscribed}
+          {/* <StarRating avgRating={this.state.rating} /> */}
+          <div className="aboutMovie">
+            <h2 className="overview-aboutHeader">{this.state.name}</h2>
+            <StarRating avgRating={this.state.rating} />
+            <p className="aboutDescription">{this.state.summary}</p>
+            <div className="watchOn">
+              <h2>{subLengthStatement}</h2>
+              <div className="watchOnIcons">
+                {subscribed}
+              </div>
+              <h2>{unsubLengthStatement}</h2>
+              <div className="watchOnIcons">
+                {unsubscribed}
+              </div>
+            </div>
           </div>
         </div>
         <hr/>

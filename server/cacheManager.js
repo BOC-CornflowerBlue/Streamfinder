@@ -1,24 +1,25 @@
 'use strict';
+const { Logger } = require('../logger.js');
 
 const redis = require('redis');
 const { promisify } = require('util');
-const config = require('./config/config')
+// const config = require('./config/config')
 
-console.log('Creating redis client');
+Logger.consoleLog('Creating redis client');
 const redisClient = redis.createClient(
-  {
-      host: config.redis_host,
-      port: config.redis_port
-  }
+  // {
+  //     host: config.redis_host,
+  //     port: config.redis_port
+  // }
 );
-const password = config.redis_password || null;
-if (password && password != 'null') {
-  console.log('Signing in to redis');
-  redisClient.auth(password, (err, res) => {
-      console.log('res', res);
-      console.log('err', err);
-  });
-}
+// const password = null;// = config.redis_password || null;
+// if (password && password != 'null') {
+//   console.log('Signing in to redis');
+//   redisClient.auth(password, (err, res) => {
+//       Logger.consoleLog('res', res);
+//       Logger.consoleLog('err', err);
+//   });
+// }
 
 try {
     redisClient.getAsync = promisify(redisClient.get).bind(redisClient);
@@ -32,18 +33,18 @@ try {
     redisClient.hmgetAsync = promisify(redisClient.hmget).bind(redisClient);
     redisClient.clear = promisify(redisClient.del).bind(redisClient);
 } catch (error) {
-    console.log('redis error', error);
+  Logger.consoleLog('redis error', error);
 }
 
 redisClient.on('connected', function () {
-    console.log('Redis is connected');
+  Logger.consoleLog('Redis is connected');
 });
 redisClient.on('error', function (error) {
-    console.log('Redis error.', error);
+  Logger.consoleLog('Redis error.', error);
 });
 
 setInterval(function() {
-    console.log('Keeping alive - Performance Test with Redis');
+  Logger.consoleLog('Keeping alive - Performance Test with Redis');
     redisClient.set('ping', 'pong');
 }, 1000 * 60 * 4);
 
@@ -51,14 +52,14 @@ redisClient.cacheRoute = (idPrefix, params, serviceMethod) => {
   return new Promise((resolve, reject) => {
     const itemKey = `${idPrefix}:${JSON.stringify(params)}`; // TODO: What about sorting order or params to be consistent?
 
-    console.log('Checking redis key for:', itemKey);
+    Logger.consoleLog('Checking redis key for:', itemKey);
     cache.getAsync(itemKey)
     .then(results => {
       if (results) {
-        // console.log('Get results from redis cache!');
+        // Logger.consoleLog('Get results from redis cache!');
         resolve({ data: JSON.parse(results) });
       } else {
-        // console.log('Checking service method: ', serviceMethod);
+        // Logger.consoleLog('Checking service method: ', serviceMethod);
         let newItem = '';
         serviceMethod(params)
         .then(results => {
@@ -66,7 +67,7 @@ redisClient.cacheRoute = (idPrefix, params, serviceMethod) => {
           return cache.setAsync(itemKey, JSON.stringify(newItem));
         })
         .then(cacheResponse => {
-          console.log("Cache", cacheResponse);
+          Logger.consoleLog("Cache", cacheResponse);
           resolve({ data: newItem });
         })
         .catch(error => reject(error));
