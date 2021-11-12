@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../sharedComponents/StarRatingInteractive.jsx';
 import './Reviews.css';
 import ReviewCard from './ReviewCard.jsx';
+import StarRatingInteractive from '../sharedComponents/StarRatingInteractive.jsx';
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Reviews extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.submitReview = this.submitReview.bind(this);
+    this.setStarRatingInReviews = this.setStarRatingInReviews.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -26,7 +28,7 @@ class Reviews extends React.Component {
     if (this.state.mediaId !== mediaId) {
       this.setState({
         mediaId: mediaId,
-        username: username || 'user-test-13',
+        username: 'user-test-15',
         reviews: reviews
       }, () => { this.isReviewedByUser(); });
     }
@@ -72,8 +74,21 @@ class Reviews extends React.Component {
     });
   }
 
+  setStarRatingInReviews(rating) {
+    this.setState({
+      userStarRating: rating
+    });
+  }
+
   render() {
-    const { username, reviewedByUser, userReview, reviews, userStarRating } = this.state;
+    const {
+      username,
+      reviewedByUser,
+      userReview,
+      reviews,
+      userStarRating
+    } = this.state;
+
     let reviewCards;
     if (reviews.length > 0 ) {
 
@@ -110,6 +125,7 @@ class Reviews extends React.Component {
         <h1>Reviews!</h1>
         {!reviewedByUser ?
           <div>
+            <StarRatingInteractive setStarRatingInReviews={this.setStarRatingInReviews} />
             <form>
               <input type='textarea' name='userReview' onChange={this.handleChange} />
               <button onClick={this.submitReview}>
