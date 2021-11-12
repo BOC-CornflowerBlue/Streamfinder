@@ -4,10 +4,16 @@ import Reviews from '../reviews/Reviews.jsx';
 import './../media/MediaDetail.css';
 
 const ReviewCard = review => {
-  const { username, rating, content } = review;
+  const { username, rating, content, thisUsersReview } = review;
+
+  let divClass = `'review-card'`;
+
+  if (thisUsersReview) {
+    divClass = `'this-users-review-card`;
+  }
 
   return (
-    <div className='review-card'>
+    <div className={divClass} >
       <div className='review-card-header'>
         <div className='username'>{username}</div>
         <div className='userRating'>{rating}</div>

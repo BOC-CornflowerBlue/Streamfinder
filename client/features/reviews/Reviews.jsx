@@ -22,13 +22,14 @@ class Reviews extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log('COMPONENT DID MOUNT ===== ', this.props);
     const { mediaId, username, reviews } = this.props;
     if (this.state.mediaId !== mediaId) {
       this.setState({
         mediaId: mediaId,
         username: username || 'user-test-13',
         reviews: reviews
-      }, () => this.isReviewedByUser());
+      }, () => { console.log('THIS STATE AFTER UPDATE ====== ', this.state); this.isReviewedByUser(); });
     }
   }
 
@@ -40,6 +41,11 @@ class Reviews extends React.Component {
           this.setState({
             reviewedByUser: true,
             userReview: review.content
+          });
+        } else {
+          this.setState({
+            reviewedByUser: false,
+            userReview: ''
           });
         }
       });
@@ -68,26 +74,42 @@ class Reviews extends React.Component {
   }
 
   render() {
-    const { reviewedByUser, userReview, reviews, userStarRating } = this.state;
-    let reviewCards = 'No reviews yet!';
+    const { username, reviewedByUser, userReview, reviews, userStarRating } = this.state;
+    let reviewCards;
     if (reviews.length > 0 ) {
-      console.log('REVIEWS.LENGTH GREATHER THAN 0');
-      reviewCards = reviews.map((review, i) => {
-        return <ReviewCard
-          key={i}
-          username={review.username}
-          content={review.content}
-          rating={review.rating}
-        />;
+
+      reviewCards = [];
+
+      reviews.forEach((review, i) => {
+
+        if (reviewedByUser && username === review.username) {
+          reviewCards.unshift(
+            <ReviewCard
+              key={i}
+              username={review.username}
+              content={review.content}
+              rating={review.rating}
+              thisUsersReview={true}
+            />
+          );
+        } else {
+          reviewCards.push(
+            <ReviewCard
+              key={i}
+              username={review.username}
+              content={review.content}
+              rating={review.rating}
+              thisUsersReview={false}
+            />
+          );
+        }
       });
     }
 
     return (
       <div id="reviews">
         <h1>Reviews!</h1>
-        {reviewedByUser ?
-          <>{reviewCards}</>
-          :
+        {!reviewedByUser ?
           <div>
             <form>
               <input type='textarea' name='userReview' onChange={this.handleChange} />
@@ -95,11 +117,14 @@ class Reviews extends React.Component {
                 SUBMIT REVIEW
               </button>
             </form>
-            <>{reviewCards}</>
           </div>
+          :
+          ''
         }
-      </div>
 
+        {reviewCards ? <>{reviewCards}</> : <>'Be the first to write a review!'</>}
+
+      </div>
     );
   }
 }

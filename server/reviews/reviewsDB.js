@@ -10,8 +10,9 @@ module.exports = {
           const returnUpdatedDoc = { new: true };
           Movie.findOneAndUpdate(movie, addReview, returnUpdatedDoc)
             .then(updatedMovie => {
-              console.log('DATABASE: UPDATED MOVIE REVIEWS ======= ', updatedMovie.reviews);
-              resolve(updatedMovie.reviews); });
+              console.log('DATABASE: UPDATED MOVIE REVIEWS ======= ', updatedMovie);
+              resolve(updatedMovie.reviews);
+            });
         });
     });
   }

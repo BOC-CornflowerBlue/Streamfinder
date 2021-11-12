@@ -226,7 +226,7 @@ class MediaDetail extends React.Component {
           <Reviews
             username={this.state.username}
             // I need mediaId passed to me from the component opening it
-            mediaId={this.props.mediaId}
+            mediaId={this.props.mediaId || 10138 }
             reviews={this.state.reviews}
           />
         </div>
