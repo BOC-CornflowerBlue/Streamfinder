@@ -133,7 +133,7 @@ class Streamfinder extends React.Component {
             </ErrorBoundary>
           </Route>
           <Route path="/media">
-            <MediaDetail checkCache={checkCache} updateCache={updateCache} />
+            <MediaDetail checkCache={checkCache} updateCache={updateCache} currentUser={currentUser}/>
           </Route>
           <Route path="/account">
             <Account updateSession={updateSession} />

@@ -26,7 +26,7 @@ class MediaDetail extends React.Component {
       userSubs: [],
       watchWithSubscribed: [],
       watchWithUnsubscribed: [],
-      username: 'jaimied'
+      username: ''
     };
     this.getMediaAndUserDetails = this.getMediaAndUserDetails.bind(this);
     this.handleLogoClick = this.handleLogoClick.bind(this);
@@ -40,6 +40,8 @@ class MediaDetail extends React.Component {
 
   getMediaAndUserDetails() {
     let userSubs;
+    // invoke this.props.currentUser from Streamfinder.jsx to decode username from sessionToken
+    let username = this.props.currentUser();
     let subs = [];
     // let userId = this.props.userId || 10138;
     let userId = this.props.userId || 10139;
@@ -93,7 +95,8 @@ class MediaDetail extends React.Component {
               imgUrl: data.imgUrl,
               userSubs: userSubs,
               watchWithSubscribed: services,
-              watchWithUnsubscribed: nonservices
+              watchWithUnsubscribed: nonservices,
+              username: username
             });
           });
       });

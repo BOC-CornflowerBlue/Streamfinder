@@ -22,14 +22,13 @@ class Reviews extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('COMPONENT DID MOUNT ===== ', this.props);
     const { mediaId, username, reviews } = this.props;
     if (this.state.mediaId !== mediaId) {
       this.setState({
         mediaId: mediaId,
         username: username || 'user-test-13',
         reviews: reviews
-      }, () => { console.log('THIS STATE AFTER UPDATE ====== ', this.state); this.isReviewedByUser(); });
+      }, () => { this.isReviewedByUser(); });
     }
   }
 
