@@ -1,0 +1,13 @@
+#reviews {
+  max-width: 95%;
+  padding: 15px;
+}
+
+.review-card {
+  margin: 1.25em 0;
+  padding: 1.25em;
+  border: 1px solid white;
+  border-radius: 1em;
+  background: #fff;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+}
