@@ -14,7 +14,7 @@ class Reviews extends React.Component {
       username: null,
       reviewedByUser: null,
       userReview: '',
-      userStarRating: null,
+      userStarRating: 0,
       reviews: []
     };
 
@@ -28,7 +28,7 @@ class Reviews extends React.Component {
     if (this.state.mediaId !== mediaId) {
       this.setState({
         mediaId: mediaId,
-        username: 'user-test-15',
+        username: 'user-test-18',
         reviews: reviews
       }, () => { this.isReviewedByUser(); });
     }
@@ -41,12 +41,14 @@ class Reviews extends React.Component {
         if (username === review.username) {
           this.setState({
             reviewedByUser: true,
-            userReview: review.content
+            userReview: review.content,
+            userStarRating: review.rating
           });
         } else {
           this.setState({
             reviewedByUser: false,
-            userReview: ''
+            userReview: '',
+            userStarRating: 0
           });
         }
       });
@@ -59,11 +61,13 @@ class Reviews extends React.Component {
 
   submitReview(e) {
     e.preventDefault();
-    const { mediaId, username, userReview } = this.state;
+    const { mediaId, username, userReview, userStarRating } = this.state;
+    console.log('SUBMIT REVIEW - THIS STATE ====== ', this.state);
     axios.post('/reviews/submit-review', {
       mediaId: mediaId,
       username: username,
-      userReview: userReview
+      userReview: userReview,
+      userStarRating: userStarRating
     }).then((updatedMovieReviews) => {
       this.setState({
         reviewedByUser: true,
@@ -77,7 +81,7 @@ class Reviews extends React.Component {
   setStarRatingInReviews(rating) {
     this.setState({
       userStarRating: rating
-    });
+    }, () => console.log('SET STAR RATING - THIS STATE ======= ', this.state));
   }
 
   render() {
