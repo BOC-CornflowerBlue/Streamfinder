@@ -1,0 +1,69 @@
+#reviews {
+  max-width: 95%;
+  padding: 15px;
+}
+
+.review-card {
+  margin: 1.25em 0;
+  padding: 1.25em;
+  border: 1px solid white;
+  border-radius: .5em;
+  background: #fff;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+}
+
+.review-card-header {
+  display: inline-block;
+  width: 33%;
+}
+
+.review-card-text-wrapper {
+  display: inline-block;
+  width: 66%;
+  vertical-align: top;
+}
+
+.review-card #StarRating {
+  font-size: 1.25em;
+  margin-bottom: 1em;
+}
+
+.review-card .movie-title {
+  font-size: 1.25em;
+  margin-bottom: 1em;
+}
+
+.review-card .review-content {
+  margin-bottom: 1em;
+}
+
+.review-card .username {
+  text-transform: uppercase;
+  font-size: 1.25em;
+}
+
+.review-card .verified-status {
+  color: #048103;
+  margin-bottom: 1em;
+}
+
+.review-card .help-votes-wrapper {
+  width: 250px;
+}
+
+.review-card .help-vote {
+  display: inline-block;
+  border: 1px solid rgb(193, 193, 193);
+  width: 62px;
+  padding: 5px;
+}
+
+.review-card .icon {
+  font-size: 1.25em;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.review-card .help-vote-count {
+  display: inline-block
+}

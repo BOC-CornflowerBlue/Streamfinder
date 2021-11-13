@@ -18,6 +18,11 @@ class StarRatingInteractive extends React.Component {
   handleRatingChange(e) {
     this.setState({
       rating: e.currentTarget.name
+    }, () => {
+      const { setStarRatingInReviews } = this.props;
+      if (setStarRatingInReviews) {
+        setStarRatingInReviews(this.state.rating);
+      }
     });
   }
 

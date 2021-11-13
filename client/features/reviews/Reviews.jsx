@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../sharedComponents/StarRatingInteractive.jsx';
 import './Reviews.css';
 import ReviewCard from './ReviewCard.jsx';
+import StarRatingInteractive from '../sharedComponents/StarRatingInteractive.jsx';
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -13,12 +14,13 @@ class Reviews extends React.Component {
       username: null,
       reviewedByUser: null,
       userReview: '',
-      userStarRating: null,
+      userStarRating: 0,
       reviews: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.submitReview = this.submitReview.bind(this);
+    this.setStarRatingInReviews = this.setStarRatingInReviews.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -26,9 +28,9 @@ class Reviews extends React.Component {
     if (this.state.mediaId !== mediaId) {
       this.setState({
         mediaId: mediaId,
-        username: username || 'user-test-13',
+        username: 'user-test-18',
         reviews: reviews
-      }, () => this.isReviewedByUser());
+      }, () => { this.isReviewedByUser(); });
     }
   }
 
@@ -39,7 +41,14 @@ class Reviews extends React.Component {
         if (username === review.username) {
           this.setState({
             reviewedByUser: true,
-            userReview: review.content
+            userReview: review.content,
+            userStarRating: review.rating
+          });
+        } else {
+          this.setState({
+            reviewedByUser: false,
+            userReview: '',
+            userStarRating: 0
           });
         }
       });
@@ -52,11 +61,13 @@ class Reviews extends React.Component {
 
   submitReview(e) {
     e.preventDefault();
-    const { mediaId, username, userReview } = this.state;
+    const { mediaId, username, userReview, userStarRating } = this.state;
+    console.log('SUBMIT REVIEW - THIS STATE ====== ', this.state);
     axios.post('/reviews/submit-review', {
       mediaId: mediaId,
       username: username,
-      userReview: userReview
+      userReview: userReview,
+      userStarRating: userStarRating
     }).then((updatedMovieReviews) => {
       this.setState({
         reviewedByUser: true,
@@ -67,39 +78,72 @@ class Reviews extends React.Component {
     });
   }
 
+  setStarRatingInReviews(rating) {
+    this.setState({
+      userStarRating: rating
+    }, () => console.log('SET STAR RATING - THIS STATE ======= ', this.state));
+  }
+
   render() {
-    const { reviewedByUser, userReview, reviews, userStarRating } = this.state;
-    let reviewCards = 'No reviews yet!';
+    const {
+      username,
+      reviewedByUser,
+      userReview,
+      reviews,
+      userStarRating
+    } = this.state;
+
+    let reviewCards;
     if (reviews.length > 0 ) {
-      console.log('REVIEWS.LENGTH GREATHER THAN 0');
-      reviewCards = reviews.map((review, i) => {
-        return <ReviewCard
-          key={i}
-          username={review.username}
-          content={review.content}
-          rating={review.rating}
-        />;
+
+      reviewCards = [];
+
+      reviews.forEach((review, i) => {
+
+        if (reviewedByUser && username === review.username) {
+          reviewCards.unshift(
+            <ReviewCard
+              key={i}
+              username={review.username}
+              content={review.content}
+              rating={review.rating}
+              thisUsersReview={true}
+            />
+          );
+        } else {
+          reviewCards.push(
+            <ReviewCard
+              key={i}
+              username={review.username}
+              content={review.content}
+              rating={review.rating}
+              thisUsersReview={false}
+            />
+          );
+        }
       });
     }
 
     return (
       <div id="reviews">
-        <h1>Reviews!</h1>
-        {reviewedByUser ?
-          <>{reviewCards}</>
-          :
+        <h1>Reviews</h1>
+        {!reviewedByUser ?
           <div>
+            <StarRatingInteractive setStarRatingInReviews={this.setStarRatingInReviews} />
             <form>
               <input type='textarea' name='userReview' onChange={this.handleChange} />
               <button onClick={this.submitReview}>
                 SUBMIT REVIEW
               </button>
             </form>
-            <>{reviewCards}</>
           </div>
+          :
+          ''
         }
-      </div>
 
+        {reviewCards ? <>{reviewCards}</> : <>'Be the first to write a review!'</>}
+
+      </div>
     );
   }
 }
