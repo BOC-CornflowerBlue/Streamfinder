@@ -8,13 +8,9 @@ const {
 module.exports = {
   getUserSubscriptions: (req, res, next) => {
     const userId = req.url.split('?')[1];
-    getUserSubs(userId)
-      .then((subs) => {
-        res.send(subs);
-      })
-      .catch(err => {
-        res.send(['No subscriptions available']);
-      });
+    getUserSubs(userId).then((subs) => {
+      res.send(subs);
+    });
   },
 
   getMediaDetails: (req, res, next) => {

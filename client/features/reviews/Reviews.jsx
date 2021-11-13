@@ -34,7 +34,7 @@ class Reviews extends React.Component {
 
   isReviewedByUser() {
     const { username, reviews } = this.state;
-    if (username && reviews && reviews.length) {
+    if (reviews.length > 0 && username) {
       reviews.forEach(review => {
         if (username === review.username) {
           this.setState({
@@ -69,8 +69,8 @@ class Reviews extends React.Component {
 
   render() {
     const { reviewedByUser, userReview, reviews, userStarRating } = this.state;
-    let reviewCards = [<ReviewCard key={0} content={'No reviews yet!'} />];
-    if (Array.isArray(reviews)) {
+    let reviewCards = 'No reviews yet!';
+    if (reviews.length > 0 ) {
       console.log('REVIEWS.LENGTH GREATHER THAN 0');
       reviewCards = reviews.map((review, i) => {
         return <ReviewCard
