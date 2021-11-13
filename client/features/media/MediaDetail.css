@@ -160,6 +160,11 @@ form {
   grid-row: 1 / span 1;
 }
 
+.bannerImage {
+  border-right: solid 0.1em cornflowerblue;
+  padding: 1em;
+}
+
 .aboutMovie {
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;

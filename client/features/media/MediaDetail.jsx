@@ -29,7 +29,6 @@ class MediaDetail extends React.Component {
       username: 'jaimied'
     };
     this.getMediaAndUserDetails = this.getMediaAndUserDetails.bind(this);
-    this.handleLogoClick = this.handleLogoClick.bind(this);
     this.getLogoUrl = this.getLogoUrl.bind(this);
     this.getServiceUrl = this.getServiceUrl.bind(this);
   }
@@ -42,11 +41,11 @@ class MediaDetail extends React.Component {
     let userSubs;
     let subs = [];
     // let userId = this.props.userId || 10138;
-    let userId = this.props.userId || 10139;
+    let username = this.props.username || 'jaimied';
     //mediaId should come from props, but for now
     let mediaId = this.props.mediaId || 10138;
     //this will be a request to the db to get media info to apply to state
-    axios.get(`/media/userSubs?${userId}`)
+    axios.get(`/media/userSubs?${username}`)
       .then(({data}) => {
         userSubs = data;
       })
@@ -99,21 +98,6 @@ class MediaDetail extends React.Component {
       });
   }
 
-  //this will be used to update user watch history
-  handleLogoClick(event) {
-    // //userId should come from props instead
-    // let userId = 10130;
-    // //mediaId should come from props instead
-    // let mediaId = 10138;
-    // axios.put(`/media/watchHistory?${userId}?${mediaId}`)
-    //   .then((data) => {
-    //     console.log('data: ', data)
-    //   })
-    // //notify home component that user has watched the movie?
-    // //add movie object to user history
-    console.log('logo clicked');
-  }
-
   getLogoUrl(name) {
     if (name === 'Hulu') {
       return 'https://www.themoviedb.org/t/p/original/giwM8XX4V2AQb9vsoN7yti82tKK.jpg';
@@ -134,7 +118,7 @@ class MediaDetail extends React.Component {
     if (name === 'Hulu') {
       return 'www.hulu.com';
     } else if (name === 'Disney Plus') {
-      return 'disneyplus.com';
+      return 'www.disneyplus.com/movies/-/lXjCr9QmGGQJ';
     } else if (name === 'Netflix') {
       return 'netflix.com';
     } else if (name === 'HBO Max') {
@@ -222,14 +206,14 @@ class MediaDetail extends React.Component {
           </div>
         </div>
         <hr/>
-        <div className="Reviews">
+        {/* <div className="Reviews">
           <Reviews
             username={this.state.username}
             // I need mediaId passed to me from the component opening it
             mediaId={this.props.mediaId}
             reviews={this.state.reviews}
           />
-        </div>
+        </div> */}
       </div>
     );
   }

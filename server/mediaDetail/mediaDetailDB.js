@@ -5,14 +5,30 @@
 const {Movie, User} = require('../database/database.js');
 
 module.exports = {
-  getUserSubs: (userId) => {
+  getUserSubs: (username) => {
     return new Promise((resolve, reject) => {
-      User.find({currentId: userId})
+      User.find({username: username})
         .then((userData) => {
           let subsArray = [];
           let subsObjArray = userData[0].subscriptions;
           for (let i = 0; i < subsObjArray.length; i++) {
-            subsArray.push(subsObjArray[i].name);
+            let name;
+            if (subsObjArray[i].isSelected) {
+              if (subsObjArray[i].name === 'Hulu') {
+                name = 'Hulu';
+              } else if (subsObjArray[i].name === 'Disney') {
+                name = 'Disney Plus';
+              } else if (subsObjArray[i].name === 'Netflix') {
+                name = 'Netflix';
+              } else if (subsObjArray[i].name === 'HBO') {
+                name = 'HBO Max';
+              } else if (subsObjArray[i].name === 'Apple TV Plus') {
+                name = 'Apple TV Plus';
+              } else if (subsObjArray[i].name === 'Amazon Prime Video') {
+                name = 'Amazon Prime Video';
+              }
+              subsArray.push(name);
+            }
           }
           resolve(subsArray);
         });
