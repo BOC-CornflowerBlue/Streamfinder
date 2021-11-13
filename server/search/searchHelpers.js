@@ -61,6 +61,14 @@ module.exports = {
         providerObj.providers.forEach((provider, i) => {
           if (provider.toLowerCase().includes('disney')) {
             finalObj.disney = providerObj.logo_paths[i];
+          } else if (provider.toLowerCase().includes('netflix')) {
+            finalObj.netflix = providerObj.logo_paths[i]
+          } else if (provider.toLowerCase().includes('hbo max')) {
+            finalObj.hbo = providerObj.logo_paths[i]
+          } else if (provider.toLowerCase().includes('apple tv plus')) {
+            finalObj.apple = providerObj.logo_paths[i]
+          } else if (provider.toLowerCase().includes('amazon prime video')) {
+            finalObj.amazon = providerObj.logo_paths[i]
           }
 
         });

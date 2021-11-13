@@ -18,6 +18,7 @@ module.exports = {
         if (id !== null) {
           Movie.find({id: id}).then((movieData) => {
             //lets configure that movie data for search page display
+  
             const finalSearch = transformToSearchDisplay(movieData[0]);
             //send it
             resolve(finalSearch);
@@ -38,8 +39,9 @@ module.exports = {
                 //create providers - request providers for each id (with a promise all)
                 const providers = getProviders(uniqueMovieIds);
                 providers.then((data) => {
+       
                   const finalProviders = finalProviderData(data); //<----here jaimie
-                  console.log('finalProviders: ', finalProviders);
+          
                   //create finalMovieObj - adds providers to the history obj,  providers based on movies id
                   const finalMovieObj = createFinalMovieObj(history, finalProviders);
                   //replace with real user function once running
@@ -70,6 +72,7 @@ module.exports = {
                     finalMovieObj.trending = finalTrendingArr;
                     //create finalSuggestedArr - adds providers to the movies in suggestedArr, providers based on movies id
                     const finalSuggestedArr = createFinalArrays(suggested, finalProviders);
+                
                     finalMovieObj.suggested = finalSuggestedArr;
                     //createDbObj - adds finalHistoryArr, finalTrendingArr, and finalSuggestedArr to finalMovieObj
                     //create movieSave - saves new movie data to schema
@@ -103,6 +106,7 @@ module.exports = {
                         }
                       });
                     };
+  
 
                     movieSave(finalMovieObj);
                     finalSuggestedArr.unshift(finalMovieObj)
@@ -110,7 +114,10 @@ module.exports = {
                       suggested: finalSuggestedArr
 
                     };
+                
+                
                     const movieSearchResponse = transformSuggestedResponse(finalResponse);
+                    // console.log(movieSearchResponse)
                     resolve(movieSearchResponse);
                   });
         

@@ -1,12 +1,13 @@
 /* Please prefix class names with sh (e.g., sh-menu-item) to avoid conflicts with other features when CSS is bundled */
-
-#Home {
+#home {
   color: cornflowerblue;
   margin: 1em;
+  display: flex;
+  border-bottom: .15em solid cornflowerblue;
 }
-.s-header-home, .t-header-home, .h-header-home {
 
-
+.home-header {
+  align-items: start;
 }
 .test{
   display: flex;

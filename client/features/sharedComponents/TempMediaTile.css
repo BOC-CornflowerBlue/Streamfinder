@@ -1,14 +1,19 @@
 .tmt-temp-tile {
-  height: 80px;
-  width: 120px;
-  background-color: cornflowerblue;
+  /* height: 80px;
+  width: 120px; */
+
+  background: cornflowerblue;
   display: flex;
   flex-direction: column;
+  /* font-size: large; */
+  font-weight: 800;
 
 };
 
+
 .tmt-temp-label {
   text-transform: uppercase;
+
 }
 
 .mtc-tile {

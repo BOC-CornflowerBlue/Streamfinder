@@ -2,6 +2,7 @@ import React from 'react';
 import './Search.css';
 import axios from 'axios';
 import MediaTileCarousel from '../sharedComponents/MediaTileCarousel';
+import ProviderDisplay from '../sharedComponents/ProviderDisplay';
 
 
 class Search extends React.Component {
@@ -32,7 +33,6 @@ class Search extends React.Component {
     let obj = {title: this.state.searchVal, user:'lil timmy'}
     axios.post('/search/searchPost', obj)
       .then(({data}) => {
-        console.log(data)
 
         this.setState({
           searchDisplay: data,
@@ -42,7 +42,7 @@ class Search extends React.Component {
   render() {
 
     return (
-      <div>
+      <div className="search-container">
         <div id="Search">
           <h1 className='search-header'>Stream Finder</h1>
           <input

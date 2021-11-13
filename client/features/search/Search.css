@@ -5,8 +5,6 @@
   margin: 1em;
   display: flex;
   border-bottom: .15em solid cornflowerblue;
-
- 
 }
 .search-button {
   margin-left: 1rem;
@@ -28,7 +26,6 @@
 }
 .search-header {
   align-items: start;
-  
 }
 .provider-thumbnail {
   width: 2em;
@@ -60,4 +57,7 @@
 @media (prefers-color-scheme: dark) {
   /* Modifications for dark mode go here */
 
+}
+.search-container {
+  height: 50em;
 }

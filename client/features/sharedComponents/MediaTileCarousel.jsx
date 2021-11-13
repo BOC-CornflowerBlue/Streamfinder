@@ -1,7 +1,8 @@
 import React from 'react';
 import TempMediaTile from './TempMediaTile.jsx';
 import './MediaTileCarousel.css';
-
+import './ProviderDisplay.jsx'
+import ProviderDisplay from './ProviderDisplay.jsx';
 class MediaTileCarousel extends React.Component {
   constructor(props) {
     super(props);
@@ -129,6 +130,9 @@ class MediaTileCarousel extends React.Component {
     const { mediaIds, checkCache, updateCache, label, tempData } = this.props;
     const { containerLeftOffset, showLeftNav, showRightNav } = this.state;
 
+
+    
+
     let key = 0;
     return (
       <div id={`MediaTileCarousel-${label}`} className="mtc-carousel" >
@@ -152,7 +156,10 @@ class MediaTileCarousel extends React.Component {
             // )}
             Array.isArray(tempData) && tempData.length ? (
               tempData.map((tile, i) => (
-                <TempMediaTile key={`mt${i++}`} title={tile.title} imgUrl={tile.imgUrl} />
+                <TempMediaTile key={`mt${i++}`} title={tile.title} imgUrl={tile.imgUrl} providers={[tile.hulu, tile.disney, tile.netflix, tile.hbo, tile.apple, tile.amazon]}/>
+                // <ProviderDisplay providers={[tile.hulu, tile.disney, tile.netflix, tile.hbo, tile.apple, tile.amazon]}/>
+                // <ProviderDisplay key={i} providers={[tile.hulu, tile.disney, tile.netflix, tile.hbo, tile.apple, tile.amazon]}/>
+                // <ProviderDisplay key={i} providers={/>
               ))
             ) : (
               <div className='mtc-tile mtc-tile-placeholder'>Searching...</div>

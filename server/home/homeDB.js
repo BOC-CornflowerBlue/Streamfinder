@@ -3,6 +3,7 @@ const {Movie, User} = require('../database/database.js');
 // console.log(redisClient)
 module.exports = {
   getMovie: (movieId) => {
+   
     //if there is movie id, we know it exists in DB - so lets query it 🔥
     if (movieId) {
       // let cacheContains = redisClient.get(movieId)

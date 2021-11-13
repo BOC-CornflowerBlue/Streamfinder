@@ -23,7 +23,6 @@ class Home extends React.Component {
     const currentUser = this.props.currentUser();
 
     // if (currentUser && this.state.user !== currentUser) {
-      console.log('hiii')
       console.log('User on current session: ', currentUser);
       console.log('User from prior session:', this.state.user);
       axios.get(`/home/homePage?${currentUser}`)
@@ -53,31 +52,10 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        {/* <div id="Search">
-          <div className='test'>
-            <h1 className='search-header'>Streamfinder</h1>
-          </div>
-          <input
-            className='search-box'
-            type="text"
-            placeholder='search a movie to display streaming providers 🎣'
-          />
-          <button
-            // onClick={this.handleClick} - figure out something here
-            className='search-button'>Search
-          </button>
-        </div> */}
-        <LogOut updateSession={this.props.updateSession} />
-        <SearchBarActive />
-        {/* <h2 className='s-header-home'>suggested</h2>
-        <h2 className='s-header-home'>suggested</h2>
-        <Temp data={this.state.suggested}/>
-
-        <h2 className='t-header-home'>Trending</h2>
-        <Temp data={this.state.trending}/>
-
-        <h2 className='h-header-home'>History</h2>
-        <Temp data={this.state.history}/> */}
+        {/* <LogOut updateSession={this.props.updateSession} /> */}
+        <div id="home">
+          <h1 className='home-header'>Stream Finder</h1>
+        </div>
         <MediaTileCarousel tempData={this.state.suggested} label={ "suggested" } onClick={this.handleMediaClick} />
         <MediaTileCarousel tempData={this.state.trending} label={ "trending" } onClick={this.handleMediaClick} />
         <MediaTileCarousel tempData={this.state.history} label={ "history" } onClick={this.handleMediaClick} />
