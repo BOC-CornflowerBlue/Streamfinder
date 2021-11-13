@@ -38,9 +38,9 @@ class Login extends React.Component {
 
   handleSubmit() {
     axios.post('/auth/login', this.state)
-      .then(({ data }) => {
-        if (data) {
-          this.props.updateSession(data);
+      .then(({ data: token }) => {
+        if (token) {
+          this.props.updateSession(token);
         }
       })
       .catch((err) => {
@@ -51,7 +51,7 @@ class Login extends React.Component {
   render() {
     // window.localStorage.removeItem('sessionToken');
     if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />
+      return <Redirect to={this.state.redirect} />;
     }
 
     return (
