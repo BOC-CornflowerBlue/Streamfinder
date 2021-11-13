@@ -45,7 +45,7 @@ const verifySession = (token) => {
     if (!sessionData) {
       resolve('expired');
     }
-    database.User.find({ username: sessionData.username })
+    database.User.find({ username: String(sessionData.username) })
       .then(response => {
         const session = response[0].session;
         // console.log(session);
