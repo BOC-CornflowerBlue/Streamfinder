@@ -37,19 +37,14 @@ class Login extends React.Component {
   }
 
   handleSubmit() {
-    this.props.updateSession(this.state.username);
-
     axios.post('/auth/login', this.state)
-    .then((res) => {
-      console.log('/login Res', res);
-      if (!res.data) {
-        alert('Incorrect password');
-      } else {
-        this.props.updateSession(this.state.username);
-      }
-    })
-    .catch((err) => {
-      console.log('/login', err);
+      .then(({ data }) => {
+        if (data) {
+          this.props.updateSession(data);
+        }
+      })
+      .catch((err) => {
+        console.log('/login', err);
       });
   }
 

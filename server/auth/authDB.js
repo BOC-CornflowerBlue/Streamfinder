@@ -1,4 +1,5 @@
 const database = require('../database/database.js');
+const auth = require('./auth.js');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -40,9 +41,18 @@ database.login = (username, password) => {
       .then((res) => {
         bcrypt.compare(password, res[0].pass, (err, result) => {
           if (err) {
-            throw err;
+            throw 'Incorrect password';
           }
-          resolve(result);
+          const sessionToken = auth.createSessionToken(username);
+          database.updateUser({ username: username }, { session: sessionToken })
+            .then(result => {
+              console.log(`Session record created for ${username}:`, sessionToken);
+              resolve(sessionToken);
+            })
+            .catch(err => {
+              console.log(`Unable to create session for ${username}: ${err}`);
+              reject(err);
+            });
         });
       })
       .catch((err) => {
@@ -78,16 +88,18 @@ database.addUser = (userObj) => {
 };
 
 
-database.updateUser = (/* { params } */) => {
+database.updateUser = (filter, update) => {
+  // console.log(filter, update);
   return new Promise((resolve, reject) => {
-    resolve();
-    // db.getUserLogin(reviewIdFilter)
-    // .then(() => resolve())
-    // .catch(error => {
-    //   console.log('reportReview error:', error);
-    //   console.log('Server error', error);
-    //   reject({ statusCode: 500, message: error });
-    // });
+    database.User.findOneAndUpdate(filter, update, { upsert: true })
+      .then(result => {
+        // console.log(result);
+        resolve(true);
+      })
+      .catch(err => {
+        // console.log(err);
+        reject(err);
+      });
   });
 };
 
