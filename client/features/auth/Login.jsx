@@ -37,21 +37,26 @@ class Login extends React.Component {
   }
 
   handleSubmit() {
+    this.props.updateSession(this.state.username);
+
     axios.post('/auth/login', this.state)
-      .then(({ data: token }) => {
-        if (token) {
-          this.props.updateSession(token);
-        }
-      })
-      .catch((err) => {
-        console.log('/login', err);
+    .then((res) => {
+      console.log('/login Res', res);
+      if (!res.data) {
+        alert('Incorrect password');
+      } else {
+        this.props.updateSession(this.state.username);
+      }
+    })
+    .catch((err) => {
+      console.log('/login', err);
       });
   }
 
   render() {
     // window.localStorage.removeItem('sessionToken');
     if (this.state.redirect) {
-      return <Redirect to={this.state.redirect} />;
+      return <Redirect to={this.state.redirect} />
     }
 
     return (
