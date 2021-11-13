@@ -18,7 +18,8 @@ const UserSchema = mongoose.Schema({
   email: String,
   subscriptions: [],
   currentId: Number,
-  history: [Array]
+  history: [Array],
+  session: String
 });
 
 const User = mongoose.model('User', UserSchema);

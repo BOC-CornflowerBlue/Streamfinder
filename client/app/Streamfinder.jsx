@@ -44,12 +44,11 @@ class Streamfinder extends React.Component {
     };
   }
 
-  updateSession(username) {
-    if (!username) {
+  updateSession(sessionToken) {
+    if (!sessionToken) {
       window.localStorage.removeItem('sessionToken');
       this.setState({ sessionToken: null });
     } else {
-      const sessionToken = btoa(`{"username": "${username}", "date": ${new Date().getTime()}}`);
       window.localStorage.setItem('sessionToken', sessionToken);
       this.setState({ sessionToken });
       return sessionToken;
