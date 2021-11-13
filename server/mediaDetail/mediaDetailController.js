@@ -7,8 +7,8 @@ const {
 
 module.exports = {
   getUserSubscriptions: (req, res, next) => {
-    const userId = req.url.split('?')[1];
-    getUserSubs(userId).then((subs) => {
+    const username = req.url.split('?')[1];
+    getUserSubs(username).then((subs) => {
       res.send(subs);
     });
   },

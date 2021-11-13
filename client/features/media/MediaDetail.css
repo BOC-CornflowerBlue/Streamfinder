@@ -174,3 +174,16 @@ form {
   display: flex;
   gap: 1em;
 }
+
+.goBack {
+  color: cornflowerblue;
+  transform: rotate(-180deg);
+  font-size: 4em;
+  display: flex;
+  margin-bottom: -0.3em;
+  margin-left: 0.3em;
+}
+
+.goBack:hover {
+  cursor: pointer;
+}

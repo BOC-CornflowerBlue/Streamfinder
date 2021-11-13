@@ -4,7 +4,6 @@ import StarRating from '../sharedComponents/StarRating';
 import SearchBar from './../sharedComponents/SearchBar.jsx';
 import Reviews from './../reviews/Reviews.jsx';
 import Logo from './Logo.jsx';
-import test from './testData.js';
 import MediaModal from './MediaModal.jsx';
 import './MediaDetail.css';
 
@@ -31,6 +30,7 @@ class MediaDetail extends React.Component {
     this.getMediaAndUserDetails = this.getMediaAndUserDetails.bind(this);
     this.getLogoUrl = this.getLogoUrl.bind(this);
     this.getServiceUrl = this.getServiceUrl.bind(this);
+    this.handleBackClick = this.handleBackClick.bind(this);
   }
 
   componentDidMount() {
@@ -130,6 +130,10 @@ class MediaDetail extends React.Component {
     }
   }
 
+  handleBackClick() {
+    window.history.back();
+  }
+
   render() {
     let subscribed = this.state.watchWithSubscribed.map((name, i) => {
       let logo = this.getLogoUrl(name);
@@ -180,6 +184,9 @@ class MediaDetail extends React.Component {
     return (
       <div id="MediaDetail">
         <div className="overview-header">
+          <div className="goBack" onClick={this.handleBackClick}>
+            &#10150;
+          </div>
           <h1 className="overview-title">Streamfinder</h1>
           <SearchBar />
         </div>
