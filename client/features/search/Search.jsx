@@ -36,6 +36,7 @@ class Search extends React.Component {
 
         this.setState({
           searchDisplay: data,
+          searchVal: ''
         })
       })
   }

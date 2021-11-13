@@ -11,8 +11,14 @@ exports.getHomeInfo = (req, res, next) => {
    
     let userId = userObj.currentId;
     getMovie(userId).then((sAndTData) => {
+      let history = transformHistoryResponse({history: userObj.history})
+      history = history.filter((value, index, self) => {
+        return self.findIndex(v => v.title === value.title) === index;
+      })
+      console.log(history)
+
       const finalData = {
-        history: transformHistoryResponse({history: userObj.history}),
+        history,
         suggested: transformSuggestedResponse({suggested: sAndTData.suggested}),
         trending: transformTrendingResponse({trending: sAndTData.trending})
       };
