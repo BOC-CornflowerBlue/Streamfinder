@@ -126,7 +126,7 @@ class Reviews extends React.Component {
 
     return (
       <div id="reviews">
-        <h1>Reviews!</h1>
+        <h1>Reviews</h1>
         {!reviewedByUser ?
           <div>
             <StarRatingInteractive setStarRatingInReviews={this.setStarRatingInReviews} />
