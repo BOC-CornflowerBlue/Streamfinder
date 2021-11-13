@@ -27,7 +27,10 @@ const ReviewSchema = mongoose.Schema({
   username: String,
   rating: Number,
   date: {type: Date, default: Date.now},
-  content: String
+  content: String,
+  upvote: Number,
+  downvote: Number,
+  movieTitle: String
 });
 const Review = mongoose.model('Review', ReviewSchema);
 
