@@ -66,21 +66,26 @@ const login = (username, password) => {
   return new Promise((resolve, reject) => {
     database.User.find({ username: username })
       .then((res) => {
-        bcrypt.compare(password, res[0].pass, (err, result) => {
-          if (err) {
-            throw 'Incorrect password';
-          }
-          const sessionToken = auth.createSessionToken(username);
-          updateUser({ username: username }, { session: sessionToken })
-            .then(result => {
-              console.log(`Session record created for ${username}:`, sessionToken);
-              resolve(sessionToken);
-            })
-            .catch(err => {
-              console.log(`Unable to create session for ${username}: ${err}`);
-              reject(err);
-            });
-        });
+        if (res.length) {
+          bcrypt.compare(password, res[0].pass, (err, result) => {
+            if (err) {
+              throw 'Incorrect password';
+            }
+            const sessionToken = auth.createSessionToken(username);
+            updateUser({ username: username }, { session: sessionToken })
+              .then(result => {
+                console.log(`Session record created for ${username}:`, sessionToken);
+                resolve(sessionToken);
+              })
+              .catch(err => {
+                console.log(`Unable to create session for ${username}: ${err}`);
+                reject(err);
+              });
+          });
+        } else {
+          console.log('user not found');
+          reject('User not found');
+        }
       })
       .catch((err) => {
         console.log('DB Signin Err', err);

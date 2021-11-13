@@ -14,7 +14,7 @@ class Home extends React.Component {
     super(props);
 
     this.state = {
-      user: this.props.currentUser(),
+      user: this.props.session().user,
       suggested: [],
       history: [],
       trending: []
@@ -23,7 +23,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    const currentUser = this.props.currentUser();
+    const currentUser = this.props.session().user;
     if (currentUser && this.state.user !== currentUser) {
       console.log('User on current session: ', currentUser);
       console.log('User from prior session:', this.state.user);

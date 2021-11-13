@@ -41,24 +41,26 @@ class Streamfinder extends React.Component {
 
     this.state = {
       sessionToken: this.props.sessionToken || null,
+      currentUser: this.session().user
     };
   }
 
   updateSession(sessionToken) {
     if (!sessionToken) {
       window.localStorage.removeItem('sessionToken');
-      this.setState({ sessionToken: null });
+      this.setState({ sessionToken: null, currentUser: null });
     } else {
       window.localStorage.setItem('sessionToken', sessionToken);
-      this.setState({ sessionToken });
+      this.setState({ sessionToken, currentUser: this.session().user });
       return sessionToken;
     }
   }
 
   sessionExpired() {
     // Checks expiration date decoded from sessionToken
-    if (this.state.sessionToken) {
-      const expiredTime = (new Date().getTime() - JSON.parse(atob(this.state.sessionToken)).date) / 1000;
+    const { sessionToken } = this.state;
+    if (sessionToken) {
+      const expiredTime = (new Date().getTime() - this.session().date) / 1000;
       if (expiredTime > 7776000) {
         alert('Session expired. Please sign in to continue.');
         return true;
@@ -77,11 +79,10 @@ class Streamfinder extends React.Component {
     return true;
   }
 
-  currentUser(sessionToken = window.localStorage.getItem('sessionToken')) {
-    // Returns username decoded from sessionToken
+  session(sessionToken = window.localStorage.getItem('sessionToken')) {
+    // Returns JSON decoded from sessionToken
     if (sessionToken) {
-      const username = JSON.parse(atob(sessionToken)).username;
-      return username;
+      return JSON.parse(atob(sessionToken));
     }
   }
 
@@ -93,17 +94,16 @@ class Streamfinder extends React.Component {
     this.cache.set(id, data);
   }
 
-  // componentDidMount() {
-  //   const token = window.localStorage.getItem('sessionToken');
-  //   if (token !== this.sessionToken) {
-  //     this.sessionToken = token;
-  //     this.setState({ sessionToken: token });
-  //   }
-  // }
+  componentDidMount() {
+    const token = window.localStorage.getItem('sessionToken');
+    if (token !== this.state.sessionToken) {
+      this.updateSession();
+    }
+  }
 
   render() {
-    const { sessionToken } = this.state;
-    const { currentUser, sessionExpired, updateSession, checkCache, updateCache } = this;
+    const { sessionToken, currentUser } = this.state;
+    const { session, sessionExpired, updateSession, checkCache, updateCache } = this;
 
     return sessionExpired() ? (
       <Auth updateSession={ updateSession } />
@@ -111,7 +111,7 @@ class Streamfinder extends React.Component {
       <Router>
           <Switch>
             <Route exact path="/home">
-              <Home currentUser={currentUser} updateSession={updateSession} />
+              <Home session={session} updateSession={updateSession} />
             </Route>
             <Route path="/auth">
               <Auth updateSession={ updateSession } />
@@ -132,10 +132,10 @@ class Streamfinder extends React.Component {
             </ErrorBoundary>
           </Route>
           <Route path="/media">
-            <MediaDetail checkCache={checkCache} updateCache={updateCache} />
+            <MediaDetail checkCache={checkCache} updateCache={updateCache} session={session} />
           </Route>
           <Route path="/account">
-            <Account updateSession={updateSession} />
+            <Account updateSession={updateSession} session={session} />
           </Route>
           <Route exact path="/*">
             <Redirect to="/home" />

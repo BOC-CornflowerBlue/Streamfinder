@@ -32,8 +32,8 @@ class Account extends React.Component {
   }
 
   componentDidMount() {
-    const user = window.localStorage.getItem('sessionToken');
-    axios.get('/auth/user', { params: user })
+    const username = this.props.session().username;
+    axios.get(`/auth/user?username=${username}`)
       .then((res) => {
         this.setState({
           username: res.data.username,
