@@ -1,6 +1,8 @@
 import React from 'react';
-import SearchBar from '../sharedComponents/SearchBar';
+
 import activeMessage from '../sharedComponents/helpers/activeMessage';
+
+import SearchBar from './SearchBar';
 
 class SearchBarActive extends React.Component {
   constructor(props) {
@@ -46,7 +48,7 @@ class SearchBarActive extends React.Component {
 
     return (
       <>
-        <SearchBar placeholder={ placeholder } onSearch={ onSearch } />
+        <SearchBar placeholder={ placeholder } onSearch={ onSearch } handleSearch={ this.props.handleSearch } />
       </>
     );
   }

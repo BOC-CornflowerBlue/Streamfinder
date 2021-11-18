@@ -1,4 +1,8 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+
+import { Logger } from '../../../logger.js'
+
 import './SearchBar.css';
 
 class SearchBar extends React.Component {
@@ -11,6 +15,7 @@ class SearchBar extends React.Component {
 
     this.state = {
       searchTerm: '',
+      redirect: null
     };
   }
 
@@ -21,9 +26,14 @@ class SearchBar extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { searchTerm } = this.state;
-    searchTerm && this.props.onSearch && this.props.onSearch(searchTerm);
-    this.setState({ searchTerm: '' });
+
+    this.props.handleSearch(this.state.searchTerm, this.props.onSearch)
+    .then(() => {
+      this.setState({
+        searchTerm: '',
+        redirect: '/search'
+      });
+    });
   }
 
   handleKeyPress(e) {
@@ -34,6 +44,7 @@ class SearchBar extends React.Component {
     const { handleChange, handleSubmit, handleKeyPress } = this;
 
     return (
+      <>
       <div id="SearchBar">
         <form id="ss-search-form" onSubmit={ handleSubmit }>
           <input className="ss-search-bar" type="text"
@@ -45,6 +56,10 @@ class SearchBar extends React.Component {
           <input id="ss-submit" type="submit" value="Search" />
         </form>
       </div>
+      {
+        this.state.redirect && <Redirect to={ this.state.redirect } />
+      }
+      </>
     );
   }
 }

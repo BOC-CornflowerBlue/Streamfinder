@@ -3,29 +3,31 @@ const { Movie, User } = require('../database/database.js');
 
 module.exports = {
   getMovie:  (movieId) => {
-    // if there is movie id, we know it exists in DB - so lets query it 🔥
     if (movieId) {
-      // let cacheContains = redisClient.get(movieId)
-      // if (cacheContains) {
+      // TODO: FindOne
       return new Promise((resolve, reject) => {
         Movie.find({id: movieId})
         .then((movieData) => {
-          // const finalMovie = transformToHomeResponse(movieData[0])
           resolve(movieData[0]);
         })
-        // TODO: No error handling
-      })
+        .catch((error) => {
+          Logger.consoleLog('getMovie error', error);
+          reject(error);
+        });
+      });
     }
   },
   getHistory: (user) => {
     // TODO: FindOne
     return new Promise((resolve, reject) => {
-      User.find({ username:user })
+      User.find({ username: user })
         .then((data) => {
-          // const response = transformHistoryResponse(data[0])
           resolve(data[0])
+        })
+        .catch((error) => {
+          Logger.consoleLog('getHistory error', error);
+          reject(error);
         });
-        // TODO: No error handling
     });
   }
 };

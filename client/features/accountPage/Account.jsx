@@ -9,9 +9,7 @@ import {
   Redirect
 } from "react-router-dom";
 import axios from 'axios';
-// import Logger from '../../../logger.js'
-import LogOut from '../auth/LogOut';
-import HomeIcon from '../sharedComponents/HomeIcon';
+import { Logger } from '../../../logger.js'
 import './Account.css';
 
 class Account extends React.Component {
@@ -43,20 +41,13 @@ class Account extends React.Component {
         });
       })
       .catch((err) => {
-        console.log('ACCOUNT GET ERR', err);
+        Logger.consoleLog('ACCOUNT GET ERR', err);
       });
   }
 
   render() {
     return (
       <div className="accountPage">
-        <LogOut updateSession={this.props.updateSession} />
-        <div className="users-header">
-          <h1 className="users-title">Streamfinder</h1>
-          <input className="users-searchBar" type="text" placeholder="Search For Movies" />
-          <HomeIcon />
-        </div>
-        <hr />
         <h1 className="users-account">Account</h1>
         <div className="movieModule">
         </div>

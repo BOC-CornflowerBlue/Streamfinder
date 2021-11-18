@@ -74,7 +74,9 @@ module.exports = {
       if (movieProviders.movieId === searchedMovie.id) {
         for (let j = 0; j < movieProviders.length; j++) {
           const provider = movieProviders[j];
-          if (provider.toLowerCase().includes('disney')) { // TODO: Why are we only doing this for disney?
+          // TODO: Why are we only doing this for disney?
+          // Jaimie maybe said this was the maybe the only one with direct external links to movies, so maybe limiting results to those?
+          if (provider.toLowerCase().includes('disney')) {
             movieWithProviders.disney = movieProviders.logo_paths[i];
             break;
           }

@@ -1,0 +1,53 @@
+.nav-header {
+  display: inline-grid;
+  border-bottom: 3px cornflowerblue;
+}
+
+.nav-title {
+  color: cornflowerblue;
+  font-size: 3em;
+}
+
+.nav-icons {
+  padding-top: 2em;
+  position: absolute;
+  right: 0%;
+  display: flex;
+  flex-direction: row;
+}
+
+.nav-icon:hover {
+  opacity: 0.2;
+  cursor: pointer;
+}
+
+/* .logOutButton {
+  padding-top: 2em;
+}
+
+.users-userIcon {
+  padding-top: 2em;
+}
+
+.homeIcon {
+  padding-top: 2em;
+} */
+
+/* .nav-homeIcon {
+  position: absolute;
+  right: 5%;
+}
+
+.nav-userIcon {
+  position: absolute;
+  right: 10%;
+} */
+
+#Home hr {
+  display: block;
+  height: 5px;
+  border: 0;
+  border-top: 1px solid cornflowerblue;
+  margin: 1em 0;
+  padding: 0;
+}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import StarRating from '../sharedComponents/StarRating';
-import SearchBar from './../sharedComponents/SearchBar.jsx';
 import Reviews from './../reviews/Reviews.jsx';
 import Logo from './Logo.jsx';
 import test from './testData.js';
@@ -193,11 +192,6 @@ class MediaDetail extends React.Component {
 
     return (
       <div id="MediaDetail">
-        <div className="overview-header">
-          <h1 className="overview-title">Streamfinder</h1>
-          <SearchBar />
-        </div>
-        <hr/>
         <div id="innerDetails">
           <div className="bannerImage">
             <img className="overview-banner" src={this.state.imgUrl} alt="media poster"/>
