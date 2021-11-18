@@ -6,8 +6,6 @@ import {
   Link
 } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
-import Streamfinder from '../../app/Streamfinder';
-import CreateAccount from './CreateAccount';
 import axios from 'axios';
 import './Login.css';
 
@@ -54,15 +52,11 @@ class Login extends React.Component {
   }
 
   render() {
-    // window.localStorage.removeItem('sessionToken');
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />
     }
 
     return (
-      // <Router>
-      //   <Switch>
-      //     <Route path="/signIn">
       <div className="loginContainer">
         <div className="login-titleHeader">
           <h1>Streamfinder</h1>

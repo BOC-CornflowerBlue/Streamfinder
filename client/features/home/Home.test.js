@@ -3,7 +3,7 @@ import { shallow, mount} from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { expect, jest, test, describe, beforeEach, afterEach } from '@jest/globals';
 import Home from './Home.jsx';
-import {history, suggested, trending} from './tempHomeData';
+import {history, suggested, trending} from './home.testData';
 
 // ==== Test Template ====
 // ====== index.jsx ======
