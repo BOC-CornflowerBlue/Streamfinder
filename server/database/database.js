@@ -35,7 +35,7 @@ const MovieSchema = mongoose.Schema({
   id: Number,
   //need to modify later like reviews
   suggested: Array,
-  trending: Array,
+  trending: Array, // TODO: Rework this. This is a list of movies currently trending at the time a movie search is made
   //modify --- needs to happen - rob being lazy atm
   mediaType: String,
   title: String,

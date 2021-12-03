@@ -1,0 +1,50 @@
+{
+  "general": [
+    {
+      "imdb_id": 0,
+      "title": "",
+      "imgUrl": "",
+      "rating": 0,
+      "ratingCount": 0,
+      "isTrendingIMDB": false,
+      "isRecommendedIMDB": false
+    }
+  ],
+  "user": [
+    {
+      "imdb_id": 0,
+      "title": "",
+      "imgUrl": "",
+      "rating": 0,
+      "ratingCount": 0,
+      "isTrendingIMDB": false,
+      "isRecommendedIMDB": false,
+      "isRelatedToWatched": false,
+      "detailWasClicked": false,
+      "wasWatched": false,
+      "starRatingByUser": 0,
+      "matchingSearchPhrases": []
+    }
+  ],
+  "weights": [
+    {
+      "imdb_id": 0,
+      "title": "",
+      "imgUrl": "",
+      "rating": 0,
+      "ratingCount": 0,
+      "isTrendingIMDB": false,
+      "isRecommendedIMDB": false,
+      "isRelatedToWatched": false,
+      "detailWasClicked": false,
+      "wasWatched": false,
+      "starRatingByUser": 0,
+      "matchingSearchPhrases": [],
+      "ratingWeight": 1,
+      "trendingWeight": 1,
+      "relatedWeight": 1,
+      "searchMatchWeight": 1,
+      "ratingByUserWeight": 1
+    }
+  ]
+}

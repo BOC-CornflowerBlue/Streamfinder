@@ -1,0 +1,25 @@
+[
+  {
+    "imdb_id": 0,
+    "related": [
+      {
+        "imdb_id": 0,
+        "title": "",
+        "imgUrl": "",
+        "rating": 0,
+        "ratingCount": 0,
+        "isTrending": false
+      }
+    ],
+    "recommended": [
+      {
+        "imdb_id": 0,
+        "title": "",
+        "imgUrl": "",
+        "rating": 0,
+        "ratingCount": 0,
+        "isTrending": false
+      }
+    ]
+  }
+]
