@@ -7,6 +7,7 @@ const {Movie, User} = require('../database/database.js');
 module.exports = {
   getUserSubs: (userId) => {
     return new Promise((resolve, reject) => {
+      // TODO: findOne
       User.find({currentId: userId})
         .then((userData) => {
           let subsArray = [];
@@ -17,16 +18,19 @@ module.exports = {
           resolve(subsArray);
         });
     });
+    // TODO: No error handling
   },
 
   getMediaInfo: (mediaId) => {
     return new Promise((resolve, reject) => {
+      // TODO: findOne
       Movie.find({id: mediaId})
         .then((mediaData) => {
           let mediaObject = mediaData[0];
           resolve(mediaObject);
         });
     });
+    // TODO: No error handling
   },
 
   putMediaObjInUserWatchHistory: (userId, mediaObj) => {
@@ -43,6 +47,7 @@ module.exports = {
           resolve(data);
         }
       });
+      // TODO: No error handling
     });
   },
 
@@ -63,6 +68,7 @@ module.exports = {
           resolve(data);
         }
       });
+      // TODO: No error handling
     });
   }
 };

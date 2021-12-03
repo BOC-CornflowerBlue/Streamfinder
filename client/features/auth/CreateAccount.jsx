@@ -6,7 +6,6 @@ import {
   Link
 } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
-import Home from '../home/Home';
 import axios from 'axios';
 import './CreateAccount.css';
 
