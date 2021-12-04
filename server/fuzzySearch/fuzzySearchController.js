@@ -4,9 +4,10 @@ const {
   sendErrorResponse,
   sendResponse
 } = require("../helpers");
-const suggestedService = require('./suggestedService');
+const fuzzySearchService = require('./fuzzySearchService');
 
-exports.getSuggested = (req, res, next) => {
+exports.getFuzzySearch = (req, res, next) => {
+  const title = req.body.title;
   const username = req.body.user;
 
   if (!username) {
@@ -16,10 +17,11 @@ exports.getSuggested = (req, res, next) => {
       message: 'Username missing. User must be logged in to use this feature.'
     });
   } else {
-    suggestedService.getSuggested(username)
+    Logger.consoleLog('Username supplied!');
+    fuzzySearchService.getFuzzySearch(title)
     .then(result => sendResponse({ res, responseBody: result }))
     .catch(error => {
-      Logger.consoleLog('getSuggested route error', error);
+      Logger.consoleLog('getFuzzySearch route error', error);
       sendErrorResponse({
         res,
         statusCode: error.statusCode,
