@@ -43,11 +43,11 @@ const getProviders = (movieIds) => {
 module.exports = {
   // Gets movie data by movie name at the 3rd party API source
   // https://developers.themoviedb.org/3/search/search-movies
-  getMovie: (movieName) => {
+  getMovieByTitle: (title) => {
     return new Promise((resolve, reject) => {
-      Logger.consoleLog(movieName);
-      const name = encodeURI(movieName);
-      const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${name}&page=1&include_adult=false`;
+      Logger.consoleLog(title);
+      const nameURI = encodeURI(title);
+      const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${nameURI}&page=1&include_adult=false`;
 
       axios.get(url)
       .then(({data}) => {

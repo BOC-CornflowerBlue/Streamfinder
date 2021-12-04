@@ -9,7 +9,7 @@ const {
   addProvidersToMovies } = require('./searchHelpers');
 const { transformSuggestedResponse } = require('../home/movieHelpers');
 const {
-  getMovie: getMovieAPI,
+  getMovieByTitle: getMovieAPI,
   getTrending: getTrendingAPI,
   getRecommendations: getSuggestedAPI,
   getProviders: getProvidersAPI } = require('../api/apiController');

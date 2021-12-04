@@ -13,7 +13,9 @@
     "test-old": "jest",
     "test": "export NODE_ENV='test' & jest --coverage --testResultsProcessor=jest-sonar-reporter",
     "test-updateSnapshot": "export NODE_ENV='test' & jest --updateSnapshot --coverage --testResultsProcessor=jest-sonar-reporter",
-    "test:model": "export NODE_ENV='test' & jest --coverage --testPathPattern=client/model --testResultsProcessor=jest-sonar-reporter --watch",
+    "test:fuzzySearchWatch": "export NODE_ENV='test' & jest --coverage --testPathPattern=server/fuzzySearch --testResultsProcessor=jest-sonar-reporter --watch",
+    "test:fuzzySearch": "export NODE_ENV='test' & jest --coverage --testPathPattern=server/fuzzySearch --testResultsProcessor=jest-sonar-reporter",
+    "test:related": "export NODE_ENV='test' & jest --coverage --testPathPattern=server/related --testResultsProcessor=jest-sonar-reporter",
     "coveralls": "export NODE_ENV='test' & jest --coverage && cat ./testsResults/coverage/lcov.info | coveralls"
   },
   "repository": {

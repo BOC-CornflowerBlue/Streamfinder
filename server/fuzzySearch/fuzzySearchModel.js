@@ -1,36 +1,83 @@
 const { Logger } = require('../../logger.js');
+const { getMovieByTitle: getMovieByTitleDB } = require('../database/databaseController.js');
+const { getMovieByTitle: getMovieByTitleAPI } = require('../api/apiController.js');
+const { model: relatedModel } = require('../related/RelatedModel.js');
 
 const model = {};
+
+const getMovie = (title) => {
+  Logger.consoleLog('getMovie');
+  return new Promise((resolve, reject) => {
+    getExactMovie(title)
+    .then(exactMovie => {
+      if (exactMovie) {
+        resolve(exactMovie);
+      } else {
+        getFuzzyMovie(title)
+        .then(fuzzyMovie => {
+          if (fuzzyMovie) {
+            resolve(fuzzyMovie);
+          } else {
+            Logger.consoleLog('getMovie: No movie found!');
+            resolve([]);
+          }
+        })
+      }
+    })
+    .catch(error => {
+      Logger.consoleLog('getMovie error:', error);
+      reject(error);
+    })
+  });
+};
+
+const getExactMovie = (title) => {
+  Logger.consoleLog('getExactMovie');
+  return new Promise((resolve, reject) => {
+    resolve();
+        // getMovieByTitleDB
+        // getMovieByTitleAPI
+  });
+};
+
+// 2. Entering a movie title which is misspelled.
+// get partial match -> find movie with assumed correct spelling
+const getFuzzyMovie = (title) => {
+  Logger.consoleLog('getFuzzyMovie');
+  return new Promise((resolve, reject) => {
+    resolve();
+        // DB
+        // API
+  });
+};
 
 model.getFuzzySearch = (title) => {
     Logger.consoleLog('FuzzySearch Model');
     return new Promise((resolve, reject) => {
       Logger.consoleLog('getFuzzySearch title: ', title);
 
-      if (!title) {
+      if (!title || title.length === 0) {
         resolve([]);
       }
 
-      // Get exact match
-        // DB
-        // API
-
-      // if no exact match
-
-      // get partial match
-        // DB
-        // API
-
-      resolve(title);
-
-      // 1. Entering a movie title which you know has an exact match in your database.
-      // The result should be an array of movie objects with
-      // the first movie being the exact match
-      // the remaining (4-9 movies) being close in title.
-
-      // 2. Entering a movie title which is misspelled.
-      // The result should be an array of movie objects, (5-10 movies),
-      // which match the correct spelling of the word and other closely related titles.
+      getMovie(title)
+      .then(movie => {
+        if (movie && movie.length > 0) {
+          Logger.consoleLog('Movie found:', movie);
+          relatedModel.getRelatedMovies(movie, 9)
+          .then(movies => {
+            movies.unshift(movie);
+            resolve(movies);
+          })
+        } else {
+          Logger.consoleLog('getFuzzySearch: No movie found!');
+          resolve([]);
+        }
+      })
+      .catch(error => {
+        Logger.consoleLog('getFuzzySearch error:', error);
+        reject(error);
+      })
     });
   };
 

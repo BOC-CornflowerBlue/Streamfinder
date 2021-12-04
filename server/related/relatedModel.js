@@ -1,3 +1,8 @@
+const { getSimilar: getSimilarDB } = require('../database/databaseController.js');
+const { getSimilar: getSimilarAPI } = require('../api/apiController.js');
+
+const model = {};
+
 // ### Edge Cases
 // - User has no watch history
 // - User has no existing suggested list (new user, or all history are disliked movies, etc.)
@@ -44,9 +49,14 @@
 
 const getSuggestedMovies = (movieId) => {
 
-}
+};
 
 
-const getRelatedMovies = (movieId) => {
+model.getRelatedMovies = (movie, limit = 100) => {
+  return new Promise((resolve, reject) => {
+    const relatedMovies = [];
+    resolve(relatedMovies);
+  });
+};
 
-}
+module.exports.model = model;
