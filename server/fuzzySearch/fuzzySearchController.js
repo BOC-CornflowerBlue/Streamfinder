@@ -7,7 +7,9 @@ const {
 const fuzzySearchService = require('./fuzzySearchService');
 
 exports.getFuzzySearch = (req, res, next) => {
-  const title = req.body.title;
+  const title = decodeURI(req.query.title);
+  Logger.consoleLog('req.query.title: ', req.query.title);
+  Logger.consoleLog('title: ', title);
   const username = req.body.user;
 
   if (!username) {

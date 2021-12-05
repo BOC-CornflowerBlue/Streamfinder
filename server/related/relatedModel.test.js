@@ -10,7 +10,9 @@ describe('relatedModel tests', function () {
       const resultsExpected = [];
       model.getRelatedMovies(title)
       .then(movies => {
-        expect(movies).toEqual(resultsExpected);
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
       })
       .catch(error => done(error));
     });
@@ -20,7 +22,9 @@ describe('relatedModel tests', function () {
       const resultsExpected = [];
       model.getRelatedMovies(title)
       .then(movies => {
-        expect(movies).toEqual(resultsExpected);
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
       })
       .catch(error => done(error));
     });
@@ -30,7 +34,9 @@ describe('relatedModel tests', function () {
       const resultsExpected = [];
       model.getRelatedMovies(title)
       .then(movies => {
-        expect(movies).toEqual(resultsExpected);
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
       })
       .catch(error => done(error));
     });
@@ -40,17 +46,20 @@ describe('relatedModel tests', function () {
       const resultsExpected = [];
       model.getRelatedMovies(title)
       .then(movies => {
-        expect(movies).toEqual(resultsExpected);
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
       })
       .catch(error => done(error));
     });
 
     it ('Returns an array of related movies limited to the number specified', (done) => {
       const title = 'Iron man';
-      const resultsExpected = [];
-      model.getRelatedMovies(title)
+      model.getRelatedMovies(title, 9)
       .then(movies => {
-        expect(movies).toEqual(resultsExpected);
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(9);
+        done();
       })
       .catch(error => done(error));
     });

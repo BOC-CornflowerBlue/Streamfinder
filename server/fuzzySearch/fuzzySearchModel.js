@@ -10,12 +10,14 @@ const getMovie = (title) => {
   return new Promise((resolve, reject) => {
     getExactMovie(title)
     .then(exactMovie => {
-      if (exactMovie) {
+      Logger.consoleLog('exactMovie: ', exactMovie?.title);
+      if (exactMovie && exactMovie.title) {
+        Logger.consoleLog('Returning exact movie!');
         resolve(exactMovie);
       } else {
         getFuzzyMovie(title)
         .then(fuzzyMovie => {
-          if (fuzzyMovie) {
+          if (fuzzyMovie && fuzzyMovie.title) {
             resolve(fuzzyMovie);
           } else {
             Logger.consoleLog('getMovie: No movie found!');
@@ -34,9 +36,21 @@ const getMovie = (title) => {
 const getExactMovie = (title) => {
   Logger.consoleLog('getExactMovie');
   return new Promise((resolve, reject) => {
-    resolve();
-        // getMovieByTitleDB
+    getMovieByTitleDB(title)
+    .then(movie => {
+      Logger.consoleLog('getExactMovie: ', movie?.title);
+      if (movie) {
+        resolve(movie);
+      } else {
+        Logger.consoleLog('oops!');
         // getMovieByTitleAPI
+        resolve();
+      }
+    })
+    .catch(error => {
+      Logger.consoleLog('getExactMovie error:', error);
+      reject(error);
+    })
   });
 };
 
@@ -62,7 +76,7 @@ model.getFuzzySearch = (title) => {
 
       getMovie(title)
       .then(movie => {
-        if (movie && movie.length > 0) {
+        if (movie && movie.title) {
           Logger.consoleLog('Movie found:', movie);
           relatedModel.getRelatedMovies(movie, 9)
           .then(movies => {
@@ -70,7 +84,7 @@ model.getFuzzySearch = (title) => {
             resolve(movies);
           })
         } else {
-          Logger.consoleLog('getFuzzySearch: No movie found!');
+          Logger.consoleLog('getFuzzySearch: No movie found!', movie);
           resolve([]);
         }
       })

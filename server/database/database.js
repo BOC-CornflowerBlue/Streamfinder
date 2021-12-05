@@ -34,7 +34,7 @@ const Review = mongoose.model('Review', ReviewSchema);
 const MovieSchema = mongoose.Schema({
   id: Number,
   //need to modify later like reviews
-  // imdb_id: Number,
+  imdb_id: Number,
   suggested: Array,
   trending: Array, // TODO: Rework this. This is a list of movies currently trending at the time a movie search is made
   //modify --- needs to happen - rob being lazy atm

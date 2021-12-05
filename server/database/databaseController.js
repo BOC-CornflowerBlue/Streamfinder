@@ -7,7 +7,7 @@ module.exports = {
       Logger.consoleLog('getMovieByTitle title: ', title);
       Movie.findOne({ title })
       .then(result => {
-        Logger.consoleLog('Found movie:', result);
+        Logger.consoleLog('getMovieByTitle DB - Found movie:', result?.title);
         //const finalSearch = transformToSearchDisplay(result);
         //resolve(finalSearch);
         resolve(result);
