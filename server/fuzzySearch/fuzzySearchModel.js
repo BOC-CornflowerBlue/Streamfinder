@@ -62,7 +62,7 @@ const getExactMovie = (title) => {
 const getFuzzyMovie = (title) => {
   Logger.consoleLog('getFuzzyMovie');
   return new Promise((resolve, reject) => {
-    getMovieByTitleFuzzySearchDB(title, 5)
+    getMovieByTitleFuzzySearchDB(title, 3)
     .then(movie => {
       Logger.consoleLog('getMovieByTitleFuzzySearchDB: ', movie?.title);
       if (movie) {

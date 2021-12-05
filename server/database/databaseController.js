@@ -8,8 +8,6 @@ module.exports = {
       Movie.findOne({ title })
       .then(result => {
         Logger.consoleLog('getMovieByTitle DB - Found movie:', result?.title);
-        //const finalSearch = transformToSearchDisplay(result);
-        //resolve(finalSearch);
         resolve(result);
       })
       .catch(error => {
@@ -26,8 +24,6 @@ module.exports = {
       .then(result => {
         if (result.length > 0) {
           Logger.consoleLog('getMovieByTitleFuzzySearch DB - Found movie:', result[0]?.title);
-          //const finalSearch = transformToSearchDisplay(result);
-          //resolve(finalSearch);
           Logger.consoleLog('confidenceScore:', result[0]?.confidenceScore);
           if (result[0]?.confidenceScore >= confidenceScoreLimit) {
             resolve(result[0]);

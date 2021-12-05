@@ -108,22 +108,34 @@ describe('fuzzySearchModel tests', function () {
       })
       .catch(error => done(error));
     });
-    // // TODO: Misspelled movie names
 
-    // it ('Returns the closest matching movie for partial matches with symbols in name', (done) => {
-    //   const title = 'Bonnie & Clyd'; // Butch Cassidy and the Sundance Kid
-    //   const titleExpected = 'Bonnie and Clyde';
+    it ('Returns the closest matching movie for partial matches of only letters in misspelled name', (done) => {
+      const title = 'Petr Pan';
+      const titleExpected = 'Peter Pan';
 
-    //   model.getFuzzySearch(title)
-    //   .then(movies => {
-    //     expect(movies).to.be.a('array');
-    //     expect(movies).to.have.lengthOf.at.least(1);
-    //     expect(movies[0].title).to.equal(titleExpected);
-    //     done();
-    //   })
-    //   .catch(error => done(error));
-    // });
-    // // TODO: Misspelled movie names
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf.at.least(1);
+        expect(movies[0].title).to.equal(titleExpected);
+        done();
+      })
+      .catch(error => done(error));
+    });
+
+    it ('Returns the closest matching movie for partial matches with symbols in name', (done) => {
+      const title = 'Bonnie & Clyde';
+      const titleExpected = 'Bonnie and Clyde';
+
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf.at.least(1);
+        expect(movies[0].title).to.equal(titleExpected);
+        done();
+      })
+      .catch(error => done(error));
+    });
 
     // it ('Returns the closest matching movie and up to 9 additional related movies for partial matches', (done) => {
     //   const title = 'Iron Mann';
@@ -140,12 +152,12 @@ describe('fuzzySearchModel tests', function () {
     //   .catch(error => done(error));
     // });
 
-    // it ('Does ??? when the fuzzy match library has an error', (done) => {
-    //   const title = 'Iron Man';
-    //   const resultsExpected = ['fail'];
+    it ('Does ??? when the fuzzy match library has an error', (done) => {
+      const title = 'Iron Man';
+      const resultsExpected = ['fail'];
 
-    //   model.getFuzzySearch(title).should.eventually.equal(resultsExpected);
-    //   done();
-    // });
+      model.getFuzzySearch(title).should.eventually.equal(resultsExpected);
+      done();
+    });
   });
 });
