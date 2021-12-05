@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised).should();
+// const chaiAsPromised = require('chai-as-promised');
+// chai.use(chaiAsPromised).should();
 
 const { model } = require('./fuzzySearchModel.js');
 
@@ -10,6 +10,66 @@ describe('fuzzySearchModel tests', function () {
   describe('getFuzzySearch', function () {
     it('Returns an empty array for no parameters', (done) => {
       let title;
+
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
+      })
+      .catch(error => done(error));
+    });
+
+    it('Returns an empty array for null', (done) => {
+      let title = null;
+
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
+      })
+      .catch(error => done(error));
+    });
+
+    it('Returns an empty array for booleans', (done) => {
+      let title = true;
+
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
+      })
+      .catch(error => done(error));
+    });
+
+    it('Returns an empty array for numbers', (done) => {
+      let title = 0;
+
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
+      })
+      .catch(error => done(error));
+    });
+
+    it('Returns an empty array for arrays', (done) => {
+      let title = ['Iron Man'];
+
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
+        done();
+      })
+      .catch(error => done(error));
+    });
+
+    it('Returns an empty array for objects', (done) => {
+      let title = { title: 'Iron Man' };
 
       model.getFuzzySearch(title)
       .then(movies => {
@@ -123,6 +183,20 @@ describe('fuzzySearchModel tests', function () {
       .catch(error => done(error));
     });
 
+    it ('Returns the closest matching movie for partial matches with symbols causing mismatch', (done) => {
+      const title = 'Iron@man$%';
+      const titleExpected = 'Iron Man';
+
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf.at.least(1);
+        expect(movies[0].title).to.equal(titleExpected);
+        done();
+      })
+      .catch(error => done(error));
+    });
+
     it ('Returns the closest matching movie for partial matches with symbols in name', (done) => {
       const title = 'Bonnie & Clyde';
       const titleExpected = 'Bonnie and Clyde';
@@ -151,13 +225,5 @@ describe('fuzzySearchModel tests', function () {
     //   })
     //   .catch(error => done(error));
     // });
-
-    it ('Does ??? when the fuzzy match library has an error', (done) => {
-      const title = 'Iron Man';
-      const resultsExpected = ['fail'];
-
-      model.getFuzzySearch(title).should.eventually.equal(resultsExpected);
-      done();
-    });
   });
 });

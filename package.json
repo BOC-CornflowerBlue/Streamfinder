@@ -15,7 +15,9 @@
     "test-updateSnapshot": "export NODE_ENV='test' & jest --updateSnapshot --coverage --testResultsProcessor=jest-sonar-reporter",
     "test:fuzzySearchWatch": "export NODE_ENV='test' & jest --coverage --testPathPattern=server/fuzzySearch --testResultsProcessor=jest-sonar-reporter --watch",
     "test:fuzzySearch": "mocha server/fuzzySearch/fuzzySearchModel.test.js --exit",
+    "test:databaseController": "mocha server/database/databaseController.test.js --exit",
     "test:related": "mocha server/related/relatedModel.test.js --exit",
+    "test:mochaChai": "mocha server/database/databaseController.test.js server/fuzzySearch/fuzzySearchModel.test.js --exit",
     "coveralls": "export NODE_ENV='test' & jest --coverage && cat ./testsResults/coverage/lcov.info | coveralls"
   },
   "repository": {

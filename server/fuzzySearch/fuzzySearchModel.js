@@ -86,7 +86,7 @@ model.getFuzzySearch = (title) => {
       Logger.consoleLog('getFuzzySearch title: ', title);
       Logger.consoleLog('getFuzzySearch title length: ', title?.length);
 
-      if (!title || title.length === 0) {
+      if (!title || typeof title !== 'string' || title.length === 0) {
         Logger.consoleLog('getFuzzySearch Returning empty array');
         resolve([]);
       } else {

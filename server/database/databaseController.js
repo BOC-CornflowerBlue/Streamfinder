@@ -20,25 +20,30 @@ module.exports = {
   getMovieByTitleFuzzySearch: (title, confidenceScoreLimit = 0) => {
     return new Promise((resolve, reject) => {
       Logger.consoleLog('getMovieByTitleFuzzySearch title: ', title);
-      Movie.fuzzySearch(title)
-      .then(result => {
-        if (result.length > 0) {
-          Logger.consoleLog('getMovieByTitleFuzzySearch DB - Found movie:', result[0]?.title);
-          Logger.consoleLog('confidenceScore:', result[0]?.confidenceScore);
-          if (result[0]?.confidenceScore >= confidenceScoreLimit) {
-            resolve(result[0]);
+      try {
+        Movie.fuzzySearch(title)
+        .then(result => {
+          if (result.length > 0) {
+            Logger.consoleLog('getMovieByTitleFuzzySearch DB - Found movie:', result[0]?.title);
+            Logger.consoleLog('confidenceScore:', result[0]?.confidenceScore);
+            if (result[0]?.confidenceScore >= confidenceScoreLimit) {
+              resolve(result[0]);
+            } else {
+              resolve();
+            }
           } else {
-            resolve();
+            Logger.consoleLog('getMovieByTitleFuzzySearch DB - No movie found!');
+            resolve()
           }
-        } else {
-          Logger.consoleLog('getMovieByTitleFuzzySearch DB - No movie found!');
-          resolve()
-        }
-      })
-      .catch(error => {
-        Logger.consoleLog(`Error in getting movie ${title} from the database with fuzzySearch`, error);
-        reject(error);
-      });
+        })
+        .catch(error => {
+          Logger.consoleLog(`Error in getting movie ${title} from the database with fuzzySearch`, error);
+          resolve();
+        });
+      } catch (error) {
+        Logger.consoleLog(`Exception thrown in getting movie ${title} from the database with fuzzySearch`, error);
+        resolve();
+      }
     });
   },
 
