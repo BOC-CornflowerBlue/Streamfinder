@@ -58,20 +58,27 @@ describe('fuzzySearchModel tests', function () {
       .catch(error => done(error));
     });
 
-    // // TODO: Partial matches? See capabilities of library
-    // it ('Returns the matching movie for exact matches with symbols in name', (done) => {
-    //   const title = 'Bonnie & Clyde';
-    //   const titleExpected = 'Bonnie and Clyde';
+    it ('Returns the matching movie for exact matches with symbols in name', (done) => {
+      const title1 = 'Ben-Hur';
+      const title2 = 'It\'s a Wonderful Life';
 
-    //   model.getFuzzySearch(title)
-    //   .then(movies => {
-    //     expect(movies).to.be.a('array');
-    //     expect(movies).to.have.lengthOf.at.least(1);
-    //     expect(movies[0].title).to.equal(titleExpected);
-    //     done();
-    //   })
-    //   .catch(error => done(error));
-    // });
+      Promise.all([
+        model.getFuzzySearch(title1),
+        model.getFuzzySearch(title2)
+      ])
+      .then(movies => {
+        expect(movies[0]).to.be.a('array');
+        expect(movies[0]).to.have.lengthOf.at.least(1);
+        expect(movies[0][0].title).to.equal(title1);
+
+        expect(movies[1]).to.be.a('array');
+        expect(movies[1]).to.have.lengthOf.at.least(1);
+        expect(movies[1][0].title).to.equal(title2);
+
+        done();
+      })
+      .catch(error => done(error));
+    });
 
     // it ('Returns the matching movie and up to 9 additional related movies', (done) => {
     //   const title = 'Iron Man';
@@ -104,7 +111,7 @@ describe('fuzzySearchModel tests', function () {
     // // TODO: Misspelled movie names
 
     // it ('Returns the closest matching movie for partial matches with symbols in name', (done) => {
-    //   const title = 'Bonnie & Clyd';
+    //   const title = 'Bonnie & Clyd'; // Butch Cassidy and the Sundance Kid
     //   const titleExpected = 'Bonnie and Clyde';
 
     //   model.getFuzzySearch(title)
