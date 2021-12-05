@@ -7,9 +7,8 @@ const {
 const fuzzySearchService = require('./fuzzySearchService');
 
 exports.getFuzzySearch = (req, res, next) => {
-  const title = decodeURI(req.query.title);
+  const titleRaw = req.query.title;
   Logger.consoleLog('req.query.title: ', req.query.title);
-  Logger.consoleLog('title: ', title);
   const username = req.body.user;
 
   if (!username) {
@@ -18,7 +17,9 @@ exports.getFuzzySearch = (req, res, next) => {
       statusCode: 400,
       message: 'Username missing. User must be logged in to use this feature.'
     });
-  } else {
+  } else if(titleRaw) {
+    const title = decodeURI(req.query.title);
+    Logger.consoleLog('title: ', title);
     Logger.consoleLog('Username supplied!');
     fuzzySearchService.getFuzzySearch(title)
     .then(result => sendResponse({ res, responseBody: result }))
@@ -30,5 +31,7 @@ exports.getFuzzySearch = (req, res, next) => {
         message: error.message
       });
     })
+  } else {
+    sendResponse({ res, responseBody: [] });
   }
 };

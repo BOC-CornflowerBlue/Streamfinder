@@ -1,7 +1,12 @@
 const { Logger } = require('../../logger.js');
-const { getMovieByTitle: getMovieByTitleDB } = require('../database/databaseController.js');
+const {
+  getMovieByTitle: getMovieByTitleDB,
+  getMovieByTitleFuzzySearch: getMovieByTitleFuzzySearchDB
+} = require('../database/databaseController.js');
 const { getMovieByTitle: getMovieByTitleAPI } = require('../api/apiController.js');
 const { model: relatedModel } = require('../related/RelatedModel.js');
+
+
 
 const model = {};
 
@@ -43,25 +48,35 @@ const getExactMovie = (title) => {
         resolve(movie);
       } else {
         Logger.consoleLog('oops!');
-        // getMovieByTitleAPI
+        // TODO: Fallback to getMovieByTitleAPI
         resolve();
       }
     })
     .catch(error => {
       Logger.consoleLog('getExactMovie error:', error);
       reject(error);
-    })
+    });
   });
 };
 
-// 2. Entering a movie title which is misspelled.
-// get partial match -> find movie with assumed correct spelling
 const getFuzzyMovie = (title) => {
   Logger.consoleLog('getFuzzyMovie');
   return new Promise((resolve, reject) => {
-    resolve();
-        // DB
-        // API
+    getMovieByTitleFuzzySearchDB(title, 5)
+    .then(movie => {
+      Logger.consoleLog('getMovieByTitleFuzzySearchDB: ', movie?.title);
+      if (movie) {
+        resolve(movie);
+      } else {
+        Logger.consoleLog('oops!');
+        // TODO: Fallback to getMovieByTitleFuzzySearchDBAPI
+        resolve();
+      }
+    })
+    .catch(error => {
+      Logger.consoleLog('getMovieByTitleFuzzySearchDB error:', error);
+      reject(error);
+    });
   });
 };
 
@@ -69,29 +84,31 @@ model.getFuzzySearch = (title) => {
     Logger.consoleLog('FuzzySearch Model');
     return new Promise((resolve, reject) => {
       Logger.consoleLog('getFuzzySearch title: ', title);
+      Logger.consoleLog('getFuzzySearch title length: ', title?.length);
 
       if (!title || title.length === 0) {
+        Logger.consoleLog('getFuzzySearch Returning empty array');
         resolve([]);
+      } else {
+        getMovie(title)
+        .then(movie => {
+          if (movie && movie.title) {
+            Logger.consoleLog('Movie found:', movie?.title);
+            relatedModel.getRelatedMovies(movie, 9)
+            .then(movies => {
+              movies.unshift(movie);
+              resolve(movies);
+            })
+          } else {
+            Logger.consoleLog('getFuzzySearch: No movie found!', movie);
+            resolve([]);
+          }
+        })
+        .catch(error => {
+          Logger.consoleLog('getFuzzySearch error:', error);
+          reject(error);
+        });
       }
-
-      getMovie(title)
-      .then(movie => {
-        if (movie && movie.title) {
-          Logger.consoleLog('Movie found:', movie);
-          relatedModel.getRelatedMovies(movie, 9)
-          .then(movies => {
-            movies.unshift(movie);
-            resolve(movies);
-          })
-        } else {
-          Logger.consoleLog('getFuzzySearch: No movie found!', movie);
-          resolve([]);
-        }
-      })
-      .catch(error => {
-        Logger.consoleLog('getFuzzySearch error:', error);
-        reject(error);
-      })
     });
   };
 

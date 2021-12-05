@@ -95,19 +95,19 @@ describe('fuzzySearchModel tests', function () {
     //   .catch(error => done(error));
     // });
 
-    // it ('Returns the closest matching movie for partial matches of only letters in name', (done) => {
-    //   const title = 'Jurassic';
-    //   const titleExpected = 'Jurassic Park';
+    it ('Returns the closest matching movie for partial matches of only letters in name', (done) => {
+      const title = 'Peter';
+      const titleExpected = 'Peter Pan';
 
-    //   model.getFuzzySearch(title)
-    //   .then(movies => {
-    //     expect(movies).to.be.a('array');
-    //     expect(movies).to.have.lengthOf.at.least(1);
-    //     expect(movies[0].title).to.equal(titleExpected);
-    //     done();
-    //   })
-    //   .catch(error => done(error));
-    // });
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf.at.least(1);
+        expect(movies[0].title).to.equal(titleExpected);
+        done();
+      })
+      .catch(error => done(error));
+    });
     // // TODO: Misspelled movie names
 
     // it ('Returns the closest matching movie for partial matches with symbols in name', (done) => {
