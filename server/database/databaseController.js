@@ -35,11 +35,6 @@ module.exports = {
               }
             }
             resolve(validResults);
-            // if (result[0]?.confidenceScore >= confidenceScoreLimit) {
-            //   resolve(result[0]);
-            // } else {
-            //   resolve();
-            // }
           } else {
             Logger.consoleLog('getMovieByTitleFuzzySearch DB - No movie found!');
             resolve(validResults)
