@@ -4,10 +4,9 @@ const {
   getMovieByTitleFuzzySearch: getMovieByTitleFuzzySearchDB
 } = require('../database/databaseController.js');
 const { getMovieByTitle: getMovieByTitleAPI } = require('../api/apiController.js');
-// const { model: relatedModel } = require('../related/RelatedModel.js');
 
 const confidenceScoreLimit = 3;
-const resultsLimit = 10;
+const resultsLimit = 11;
 const model = {};
 
 const getMovie = (title) => {
@@ -90,17 +89,94 @@ const getFuzzyMovie = (title) => {
   });
 };
 
-const getMoviesWithSimilarTitles = (title) => {
+// Returns similar titles, exclusive from the title provided
+// This function truncates the title down in meaningful steps, then appends meaningful words at the end
+const getMoviesWithSimilarTitles = (title, limit = undefined) => {
+  const removeLastWord = (phrase) => {
+    const lastIndex = phrase.lastIndexOf(' ');
+    return phrase.substring(0, lastIndex);
+  };
+
+  const getLastWord = (phrase) => {
+    const lastIndex = phrase.lastIndexOf(' ');
+    return phrase.substring(lastIndex + 1);
+  }
+
+  const getTitleVariations = (title) => {
+    const titleVariations = new Set([title]);
+    const titleWords = title.split(' ');
+    Logger.consoleLog('Title Words: ', titleWords);
+
+    for (let i = 0; i < titleWords.length - 1; i++) {
+      const titleVariationsList = Array.from(titleVariations);
+      Logger.consoleLog('titleVariationsList: ', titleVariationsList);
+      Logger.consoleLog('last titleVariation: ', titleVariationsList[titleVariationsList.length - 1]);
+      Logger.consoleLog('Variation to be trimmed: ', titleVariationsList[titleVariationsList.length - 1]);
+      let nextVariation = removeLastWord(titleVariationsList[titleVariationsList.length - 1]);
+      Logger.consoleLog('nextVariation: ', nextVariation);
+
+      // Avoid repeats & irrelevant words trailing in phrase variations like: and, the, to, of, in, a
+      let lastWord = getLastWord(nextVariation);
+      Logger.consoleLog('last word: ', lastWord);
+      while (titleVariations.has(nextVariation)
+      || (0 < lastWord.length && lastWord.length <= 3)) {
+        Logger.consoleLog('last word: ', lastWord);
+        nextVariation = removeLastWord(nextVariation);
+        lastWord = getLastWord(nextVariation);
+      }
+
+      if (nextVariation.length > 0) {
+        Logger.consoleLog('Adding title variation: ', nextVariation);
+        titleVariations.add(nextVariation);
+        Logger.consoleLog('titleVariations: ', titleVariations);
+      }
+    }
+
+    // Sort titleWords by length, assuming longer length === more relevancy
+    const titleWordsByLength = titleWords.sort((a,b) => b.length - a.length);
+    titleWordsByLength.forEach(titleWord => {
+      if (!titleVariations.has(titleWord)) {
+        titleVariations.add(titleWord);
+      }
+    })
+
+    return Array.from(titleVariations);
+  };
+
   Logger.consoleLog('getMoviesWithSimilarTitles');
+  const titleVariations = getTitleVariations(title);
+  Logger.consoleLog('Title variations: ', titleVariations);
+
   return new Promise((resolve, reject) => {
-    getMovieByTitleFuzzySearchDB(title, confidenceScoreLimit, resultsLimit + 1)
-    .then(movies => {
+    const promises = [];
+    titleVariations.forEach(titleVariation => {
+      promises.push(getMovieByTitleFuzzySearchDB(titleVariation, confidenceScoreLimit, resultsLimit));
+    })
+
+    Promise.all(promises)
+    .then(fuzzySearchResults => {
+      let movies = [];
+      let movieTitles = new Set();
+      fuzzySearchResults.forEach(fuzzySearchResult => {
+        fuzzySearchResult.forEach(movie => {
+          if (!movieTitles.has(movie.title)) {
+            Logger.consoleLog('Adding movie: ', movie.title);
+            movieTitles.add(movie.title);
+            movies.push(movie);
+          }
+        })
+      })
       Logger.consoleLog('getMoviesWithSimilarTitles: ', movies[0]?.title);
       Logger.consoleLog('Length: ', movies.length);
+      // Avoid returning an exact title match in this function
       if (movies[0]?.title === title) {
         movies.shift();
       }
-      resolve(movies);
+      if (limit && typeof limit === 'number') {
+        resolve(movies.slice(0, limit));
+      } else {
+        resolve(movies);
+      }
     })
     .catch(error => {
       Logger.consoleLog('getMoviesWithSimilarTitles error:', error);
@@ -124,13 +200,9 @@ model.getFuzzySearch = (title) => {
         .then(movie => {
           if (movie && movie.title) {
             Logger.consoleLog('Movie found:', movie[0]?.title);
-            // relatedModel.getRelatedMovies(movie, 9)
-            // .then(movies => {
-            //   movies.unshift(movie);
-            //   resolve(movies);
-            // })
-            getMoviesWithSimilarTitles(movie.title)
+            getMoviesWithSimilarTitles(movie.title, 9)
             .then(movies => {
+              // Add closest matching movie to the front of the list
               movies.unshift(movie);
               resolve(movies);
             })
