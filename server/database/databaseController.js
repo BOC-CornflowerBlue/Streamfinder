@@ -17,32 +17,41 @@ module.exports = {
     });
   },
 
-  getMovieByTitleFuzzySearch: (title, confidenceScoreLimit = 0) => {
+  getMovieByTitleFuzzySearch: (title, confidenceScoreLimit = 0, resultsLimit = 1) => {
+    const validResults = [];
     return new Promise((resolve, reject) => {
       Logger.consoleLog('getMovieByTitleFuzzySearch title: ', title);
       try {
         Movie.fuzzySearch(title)
-        .then(result => {
-          if (result.length > 0) {
-            Logger.consoleLog('getMovieByTitleFuzzySearch DB - Found movie:', result[0]?.title);
-            Logger.consoleLog('confidenceScore:', result[0]?.confidenceScore);
-            if (result[0]?.confidenceScore >= confidenceScoreLimit) {
-              resolve(result[0]);
-            } else {
-              resolve();
+        .then(results => {
+          if (results.length > 0) {
+            Logger.consoleLog('getMovieByTitleFuzzySearch DB - Found movie:', results[0]?.title);
+            Logger.consoleLog('confidenceScore:', results[0]?.confidenceScore);
+
+            const maxResults = Math.min(results.length, resultsLimit);
+            for (let i = 0; i < maxResults; i++) {
+              if (results[i].confidenceScore >= confidenceScoreLimit) {
+                validResults.push(results[i]);
+              }
             }
+            resolve(validResults);
+            // if (result[0]?.confidenceScore >= confidenceScoreLimit) {
+            //   resolve(result[0]);
+            // } else {
+            //   resolve();
+            // }
           } else {
             Logger.consoleLog('getMovieByTitleFuzzySearch DB - No movie found!');
-            resolve()
+            resolve(validResults)
           }
         })
         .catch(error => {
           Logger.consoleLog(`Error in getting movie ${title} from the database with fuzzySearch`, error);
-          resolve();
+          resolve(validResults);
         });
       } catch (error) {
         Logger.consoleLog(`Exception thrown in getting movie ${title} from the database with fuzzySearch`, error);
-        resolve();
+        resolve(validResults);
       }
     });
   },

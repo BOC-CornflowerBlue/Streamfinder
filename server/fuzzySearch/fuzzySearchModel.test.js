@@ -1,7 +1,5 @@
 const chai = require('chai');
 const expect = chai.expect;
-// const chaiAsPromised = require('chai-as-promised');
-// chai.use(chaiAsPromised).should();
 
 const { model } = require('./fuzzySearchModel.js');
 
@@ -140,20 +138,20 @@ describe('fuzzySearchModel tests', function () {
       .catch(error => done(error));
     });
 
-    // it ('Returns the matching movie and up to 9 additional related movies', (done) => {
-    //   const title = 'Iron Man';
-    //   const titleExpected = 'Iron Man 2';
+    it ('Returns the matching movie and up to 9 additional related movies', (done) => {
+      const title = 'Iron Man';
+      const titleExpected = 'Iron Man 2';
 
-    //   model.getFuzzySearch(title)
-    //   .then(movies => {
-    //     expect(movies).to.be.a('array');
-    //     expect(movies).to.have.lengthOf(10);
-    //     // TODO: contains check
-    //     expect(movies[0].title).to.equal(titleExpected);
-    //     done();
-    //   })
-    //   .catch(error => done(error));
-    // });
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(10);
+        // TODO: contains check
+        expect(movies[0].title).to.equal(titleExpected);
+        done();
+      })
+      .catch(error => done(error));
+    });
 
     it ('Returns the closest matching movie for partial matches of only letters in name', (done) => {
       const title = 'Peter';
@@ -211,19 +209,19 @@ describe('fuzzySearchModel tests', function () {
       .catch(error => done(error));
     });
 
-    // it ('Returns the closest matching movie and up to 9 additional related movies for partial matches', (done) => {
-    //   const title = 'Iron Mann';
-    //   const titleExpected = 'Iron Man 2';
+    it ('Returns the closest matching movie and up to 9 additional related movies for partial matches', (done) => {
+      const title = 'Iron Mann';
+      const titleExpected = 'Iron Man 2';
 
-    //   model.getFuzzySearch(title)
-    //   .then(movies => {
-    //     expect(movies).to.be.a('array');
-    //     expect(movies).to.have.lengthOf(10);
-    //     // TODO: contains check
-    //     expect(movies[0].title).to.equal(titleExpected);
-    //     done();
-    //   })
-    //   .catch(error => done(error));
-    // });
+      model.getFuzzySearch(title)
+      .then(movies => {
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(10);
+        // TODO: contains check
+        expect(movies[0].title).to.equal(titleExpected);
+        done();
+      })
+      .catch(error => done(error));
+    });
   });
 });

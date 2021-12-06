@@ -4,10 +4,10 @@ const {
   getMovieByTitleFuzzySearch: getMovieByTitleFuzzySearchDB
 } = require('../database/databaseController.js');
 const { getMovieByTitle: getMovieByTitleAPI } = require('../api/apiController.js');
-const { model: relatedModel } = require('../related/RelatedModel.js');
+// const { model: relatedModel } = require('../related/RelatedModel.js');
 
-
-
+const confidenceScoreLimit = 3;
+const resultsLimit = 10;
 const model = {};
 
 const getMovie = (title) => {
@@ -28,9 +28,18 @@ const getMovie = (title) => {
             Logger.consoleLog('getMovie: No movie found!');
             resolve([]);
           }
-        })
+        });
       }
     })
+    // getFuzzyMovie(title)
+    // .then(fuzzyMovie => {
+    //   if (fuzzyMovie && fuzzyMovie.length > 0) {
+    //     resolve(fuzzyMovie);
+    //   } else {
+    //     Logger.consoleLog('getMovie: No movie found!');
+    //     resolve([]);
+    //   }
+    // })
     .catch(error => {
       Logger.consoleLog('getMovie error:', error);
       reject(error);
@@ -47,7 +56,7 @@ const getExactMovie = (title) => {
       if (movie) {
         resolve(movie);
       } else {
-        Logger.consoleLog('oops!');
+        Logger.consoleLog('Movie failed to be found in DB. Checking 3rd party API...');
         // TODO: Fallback to getMovieByTitleAPI
         resolve();
       }
@@ -62,13 +71,14 @@ const getExactMovie = (title) => {
 const getFuzzyMovie = (title) => {
   Logger.consoleLog('getFuzzyMovie');
   return new Promise((resolve, reject) => {
-    getMovieByTitleFuzzySearchDB(title, 3)
-    .then(movie => {
-      Logger.consoleLog('getMovieByTitleFuzzySearchDB: ', movie?.title);
-      if (movie) {
+    getMovieByTitleFuzzySearchDB(title, confidenceScoreLimit)
+    .then(movies => {
+      if (movies?.length > 0) {
+        const movie = movies[0];
+        Logger.consoleLog('getMovieByTitleFuzzySearchDB: ', movie?.title);
         resolve(movie);
       } else {
-        Logger.consoleLog('oops!');
+        Logger.consoleLog('Movie failed to be found in DB. Checking 3rd party API...');
         // TODO: Fallback to getMovieByTitleFuzzySearchDBAPI
         resolve();
       }
@@ -80,28 +90,53 @@ const getFuzzyMovie = (title) => {
   });
 };
 
+const getMoviesWithSimilarTitles = (title) => {
+  Logger.consoleLog('getMoviesWithSimilarTitles');
+  return new Promise((resolve, reject) => {
+    getMovieByTitleFuzzySearchDB(title, confidenceScoreLimit, resultsLimit + 1)
+    .then(movies => {
+      Logger.consoleLog('getMoviesWithSimilarTitles: ', movies[0]?.title);
+      Logger.consoleLog('Length: ', movies.length);
+      if (movies[0]?.title === title) {
+        movies.shift();
+      }
+      resolve(movies);
+    })
+    .catch(error => {
+      Logger.consoleLog('getMoviesWithSimilarTitles error:', error);
+      reject(error);
+    });
+  });
+}
+
 model.getFuzzySearch = (title) => {
     Logger.consoleLog('FuzzySearch Model');
     return new Promise((resolve, reject) => {
+      const moviesResults = [];
       Logger.consoleLog('getFuzzySearch title: ', title);
       Logger.consoleLog('getFuzzySearch title length: ', title?.length);
 
       if (!title || typeof title !== 'string' || title.length === 0) {
         Logger.consoleLog('getFuzzySearch Returning empty array');
-        resolve([]);
+        resolve(moviesResults);
       } else {
         getMovie(title)
         .then(movie => {
           if (movie && movie.title) {
-            Logger.consoleLog('Movie found:', movie?.title);
-            relatedModel.getRelatedMovies(movie, 9)
+            Logger.consoleLog('Movie found:', movie[0]?.title);
+            // relatedModel.getRelatedMovies(movie, 9)
+            // .then(movies => {
+            //   movies.unshift(movie);
+            //   resolve(movies);
+            // })
+            getMoviesWithSimilarTitles(movie.title)
             .then(movies => {
               movies.unshift(movie);
               resolve(movies);
             })
           } else {
             Logger.consoleLog('getFuzzySearch: No movie found!', movie);
-            resolve([]);
+            resolve(moviesResults);
           }
         })
         .catch(error => {

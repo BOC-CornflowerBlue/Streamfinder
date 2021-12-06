@@ -13,8 +13,6 @@ describe('databaseController tests', function () {
 
       getMovieByTitle(title)
       .then(movies => {
-        // expect(movies).to.be.a('array');
-        // expect(movies).to.have.lengthOf(1);
         expect(movies.title).to.equal(title);
         done();
       })
@@ -28,7 +26,8 @@ describe('databaseController tests', function () {
 
       getMovieByTitleFuzzySearch(title)
       .then(movies => {
-        expect(movies).to.be.an('undefined');
+        expect(movies).to.be.a('array');
+        expect(movies).to.have.lengthOf(0);
         done();
       })
       .catch(error => done(error));
