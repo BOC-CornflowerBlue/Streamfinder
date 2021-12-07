@@ -117,7 +117,7 @@ class Streamfinder extends React.Component {
       Logger.consoleLog('searchTerm: ', searchTerm);
 
       axios.post('/search/searchPost', {
-        title: encodeURI(searchTerm),
+        title: searchTerm,
         user:'lil timmy'
       })
       .then(({data}) => {
