@@ -21,7 +21,7 @@ describe('databaseController tests', function () {
   });
 
   describe('getMovieByTitleFuzzySearch', function () {
-    it('Returns undefined when the fuzzy match plugin has an error', (done) => {
+    it('(6) Returns undefined when the fuzzy match plugin has an error', (done) => {
       let title;
 
       getMovieByTitleFuzzySearch(title)

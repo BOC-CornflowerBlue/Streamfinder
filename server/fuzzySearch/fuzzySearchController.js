@@ -8,7 +8,6 @@ const fuzzySearchService = require('./fuzzySearchService');
 
 exports.getFuzzySearch = (req, res, next) => {
   const titleRaw = req.query.title;
-  Logger.consoleLog('req.query.title: ', req.query.title);
   const username = req.body.user;
 
   if (!username) {
@@ -19,8 +18,6 @@ exports.getFuzzySearch = (req, res, next) => {
     });
   } else if(titleRaw) {
     const title = decodeURI(req.query.title);
-    Logger.consoleLog('title: ', title);
-    Logger.consoleLog('Username supplied!');
     fuzzySearchService.getFuzzySearch(title)
     .then(result => sendResponse({ res, responseBody: result }))
     .catch(error => {

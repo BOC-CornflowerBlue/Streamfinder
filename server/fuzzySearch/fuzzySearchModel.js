@@ -5,40 +5,27 @@ const {
 } = require('../database/databaseController.js');
 const { getMovieByTitle: getMovieByTitleAPI } = require('../api/apiController.js');
 
-const confidenceScoreLimit = 3;
+const confidenceScoreLimit = 6;
 const resultsLimit = 11;
 const model = {};
 
-const getMovie = (title) => {
-  Logger.consoleLog('getMovie');
+const getMovies = (title) => {
   return new Promise((resolve, reject) => {
     getExactMovie(title)
     .then(exactMovie => {
-      Logger.consoleLog('exactMovie: ', exactMovie?.title);
-      if (exactMovie && exactMovie.title) {
-        Logger.consoleLog('Returning exact movie!');
-        resolve(exactMovie);
+      if (exactMovie?.title) {
+        resolve([exactMovie]);
       } else {
         getFuzzyMovie(title)
-        .then(fuzzyMovie => {
-          if (fuzzyMovie && fuzzyMovie.title) {
-            resolve(fuzzyMovie);
+        .then(fuzzyMovies => {
+          if (fuzzyMovies?.length > 0) {
+            resolve(fuzzyMovies);
           } else {
-            Logger.consoleLog('getMovie: No movie found!');
             resolve([]);
           }
         });
       }
     })
-    // getFuzzyMovie(title)
-    // .then(fuzzyMovie => {
-    //   if (fuzzyMovie && fuzzyMovie.length > 0) {
-    //     resolve(fuzzyMovie);
-    //   } else {
-    //     Logger.consoleLog('getMovie: No movie found!');
-    //     resolve([]);
-    //   }
-    // })
     .catch(error => {
       Logger.consoleLog('getMovie error:', error);
       reject(error);
@@ -47,15 +34,13 @@ const getMovie = (title) => {
 };
 
 const getExactMovie = (title) => {
-  Logger.consoleLog('getExactMovie');
   return new Promise((resolve, reject) => {
     getMovieByTitleDB(title)
     .then(movie => {
-      Logger.consoleLog('getExactMovie: ', movie?.title);
       if (movie) {
         resolve(movie);
       } else {
-        Logger.consoleLog('Movie failed to be found in DB. Checking 3rd party API...');
+        // Logger.consoleLog('Movie failed to be found in DB. Checking 3rd party API...');
         // TODO: Fallback to getMovieByTitleAPI
         resolve();
       }
@@ -68,17 +53,14 @@ const getExactMovie = (title) => {
 };
 
 const getFuzzyMovie = (title) => {
-  Logger.consoleLog('getFuzzyMovie');
   return new Promise((resolve, reject) => {
-    getMovieByTitleFuzzySearchDB(title, confidenceScoreLimit)
+    getMovieByTitleFuzzySearchDB(title, confidenceScoreLimit, resultsLimit)
     .then(movies => {
       if (movies?.length > 0) {
-        const movie = movies[0];
-        Logger.consoleLog('getMovieByTitleFuzzySearchDB: ', movie?.title);
-        resolve(movie);
+        resolve(movies);
       } else {
-        Logger.consoleLog('Movie failed to be found in DB. Checking 3rd party API...');
-        // TODO: Fallback to getMovieByTitleFuzzySearchDBAPI
+        // Logger.consoleLog('Movie failed to be found in DB. Checking 3rd party API...');
+        // TODO: Fallback to getMovieByTitleFuzzySearchAPI
         resolve();
       }
     })
@@ -105,30 +87,21 @@ const getMoviesWithSimilarTitles = (title, limit = undefined) => {
   const getTitleVariations = (title) => {
     const titleVariations = new Set([title]);
     const titleWords = title.split(' ');
-    Logger.consoleLog('Title Words: ', titleWords);
 
     for (let i = 0; i < titleWords.length - 1; i++) {
       const titleVariationsList = Array.from(titleVariations);
-      Logger.consoleLog('titleVariationsList: ', titleVariationsList);
-      Logger.consoleLog('last titleVariation: ', titleVariationsList[titleVariationsList.length - 1]);
-      Logger.consoleLog('Variation to be trimmed: ', titleVariationsList[titleVariationsList.length - 1]);
       let nextVariation = removeLastWord(titleVariationsList[titleVariationsList.length - 1]);
-      Logger.consoleLog('nextVariation: ', nextVariation);
 
       // Avoid repeats & irrelevant words trailing in phrase variations like: and, the, to, of, in, a
       let lastWord = getLastWord(nextVariation);
-      Logger.consoleLog('last word: ', lastWord);
       while (titleVariations.has(nextVariation)
       || (0 < lastWord.length && lastWord.length <= 3)) {
-        Logger.consoleLog('last word: ', lastWord);
         nextVariation = removeLastWord(nextVariation);
         lastWord = getLastWord(nextVariation);
       }
 
       if (nextVariation.length > 0) {
-        Logger.consoleLog('Adding title variation: ', nextVariation);
         titleVariations.add(nextVariation);
-        Logger.consoleLog('titleVariations: ', titleVariations);
       }
     }
 
@@ -143,9 +116,7 @@ const getMoviesWithSimilarTitles = (title, limit = undefined) => {
     return Array.from(titleVariations);
   };
 
-  Logger.consoleLog('getMoviesWithSimilarTitles');
   const titleVariations = getTitleVariations(title);
-  Logger.consoleLog('Title variations: ', titleVariations);
 
   return new Promise((resolve, reject) => {
     const promises = [];
@@ -160,14 +131,11 @@ const getMoviesWithSimilarTitles = (title, limit = undefined) => {
       fuzzySearchResults.forEach(fuzzySearchResult => {
         fuzzySearchResult.forEach(movie => {
           if (!movieTitles.has(movie.title)) {
-            Logger.consoleLog('Adding movie: ', movie.title);
             movieTitles.add(movie.title);
             movies.push(movie);
           }
         })
       })
-      Logger.consoleLog('getMoviesWithSimilarTitles: ', movies[0]?.title);
-      Logger.consoleLog('Length: ', movies.length);
       // Avoid returning an exact title match in this function
       if (movies[0]?.title === title) {
         movies.shift();
@@ -186,28 +154,21 @@ const getMoviesWithSimilarTitles = (title, limit = undefined) => {
 }
 
 model.getFuzzySearch = (title) => {
-    Logger.consoleLog('FuzzySearch Model');
     return new Promise((resolve, reject) => {
       const moviesResults = [];
-      Logger.consoleLog('getFuzzySearch title: ', title);
-      Logger.consoleLog('getFuzzySearch title length: ', title?.length);
 
-      if (!title || typeof title !== 'string' || title.length === 0) {
-        Logger.consoleLog('getFuzzySearch Returning empty array');
+      if (typeof title !== 'string' || title.length === 0) {
         resolve(moviesResults);
       } else {
-        getMovie(title)
-        .then(movie => {
-          if (movie && movie.title) {
-            Logger.consoleLog('Movie found:', movie[0]?.title);
-            getMoviesWithSimilarTitles(movie.title, 9)
-            .then(movies => {
-              // Add closest matching movie to the front of the list
-              movies.unshift(movie);
-              resolve(movies);
+        getMovies(title)
+        .then(movies => {
+          if (movies?.length > 0) {
+            const title = movies[0].title;
+            getMoviesWithSimilarTitles(title, resultsLimit - movies.length - 1)
+            .then(moviesFull => {
+              resolve(movies.concat(moviesFull));
             })
           } else {
-            Logger.consoleLog('getFuzzySearch: No movie found!', movie);
             resolve(moviesResults);
           }
         })

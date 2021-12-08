@@ -6,6 +6,6 @@ const { model } = require('./fuzzySearchModel.js');
 exports.getFuzzySearch = (title) => {
   // TODO: Swap in when Redis cache functional
   // return cache.cacheRoute('movieSearches', { title }, model.getFuzzySearch);
-  Logger.consoleLog('FuzzySearch Service');
+  // Logger.consoleLog('FuzzySearch Service');
   return model.getFuzzySearch(title);
 };
