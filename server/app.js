@@ -1,11 +1,14 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const app = express();
+app.use(cors());
 
 app.disable('x-powered-by');
 
 const homeRouter = require('./routes/home');
 const searchRouter = require('./routes/search');
+const suggestedRouter = require('./routes/suggested');
 const authorizationRouter = require('./routes/auth');
 const mediaDetailRouter = require('./routes/mediaDetail');
 const reviewsRouter = require('./routes/reviews');
@@ -25,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'staticAssets')));
 
 app.use('/home', homeRouter);
 app.use('/search', searchRouter);
+app.use('/suggested', suggestedRouter);
 app.use('/auth', authorizationRouter);
 app.use('/media', mediaDetailRouter);
 app.use('/reviews', reviewsRouter);

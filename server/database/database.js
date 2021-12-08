@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const mongoose_fuzzy_searching = require('mongoose-fuzzy-searching');
 require('dotenv').config();
 const { Logger } = require('../../logger.js');
+
+mongoose.Promise = global.Promise;
 
 mongoose.connect(process.env.localDB);
 mongoose.connection.once('open', () => {
@@ -34,8 +37,9 @@ const Review = mongoose.model('Review', ReviewSchema);
 const MovieSchema = mongoose.Schema({
   id: Number,
   //need to modify later like reviews
+  imdb_id: Number,
   suggested: Array,
-  trending: Array,
+  trending: Array, // TODO: Rework this. This is a list of movies currently trending at the time a movie search is made
   //modify --- needs to happen - rob being lazy atm
   mediaType: String,
   title: String,
@@ -50,9 +54,27 @@ const MovieSchema = mongoose.Schema({
   netflix: String,
   hbo: String,
   apple: String,
-  amazon: String
+  amazon: String,
+  confidenceScore: Number
 });
+MovieSchema.plugin(mongoose_fuzzy_searching, { fields: ['title'] });
 const Movie = mongoose.model('Movie', MovieSchema);
+
+//// Below rectroactively adds NGrams to existing documents for fuzzy search
+//// Uncomment when running server to re-apply this, then comment out
+// Movie.find({}).exec().then((movies) => {
+//   console.log('Found movies.' + movies);
+//   movies.forEach(function (movie) {
+//     movie.save().then((savedMovie) => {
+//           console.log('Saved user.' + savedMovie);
+//       }).catch((err) => {
+//           console.error('Could not save movie.' + err);
+//       })
+//   });
+
+// }).catch((err) => {
+//   console.error('Could not find user.' + err);
+// });
 
 module.exports = {
   db, User, Review, Movie

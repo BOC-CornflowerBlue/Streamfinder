@@ -9,10 +9,10 @@ const {
   addProvidersToMovies } = require('./searchHelpers');
 const { transformSuggestedResponse } = require('../home/movieHelpers');
 const {
-  getMovie: getMovieAPI,
+  getMovieByTitle: getMovieAPI,
   getTrending: getTrendingAPI,
-  getSuggested: getSuggestedAPI,
-  getProviders: getProvidersAPI } = require('./APIController');
+  getRecommendations: getSuggestedAPI,
+  getProviders: getProvidersAPI } = require('../api/apiController');
 
 module.exports = {
   getMovie: (movieName, user) => {
@@ -33,13 +33,16 @@ module.exports = {
             resolve(finalSearch);
           });
         } else {
-          getMovieAPI(movieName).then((searchedMovie) => {
+          getMovieAPI(movieName)
+          .then((searchedMovie) => {
             movieId = searchedMovie.id;
 
             // TODO: getTrending has no relation to searched movie
             // TODO: Below could be done as a Promise.All instead of nested .then
-            getTrendingAPI().then((trendingMovies) => {
-              getSuggestedAPI(movieId).then((suggestedMovies) => {
+            getTrendingAPI()
+            .then((trendingMovies) => {
+              getSuggestedAPI(movieId)
+              .then((suggestedMovies) => {
                 const uniqueMovieIds = getUniqueIds(searchedMovie, trendingMovies, suggestedMovies);
                 // TODO: Below is the result of Promise.All from above
                 getProvidersAPI(uniqueMovieIds)
@@ -54,7 +57,7 @@ module.exports = {
 
                   const saveMovieToDB = (movie) => {
                     let filter = { id: movie.id };
-
+                    // TODO: Movie IMDB ID is not stored. It should be.
                     let update = {
                       suggested,
                       trending,

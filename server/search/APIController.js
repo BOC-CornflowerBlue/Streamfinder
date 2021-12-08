@@ -97,11 +97,12 @@ module.exports = {
       // TODO: No error handling
 
   },
-  // Gets list of providers associated with the movie based on movie ID
+  // Gets list of providers associated with the movies based on movie ID
   getProviders: (movieIds) => {
     // TODO: Promise.All is handled strangely. Refactor later to be of more standard form
     const providersByMovie = [];
 
+    // TODO: Can refactor this for an individual call, and then have the pluralized version send the bundled promise function.
     const providers = new Promise((resolve, reject) => {
       movieIds.forEach((movieId) => {
         const url = `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${API_KEY}`;

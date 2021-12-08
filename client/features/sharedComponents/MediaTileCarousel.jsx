@@ -1,4 +1,6 @@
 import React from 'react';
+
+import { Logger } from '../../../logger.js'
 import TempMediaTile from './TempMediaTile.jsx';
 import './MediaTileCarousel.css';
 
@@ -132,33 +134,40 @@ class MediaTileCarousel extends React.Component {
     let key = 0;
     return (
       <div id={`MediaTileCarousel-${label}`} className="mtc-carousel" >
-        <span className='mtc-component-title'>{label || 'Media Tile Carousel'}</span>
+        <span className='mtc-component-title'>{ label || 'Media Tile Carousel' }</span>
         <div className='mtc-viewport'>
-          {showLeftNav ? <div id='mtc-left-nav' className='mtc-nav mtc-nav-left' onClick={this.handleNav}><span className='mtc-nav-symbol'>{navLeftSymbol}</span></div> : null}
-          <div className='mtc-tile-container' onScroll={handleScroll} ref={containerElement} >{
-            // Array.isArray(productIds) && productIds.length ? (
-            //   productIds.map(id => (
-            //     <TempMediaTile
-            //       key={ `mTile${id}` }
-            //       type='Related'
-            //       mediaId={ id }
-            //       action={ handleAction }
-            //       checkCache={ checkCache }
-            //       updateCache={ updateCache }
-            //     />
-            //   ))
-            // ) : (
-            //   <div className='mtc-tile mtc-tile-placeholder'>Searching...</div>
-            // )}
-            Array.isArray(tempData) && tempData.length ? (
+          {
+            showLeftNav
+            ? <div id='mtc-left-nav'
+                className='mtc-nav mtc-nav-left'
+                onClick={ this.handleNav }>
+                <span className='mtc-nav-symbol'>{ navLeftSymbol }</span>
+              </div>
+            : null
+          }
+          <div className='mtc-tile-container' onScroll={ handleScroll } ref={ containerElement }  >{
+            Array.isArray(tempData) && tempData.length
+            ? (
               tempData.map((tile, i) => (
-                <TempMediaTile key={`mt${i++}`} title={tile.title} imgUrl={tile.imgUrl} />
+                <TempMediaTile
+                  key={`mt${i++}`}
+                  title={ tile.title }
+                  imgUrl={ tile.imgUrl } />
               ))
-            ) : (
+            )
+            : (
               <div className='mtc-tile mtc-tile-placeholder'>Searching...</div>
             )}
           </div>
-          {showRightNav ? <div id='mtc-right-nav' className='mtc-nav mtc-nav-right' onClick={this.handleNav}><span className='mtc-nav-symbol'>{navRightSymbol}</span></div> : null}
+          {
+            showRightNav
+            ? <div id='mtc-right-nav'
+                className='mtc-nav mtc-nav-right'
+                onClick={ this.handleNav }>
+                <span className='mtc-nav-symbol'>{ navRightSymbol }</span>
+              </div>
+            : null
+          }
         </div>
       </div>
     );
