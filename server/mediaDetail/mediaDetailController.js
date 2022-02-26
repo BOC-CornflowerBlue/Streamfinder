@@ -20,8 +20,6 @@ module.exports = {
     });
   },
 
-  //will refactor once history is hashed out...
-  //are we showing search history or watch history
   putHistoryAndRating: (req, res, next) => {
     const userId = req.url.split('?')[1];
     const mediaId = req.url.split('?')[2];
